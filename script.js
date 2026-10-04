@@ -66,3 +66,82 @@ document.querySelectorAll(".gallery").forEach(strip => {
   strip.querySelectorAll("img").forEach(img => img.addEventListener("load", () => updateArrows(strip)));
   updateArrows(strip);
 });
+
+// ===== Animasi =====
+if (!reduce) {
+  const root = document.documentElement;
+
+  // Pecah "Ndrexan" jadi huruf supaya bisa naik satu per satu
+  const h1 = document.querySelector("h1");
+  const word = h1.textContent;
+  h1.setAttribute("aria-label", word);
+  h1.textContent = "";
+  [...word].forEach((c, i) => {
+    const s = document.createElement("span");
+    s.className = "ch";
+    s.textContent = c;
+    s.setAttribute("aria-hidden", "true");
+    s.style.setProperty("--i", i);
+    h1.appendChild(s);
+  });
+
+  // Elemen yang muncul saat terlihat (delay bertingkat)
+  const rv = (sel, base = 0, step = .1, cap = .4) => document.querySelectorAll(sel).forEach((el, i) => {
+    el.classList.add("rv");
+    el.style.setProperty("--d", (base + Math.min(i * step, cap)).toFixed(2) + "s");
+  });
+  rv(".hero .statement", .5);
+  rv(".hero .intro .muted", .65);
+  rv(".hero .links", .8);
+  rv("h2");
+  rv(".cap-intro", .1);
+  rv(".arrows", .1);
+  rv(".row", 0, .12);
+  rv(".g", 0, .1, .3);
+  rv(".mail", .1);
+  rv(".socials", .2);
+
+  const targets = document.querySelectorAll(".rv, .photo, h1");
+  const reveal = () => {
+    if (!("IntersectionObserver" in window)) { targets.forEach(t => t.classList.add("in")); return; }
+    const io = new IntersectionObserver(es => es.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); }
+    }), { threshold: .12, rootMargin: "0px 0px -6% 0px" });
+    targets.forEach(t => io.observe(t));
+  };
+
+  // Loading 3 detik: keluar di 2,3 dtk (0,7 dtk), konten mulai muncul bersamaan
+  const loader = document.getElementById("loader");
+  setTimeout(() => { loader.classList.add("exit"); reveal(); }, 2300);
+  setTimeout(() => { loader.remove(); root.classList.remove("loading"); }, 3000);
+
+  // Galeri: gambar bergeser dan miring tipis saat digeser
+  document.querySelectorAll(".gallery").forEach(strip => {
+    const items = [...strip.querySelectorAll(".g")];
+    let last = strip.scrollLeft, target = 0, v = 0, raf = 0;
+    const tick = () => {
+      raf = 0;
+      v += (target - v) * .18;
+      target *= .86;
+      const s = strip.getBoundingClientRect();
+      const mid = s.left + s.width / 2;
+      items.forEach(g => {
+        const r = g.getBoundingClientRect();
+        const p = Math.max(-1, Math.min(1, (r.left + r.width / 2 - mid) / s.width));
+        const shot = g.firstElementChild;
+        shot.style.setProperty("--p", p.toFixed(3));
+        shot.style.setProperty("--sk", v.toFixed(2) + "deg");
+      });
+      if (Math.abs(v) > .02 || Math.abs(target) > .02) raf = requestAnimationFrame(tick);
+    };
+    const kick = () => { if (!raf) raf = requestAnimationFrame(tick); };
+    strip.addEventListener("scroll", () => {
+      const dx = strip.scrollLeft - last;
+      last = strip.scrollLeft;
+      target = Math.max(-6, Math.min(6, -dx * .25));
+      kick();
+    }, { passive: true });
+    window.addEventListener("resize", kick);
+    kick();
+  });
+}

@@ -104,3 +104,49 @@ h2 { margin: 0 0 clamp(1.5rem, 4vw, 3rem); font-weight: 800; font-stretch: 125%;
 #lbClose { position: absolute; top: 1rem; right: 1rem; font: 600 1rem var(--f); color: #fff; background: transparent; border: 1px solid #fff; padding: .5rem 1rem; cursor: pointer; }
 #lbClose:hover { background: #fff; color: #000; }
 @media (prefers-reduced-motion: reduce) { .shot img { transition: none !important; } }
+
+/* ===== Animasi ===== */
+html.loading { overflow: hidden; }
+
+/* Loading 3 detik: tulisan NDREXAN */
+.loader { display: none; }
+.js .loader { position: fixed; inset: 0; z-index: 100; display: grid; place-items: center; background: var(--k); color: var(--w); transition: transform .7s cubic-bezier(.76, 0, .24, 1); }
+.loader.exit { transform: translateY(-100%); }
+.loader-t { display: flex; overflow: hidden; padding: .1em .06em; font-weight: 800; font-stretch: 125%; font-size: min(13vw, 150px); line-height: 1; letter-spacing: -.04em; }
+.loader-t span { display: inline-block; transform: translateY(115%); animation: lt .8s cubic-bezier(.2, .8, .2, 1) forwards; animation-delay: calc(var(--i) * .1s + .2s); }
+@keyframes lt { to { transform: none; } }
+
+/* Nav turun setelah loading */
+.js .nav-in { animation: nd .8s cubic-bezier(.2, .8, .2, 1) 2.4s backwards; }
+@keyframes nd { from { opacity: 0; transform: translateY(-14px); } }
+
+/* Judul Ndrexan: huruf naik satu per satu */
+.js h1 { overflow: hidden; padding: .08em .05em .1em 0; margin: -.08em 0 -.1em; }
+.js h1 .ch { display: inline-block; transform: translateY(110%); transition: transform .9s cubic-bezier(.2, .8, .2, 1) calc(var(--i) * .06s); }
+.js h1.in .ch { transform: none; }
+
+/* Subtitle, teks, tombol, judul section */
+.js .rv { opacity: 0; transform: translateY(28px); transition: opacity .8s cubic-bezier(.2, .7, .2, 1) var(--d, 0s), transform .8s cubic-bezier(.2, .7, .2, 1) var(--d, 0s); }
+.js .g.rv { transform: translateX(70px); }
+.js .rv.in { opacity: 1; transform: none; }
+
+/* Foto: terbuka dari bawah, gambar mengecil pelan */
+.js .photo { clip-path: inset(100% 0 0 0); transition: clip-path 1.1s cubic-bezier(.7, 0, .2, 1) .6s, transform .3s ease-out; }
+.js .photo.in { clip-path: inset(0); }
+.js .photo.moving { transition: transform .05s linear; }
+.js .photo img { transform: scale(1.35); transition: transform 1.6s cubic-bezier(.2, .7, .2, 1) .6s; }
+.js .photo.in img { transform: none; }
+
+/* Galeri saat digeser: gambar bergeser (parallax) dan miring mengikuti kecepatan */
+.js .shot { transform: skewX(var(--sk, 0deg)); will-change: transform; }
+.js .shot img { --s: 1.14; transform: translateX(calc(var(--p, 0) * -6%)) scale(var(--s)); transition: transform .5s cubic-bezier(.2, .7, .2, 1); }
+.js .shot:hover img { --s: 1.2; }
+.arrow { transition: background .2s, color .2s, opacity .2s, transform .2s; }
+.arrow:active:not(:disabled) { transform: scale(.88); }
+
+/* Gambar diperbesar */
+#lb[open] img { animation: zin .45s cubic-bezier(.2, .8, .2, 1); }
+#lb[open]::backdrop { animation: fin .3s ease-out; }
+@keyframes zin { from { opacity: 0; transform: scale(.92); } }
+@keyframes fin { from { opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { #lb::backdrop { animation: none !important; } }

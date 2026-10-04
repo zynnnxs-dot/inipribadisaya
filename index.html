@@ -1,293 +1,106 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>ECObike – Pesan Sepeda Listrik</title>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
-<style>
-:root{--bg:#eef6f2;--card:#fff;--ink:#12312b;--mute:#5d7a72;--line:#d3e3dc;--pri:#1f8a5b;--pri-ink:#fff;--acc:#f5b82e;--sel:#e2f4ea;
-box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0e1d19;--card:#162925;--ink:#e6f3ee;--mute:#93b0a6;--line:#27403a;--pri:#3cc184;--pri-ink:#07231a;--sel:#1c3a31}}
-:root[data-theme="dark"]{--bg:#0e1d19;--card:#162925;--ink:#e6f3ee;--mute:#93b0a6;--line:#27403a;--pri:#3cc184;--pri-ink:#07231a;--sel:#1c3a31}
-html{scroll-padding-top:env(safe-area-inset-top,0px)}
-*{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:'Plus Jakarta Sans',system-ui,sans-serif;line-height:1.5}
-header{padding:28px 20px 8px;max-width:1000px;margin:auto}
-h1{font-size:clamp(30px,6vw,52px);line-height:1.05;margin:0 0 8px;font-weight:800;letter-spacing:-.03em}
-h1 span{background:var(--acc);color:#12312b;padding:0 .18em;border-radius:8px}
-header p{margin:0;color:var(--mute);max-width:52ch}
-main{max-width:1000px;margin:auto;padding:16px 20px 40px;display:grid;gap:20px;grid-template-columns:1fr}
-@media(min-width:860px){main{grid-template-columns:1fr 320px;align-items:start}aside{position:sticky;top:16px}}
-section,aside .box{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:20px;margin-bottom:16px}
-aside .box{margin:0}
-h2{font-size:18px;margin:0 0 12px;font-weight:800}
-.grid{display:grid;gap:10px}
-.opt{display:block;width:100%;text-align:left;font:inherit;color:inherit;background:transparent;border:2px solid var(--line);border-radius:14px;padding:12px 14px;cursor:pointer}
-.opt:hover{border-color:var(--pri)}
-.opt[aria-pressed="true"]{border-color:var(--pri);background:var(--sel)}
-.opt b{display:block}.opt small{color:var(--mute)}
-.row{display:flex;justify-content:space-between;gap:10px;align-items:baseline}
-.chips{display:flex;flex-wrap:wrap;gap:8px}
-.chip{font:inherit;color:inherit;background:transparent;border:2px solid var(--line);border-radius:999px;padding:8px 16px;cursor:pointer;font-weight:600}
-.chip[aria-pressed="true"]{background:var(--pri);border-color:var(--pri);color:var(--pri-ink)}
-label{display:block;font-weight:600;font-size:14px;margin:12px 0 6px}
-input{font:inherit;color:inherit;background:var(--bg);border:2px solid var(--line);border-radius:12px;padding:10px 12px;width:100%}
-input:focus-visible,button:focus-visible{outline:3px solid var(--acc);outline-offset:2px}
-.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.sum dl{margin:0}.sum .row{padding:6px 0;border-bottom:1px dashed var(--line);font-size:14px}
-.sum dt{color:var(--mute)}.sum dd{margin:0;font-weight:600;text-align:right}
-.total{font-size:26px;font-weight:800;margin:14px 0 4px}
-.btn{font:inherit;font-weight:800;width:100%;border:0;border-radius:14px;padding:14px;background:var(--pri);color:var(--pri-ink);cursor:pointer;margin-top:10px}
-.btn:disabled{opacity:.4;cursor:not-allowed}
-.err{color:#d9534f;font-size:13px;min-height:18px;margin:6px 0 0}
-.ok{color:var(--pri);font-size:13px}
-.ticket{max-width:460px;margin:24px auto;background:var(--card);border:1px solid var(--line);border-radius:22px;overflow:hidden}
-.ticket .top{background:var(--pri);color:var(--pri-ink);padding:22px}
-.ticket .top h2{font-size:24px;margin:0}
-.ticket .body{padding:22px}
-.code{font-size:30px;font-weight:800;letter-spacing:.08em}
-.qr{background:#fff;padding:14px;border-radius:14px;width:fit-content;margin:16px auto 6px;line-height:0}.qr img,.qr canvas{display:block}
-.bars{height:60px;margin:16px 0 4px;border-radius:6px;background:repeating-linear-gradient(90deg,var(--ink) 0 2px,transparent 2px 5px,var(--ink) 5px 6px,transparent 6px 10px,var(--ink) 10px 13px,transparent 13px 15px)}
-.hide{display:none!important}
-.note{font-size:12px;color:var(--mute);text-align:center;margin:8px 0 0}
-
-#splash{position:fixed;inset:0;z-index:999;background:#1f9a6b;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;transition:opacity .5s ease,visibility .5s}
-#splash.out{opacity:0;visibility:hidden}
-#splash svg{width:min(78vw,380px);height:auto;overflow:visible}
-#splash .d{fill:none;stroke:#fff;stroke-width:9;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1;stroke-dashoffset:1;animation:draw 1.1s ease forwards}
-#splash .w{stroke-width:10;animation-duration:1.5s}
-@keyframes draw{to{stroke-dashoffset:0}}
-#splash .bike{animation:roll 1.6s ease-out both}
-@keyframes roll{from{transform:translateX(-60px)}to{transform:none}}
-#splash .bob{animation:bob .9s ease-in-out 1.8s infinite alternate}
-@keyframes bob{to{transform:translateY(-4px)}}
-#splash .sp{stroke:#fff;stroke-width:4;stroke-linecap:round;opacity:0;transform-box:fill-box;transform-origin:50% 100%;animation:fade .3s 1.5s forwards}
-#splash .spin{transform-box:view-box;animation:spin .9s linear 1.5s infinite}
-@keyframes spin{to{transform:rotate(360deg)}}
-#splash .leaf{fill:#fff;opacity:0;transform-box:fill-box;transform-origin:0% 100%;animation:pop .6s cubic-bezier(.3,1.6,.5,1) 1.3s forwards}
-@keyframes pop{from{opacity:0;transform:scale(.2) rotate(-25deg)}to{opacity:1;transform:none}}
-@keyframes fade{to{opacity:1}}
-#splash .brand{font:800 clamp(34px,9vw,54px)/1 'Plus Jakarta Sans',system-ui,sans-serif;color:#fff;letter-spacing:.02em;opacity:0;transform:translateY(12px);animation:up .6s ease 2s forwards}
-@keyframes up{to{opacity:1;transform:none}}
-#splash .bar{width:min(52vw,220px);height:5px;border-radius:5px;background:rgba(255,255,255,.28);overflow:hidden}
-#splash .bar i{display:block;height:100%;width:100%;background:#fff;border-radius:5px;transform:scaleX(0);transform-origin:left;animation:load 3.5s cubic-bezier(.4,.1,.3,1) forwards}
-@keyframes load{to{transform:scaleX(1)}}
-@media (prefers-reduced-motion:reduce){#splash *{animation-duration:.01s!important;animation-delay:0s!important}}
-.opt.bk{display:flex;gap:12px;align-items:center}.opt.bk .txt{flex:1;min-width:0}.pic{flex:none;line-height:0}
-.tr{fill:none;stroke:var(--ink)}.fr{fill:none;stroke-linecap:round;stroke-linejoin:round}
-.tag{display:inline-block;background:var(--acc);color:#12312b;font-size:11px;font-weight:800;border-radius:999px;padding:1px 8px;margin-left:6px;vertical-align:middle}
-
-/* ===== Tampilan profesional ===== */
-:root{--bg:#f3f7f5;--card:#fff;--ink:#0f2a24;--mute:#587068;--line:#e0eae6;--pri:#0f7a55;--pri-ink:#fff;--sel:#eaf6f0;--sh:0 1px 2px rgba(15,42,36,.05),0 8px 24px rgba(15,42,36,.06)}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0a1613;--card:#12231f;--ink:#e8f4ef;--mute:#8fb0a5;--line:#223a33;--pri:#34c08a;--pri-ink:#062016;--sel:#173229;--sh:0 8px 24px rgba(0,0,0,.35)}}
-:root[data-theme="dark"]{--bg:#0a1613;--card:#12231f;--ink:#e8f4ef;--mute:#8fb0a5;--line:#223a33;--pri:#34c08a;--pri-ink:#062016;--sel:#173229;--sh:0 8px 24px rgba(0,0,0,.35)}
-body{font-size:15px;-webkit-font-smoothing:antialiased}
-.nav{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--card) 88%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);padding-top:env(safe-area-inset-top,0px)}
-.nav-in{max-width:1000px;margin:auto;padding:12px 20px;display:flex;align-items:center;justify-content:space-between}
-.logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:19px;letter-spacing:-.02em;color:var(--ink);text-decoration:none}
-.logo svg{width:32px;height:32px}
-.pill{font-size:12px;font-weight:700;color:var(--pri);background:var(--sel);border:1px solid var(--line);padding:5px 12px;border-radius:999px}
-header.hero{max-width:1000px;margin:18px auto 0;padding:0 20px}
-.hero-in{background:linear-gradient(135deg,#0a5039 0%,#0f7a55 60%,#1f9a6b 100%);color:#fff;border-radius:26px;padding:clamp(26px,5vw,48px);position:relative;overflow:hidden}
-.hero-in::after{content:"";position:absolute;right:-70px;top:-70px;width:260px;height:260px;border-radius:50%;background:rgba(255,255,255,.07)}
-.eyebrow{font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;opacity:.8;margin:0 0 10px}
-.hero-in h1{font-size:clamp(28px,5.4vw,46px);line-height:1.08;letter-spacing:-.03em;margin:0 0 12px;max-width:16ch}
-header.hero .hero-in p.sub{color:rgba(255,255,255,.85);max-width:46ch;margin:0 0 20px;font-size:16px}
-.stats{list-style:none;padding:0;margin:0 0 24px;display:flex;flex-wrap:wrap;gap:10px}
-.stats li{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.18);border-radius:12px;padding:8px 14px;font-size:13px}
-.stats b{font-size:16px;margin-right:4px}
-.cta{display:inline-block;background:#fff;color:#0a5039;font-weight:800;text-decoration:none;padding:12px 24px;border-radius:12px}
-main{padding-top:22px}
-main>div{counter-reset:s}
-section,aside .box{border-radius:20px;box-shadow:var(--sh);padding:24px}
-section h2{display:flex;align-items:center;gap:12px;font-size:17px;margin-bottom:16px}
-section h2::before{counter-increment:s;content:counter(s);flex:none;width:28px;height:28px;border-radius:50%;background:var(--pri);color:var(--pri-ink);font-size:14px;display:grid;place-items:center}
-.opt{position:relative;padding:14px 48px 14px 16px;border-width:1.5px;border-radius:14px;transition:border-color .15s,background .15s}
-.opt::after{content:"";position:absolute;right:14px;top:50%;margin-top:-10px;width:20px;height:20px;border-radius:50%;border:2px solid var(--line)}
-.opt[aria-pressed="true"]::after{background:var(--pri);border-color:var(--pri);box-shadow:inset 0 0 0 4px var(--sel)}
-.opt[aria-pressed="true"]{border-width:1.5px}
-.opt small{display:block;margin-top:2px;line-height:1.4}
-.chip{padding:9px 18px;border-width:1.5px;font-size:14px;transition:all .15s}
-.chip[aria-pressed="true"]{box-shadow:0 4px 12px color-mix(in srgb,var(--pri) 35%,transparent)}
-label{font-size:13px;color:var(--mute);margin:16px 0 6px}
-input{border-width:1.5px;padding:12px 14px;border-radius:12px;background:var(--card)}
-input:focus{outline:none;border-color:var(--pri);box-shadow:0 0 0 4px color-mix(in srgb,var(--pri) 18%,transparent)}
-aside .box{border-top:5px solid var(--pri)}
-.sum .row{padding:10px 0}
-.total{font-size:30px;letter-spacing:-.02em;margin-top:16px}
-.btn{padding:16px;border-radius:14px;font-size:16px;transition:transform .1s,filter .15s}
-.btn:hover:not(:disabled){filter:brightness(1.08)}.btn:active:not(:disabled){transform:scale(.98)}
-.ticket{box-shadow:var(--sh);border-radius:24px}
-.ticket .top{background:linear-gradient(135deg,#0a5039,#0f7a55);color:#fff}
-.foot{max-width:1000px;margin:8px auto 0;padding:24px 20px calc(32px + env(safe-area-inset-bottom,0px));border-top:1px solid var(--line);color:var(--mute);font-size:13px;display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px}
-.foot b{color:var(--ink)}
-
-/* ===== Animasi ===== */
-.logo .ls{stroke:#fff;stroke-width:1.6;stroke-linecap:round;transform-box:view-box;animation:spin 1.1s linear infinite}
-.logo .lg{animation:lbob 1.4s ease-in-out infinite alternate}
-.logo .lf{transform-box:fill-box;transform-origin:0 100%;animation:sway 2.4s ease-in-out infinite alternate}
-.logo svg{transition:transform .3s cubic-bezier(.3,1.6,.5,1)}.logo:hover svg{transform:scale(1.12) rotate(-6deg)}
-@keyframes lbob{to{transform:translateY(-.8px)}}@keyframes sway{from{transform:rotate(-8deg)}to{transform:rotate(12deg)}}
-@keyframes up2{from{opacity:0;transform:translateY(18px)}}
-.hero-in{padding-bottom:calc(clamp(26px,5vw,48px) + 46px)}
-.hero-in>:nth-child(1){animation:up2 .7s ease 3.8s backwards}.hero-in>:nth-child(2){animation:up2 .7s ease 3.9s backwards}.hero-in>:nth-child(3){animation:up2 .7s ease 4s backwards}.hero-in>:nth-child(4){animation:up2 .7s ease 4.1s backwards}
-.cta{position:relative;animation:up2 .7s ease 4.2s backwards,pulse 2.4s ease-out 5.2s infinite}
-.cta::after{content:" \2192";display:inline-block;transition:transform .2s}.cta:hover::after{transform:translateX(4px)}
-@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(255,255,255,.55)}70%,100%{box-shadow:0 0 0 14px rgba(255,255,255,0)}}
-.hero-in::after{animation:flt 7s ease-in-out infinite alternate}
-.hero-in::before{content:"";position:absolute;left:-50px;bottom:40px;width:170px;height:170px;border-radius:50%;background:rgba(255,255,255,.05);animation:flt 9s ease-in-out infinite alternate-reverse}
-@keyframes flt{to{transform:translate(-24px,22px) scale(1.12)}}
-.road{position:absolute;left:0;right:0;bottom:14px;height:2px;background:repeating-linear-gradient(90deg,rgba(255,255,255,.45) 0 16px,transparent 16px 32px);animation:road 1s linear infinite}
-@keyframes road{to{background-position-x:-32px}}
-.ride{position:absolute;bottom:15px;left:-110px;line-height:0;animation:ride 9s linear infinite}
-@keyframes ride{to{left:100%}}
-.ride .rb{animation:lbob .5s ease-in-out infinite alternate}
-.ride .rs{stroke:#fff;stroke-width:2.5;stroke-linecap:round;transform-box:view-box;animation:spin .7s linear infinite}
-.rv{opacity:0;transform:translateY(26px);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.8,.2,1)}
-.rv.in{opacity:1;transform:none}
-@keyframes ip{from{opacity:0;transform:translateY(14px)}}
-.rv.in .opt{animation:ip .5s ease backwards}
-.rv.in .opt:nth-child(2){animation-delay:.08s}.rv.in .opt:nth-child(3){animation-delay:.16s}.rv.in .opt:nth-child(4){animation-delay:.24s}
-.opt:hover{transform:translateY(-2px);box-shadow:var(--sh)}
-.opt .pic svg{transition:transform .3s cubic-bezier(.3,1.6,.5,1)}.opt:hover .pic svg{transform:translateX(4px) rotate(-3deg) scale(1.05)}
-.opt[aria-pressed="true"]::after{animation:chk .35s cubic-bezier(.3,1.8,.5,1)}
-@keyframes chk{from{transform:scale(.3)}}
-.chip[aria-pressed="true"]{animation:chp .3s cubic-bezier(.3,1.6,.5,1)}
-@keyframes chp{from{transform:scale(.9)}}
-.bump{animation:bump .4s ease;transform-origin:left}
-@keyframes bump{40%{transform:scale(1.1);color:var(--pri)}}
-.ticket{animation:tk .7s cubic-bezier(.2,1.3,.4,1) backwards}
-@keyframes tk{from{opacity:0;transform:translateY(34px) scale(.94)}}
-@media (prefers-reduced-motion:reduce){.rv{opacity:1!important;transform:none!important;transition:none!important}.hero-in>*,.hero-in::before,.hero-in::after,.road,.ride,.ride *,.logo *,.cta,.ticket,.opt,.opt::after,.chip,.bump{animation:none!important}}
-.foot .credit{flex-basis:100%;text-align:center;padding-top:14px;margin-top:6px;border-top:1px dashed var(--line);letter-spacing:.06em}
-#splash .by{position:absolute;top:calc(env(safe-area-inset-top,0px) + 44px);left:0;right:0;text-align:center;font:800 15px/1 'Plus Jakarta Sans',system-ui,sans-serif;letter-spacing:.3em;text-indent:.3em;color:#fff;opacity:0;animation:up .7s ease .3s forwards}
-#splash .by::after{content:"";display:block;width:34px;height:3px;border-radius:3px;background:#f5b82e;margin:12px auto 0}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ndrexan · Portofolio</title>
+  <meta name="description" content="Portofolio Ndrexan: proyek, skill, dan cara menghubungi.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<div id="splash" role="status" aria-label="Memuat ECObike">
-<div class="by">BY KELOMPOK 7</div>
-<svg viewBox="0 0 380 240" aria-hidden="true">
-<g class="bob"><g class="bike">
-<circle class="d w" pathLength="1" cx="80" cy="165" r="62"/>
-<circle class="d w" pathLength="1" cx="300" cy="165" r="62"/>
-<g class="spin" style="transform-origin:80px 165px"><line class="sp" x1="80" y1="165" x2="80" y2="118"/></g>
-<g class="spin" style="transform-origin:300px 165px"><line class="sp" x1="300" y1="165" x2="300" y2="118"/></g>
-<path class="d" pathLength="1" d="M80 165 L128 66 M80 165 L176 165 M176 165 L252 78 M128 66 L252 78 M128 66 L176 165 M252 78 L300 165" style="animation-delay:.2s"/>
-<path class="d" pathLength="1" d="M97 40 L150 40 M122 40 L128 66" style="animation-delay:.5s"/>
-<path class="d" pathLength="1" d="M252 78 L236 32 Q233 24 222 24 L200 24" style="animation-delay:.6s"/>
-<path class="leaf" d="M258 62 C256 28 282 8 330 6 C332 44 306 70 258 62 Z"/>
-</g></g></svg>
-<div class="brand">ECOBIKE</div>
-<div class="bar"><i></i></div>
-</div>
-<div id="app">
-<nav class="nav"><div class="nav-in"><a class="logo" href="#top"><svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="9" fill="#0f7a55"/><g class="lg"><circle cx="10" cy="20" r="5" fill="none" stroke="#fff" stroke-width="2"/><circle cx="22" cy="20" r="5" fill="none" stroke="#fff" stroke-width="2"/><line class="ls" x1="10" y1="20" x2="10" y2="16" style="transform-origin:10px 20px"/><line class="ls" x1="22" y1="20" x2="22" y2="16" style="transform-origin:22px 20px"/><path d="M10 20l4-7h6l2 7M14 13l-1-2h-2" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></g><path class="lf" d="M21 12c0-4 3-5 6-5 0 4-2 6-6 5z" fill="#f5b82e"/></svg>ECObike</a></div></nav>
-<header class="hero" id="top"><div class="hero-in"><p class="eyebrow">Sewa sepeda listrik · Tangerang Selatan</p><h1>Gowes lebih jauh, tanpa capek.</h1><p class="sub">Pesan sepeda listrik per jam dalam hitungan menit. Pilih titik ambil terdekat, atur jadwal, dan tiket QR langsung jadi.</p><ul class="stats"><li><b>4</b>titik ambil</li><li><b>Rp12rb</b>mulai per jam</li><li><b>06.00–21.00</b>setiap hari</li></ul><a class="cta" href="#form">Mulai pesan</a><div class="road"></div><div class="ride"><svg viewBox="0 0 120 76" width="84" aria-hidden="true"><g class="rb"><circle cx="24" cy="52" r="19" fill="none" stroke="#fff" stroke-width="4"/><circle cx="94" cy="52" r="19" fill="none" stroke="#fff" stroke-width="4"/><line class="rs" x1="24" y1="52" x2="24" y2="36" style="transform-origin:24px 52px"/><line class="rs" x1="94" y1="52" x2="94" y2="36" style="transform-origin:94px 52px"/><path d="M24 52L54 52L82 28L42 24L24 52M42 24L54 52M82 28L94 52M42 24L42 18M34 18L48 18M82 28L79 16L89 16" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><path d="M89 16c-1-8 5-12 13-12 0 9-5 13-13 12z" fill="#f5b82e"/></g></svg></div></div></header>
-<main id="form">
-  <div>
-    <section><h2>Ambil di mana? (sekitar SMKN 4 Tangsel)</h2><div class="grid" id="stations"><button type="button" class="opt" data-id="smk" aria-pressed="false"><b>ECObike Point SMKN 4 Tangsel<span class="tag">Terdekat</span></b><small>Depan sekolah, Jl. Sumatra–Tidore, Jombang, Ciputat · 0 m</small></button><button type="button" class="opt" data-id="jmb" aria-pressed="false"><b>ECObike Point Pasar Jombang</b><small>Area Pasar Jombang, Ciputat · ± 600 m dari SMKN 4</small></button><button type="button" class="opt" data-id="ter" aria-pressed="false"><b>ECObike Point Terminal Ciputat</b><small>Dekat Terminal Ciputat · ± 1,5 km dari SMKN 4</small></button><button type="button" class="opt" data-id="uin" aria-pressed="false"><b>ECObike Point UIN Jakarta</b><small>Sekitar kampus UIN Jakarta, Ciputat · ± 2,5 km dari SMKN 4</small></button></div></section>
-    <section><h2>Pilih sepedamu</h2><div class="grid" id="bikes"><button type="button" class="opt" data-id="city" data-p="12000" aria-pressed="false"><span class="row"><b>ECO City</b><b>Rp12.000/jam</b></span><small>Ringan dan lincah untuk keliling kompleks, jarak tempuh 60 km</small></button><button type="button" class="opt" data-id="lipat" data-p="15000" aria-pressed="false"><span class="row"><b>ECO Fold</b><b>Rp15.000/jam</b></span><small>Bisa dilipat, muat di bagasi mobil, jarak tempuh 50 km</small></button><button type="button" class="opt" data-id="trail" data-p="20000" aria-pressed="false"><span class="row"><b>ECO Trail</b><b>Rp20.000/jam</b></span><small>Ban lebar, kuat menanjak, jarak tempuh 80 km</small></button><button type="button" class="opt" data-id="cargo" data-p="25000" aria-pressed="false"><span class="row"><b>ECO Cargo</b><b>Rp25.000/jam</b></span><small>Ada keranjang besar untuk belanja atau anak kecil, 70 km</small></button></div></section>
-    <section>
-      <h2>Kapan dan berapa lama?</h2>
-      <div class="two">
-        <div><label for="date" style="margin-top:0">Tanggal</label><input type="date" id="date"></div>
-        <div><label for="time" style="margin-top:0">Jam ambil</label><input type="time" id="time" value="08:00"></div>
-      </div>
-      <label>Durasi</label><div class="chips" id="dur"></div>
-    </section>
-    <section>
-      <h2>Data pemesan</h2>
-      <label for="name" style="margin-top:0">Nama lengkap</label><input id="name" autocomplete="name" placeholder="Contoh: Andre Arshavin">
-      <label for="wa">Nomor WhatsApp</label><input id="wa" inputmode="tel" autocomplete="tel" placeholder="08xxxxxxxxxx">
-      <label for="promo">Kode promo (coba: HEMAT10)</label>
-      <div class="two" style="grid-template-columns:1fr auto"><input id="promo" placeholder="Opsional"><button class="chip" id="applyPromo" type="button">Pakai</button></div>
-      <div id="promoMsg" class="err"></div>
-      <label>Metode bayar</label><div class="chips" id="pay"></div>
-    </section>
-  </div>
-  <aside><div class="box sum">
-    <h2>Ringkasan pesanan</h2>
-    <dl id="sum"></dl>
-    <div class="total" id="total">Rp0</div>
-    <div class="err" id="err"></div>
-    <button class="btn" id="go">Pesan sekarang</button>
-    <p class="note">Baterai penuh dan helm sudah termasuk.</p>
-  </div></aside>
-</main>
-<div id="done" class="hide"></div>
-<footer class="foot"><span><b>ECObike</b> · Sepeda listrik sewa per jam</span><span>Simulasi: tidak ada transaksi atau pembayaran sungguhan.</span><span class="credit">Dibuat oleh <b>ANDRE ARSHAVIN</b></span></footer>
-</div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-<script>
+  <header class="nav">
+    <a class="logo" href="#top">ndrexan</a>
+    <button class="menu-btn" id="menuBtn" aria-label="Buka menu" aria-expanded="false">Menu</button>
+    <nav id="menu">
+      <a href="#tentang">Tentang</a>
+      <a href="#skill">Skill</a>
+      <a href="#proyek">Proyek</a>
+      <a href="#kontak">Kontak</a>
+    </nav>
+  </header>
 
-var B=[{id:"city",n:"ECO City",p:12000},{id:"lipat",n:"ECO Fold",p:15000},{id:"trail",n:"ECO Trail",p:20000},{id:"cargo",n:"ECO Cargo",p:25000}];
-var D=[{l:"1 jam",h:1},{l:"2 jam",h:2},{l:"4 jam",h:4},{l:"Seharian (8 jam)",h:8}];
-var P=["QRIS","Transfer Virtual Account","Bayar di lokasi"];
-var S=[{id:"smk",n:"ECObike Point SMKN 4 Tangsel"},{id:"jmb",n:"ECObike Point Pasar Jombang"},{id:"ter",n:"ECObike Point Terminal Ciputat"},{id:"uin",n:"ECObike Point UIN Jakarta"}];var st={s:"smk",b:null,h:null,pay:null,disc:0};
-var $=function(i){return document.getElementById(i)};
-var rp=function(n){return "Rp"+Math.round(n).toLocaleString("id-ID")};
-function cost(){var b=B.find(function(x){return x.id===st.b});if(!b||!st.h)return{sub:0,off:0,tot:0};
-var sub=b.p*st.h,day=st.h>=8?sub*.15:0,base=sub-day,off=base*st.disc;return{sub:sub,day:day,off:off,tot:base-off}}
-function pick(list,box,key,tpl){box.innerHTML="";list.forEach(function(x){var e=document.createElement("button");e.type="button";e.className=tpl?"opt":"chip";e.setAttribute("aria-pressed",String(st[key]===(x.id||x.h||x)));
-e.innerHTML=tpl?tpl(x):(x.l||x);e.onclick=function(){st[key]=x.id||x.h||x;render()};box.appendChild(e)})}
-function render(){
-document.querySelectorAll("#stations .opt").forEach(function(e){e.setAttribute("aria-pressed",String(st.s===e.dataset.id));e.onclick=function(){st.s=e.dataset.id;render()}});
-document.querySelectorAll("#bikes .opt").forEach(function(e){e.setAttribute("aria-pressed",String(st.b===e.dataset.id));e.onclick=function(){st.b=e.dataset.id;render()}});
-pick(D,$("dur"),"h");pick(P,$("pay"),"pay");
-var s=S.find(function(x){return x.id===st.s}),b=B.find(function(x){return x.id===st.b}),c=cost();
-var rows=[["Titik ambil",s?s.n:"-"],["Sepeda",b?b.n:"-"],["Durasi",st.h?st.h+" jam":"-"],["Harga sewa",c.sub?rp(c.sub):"-"]];
-if(c.day)rows.push(["Diskon seharian 15%","-"+rp(c.day)]);if(c.off)rows.push(["Promo","-"+rp(c.off)]);
-$("sum").innerHTML=rows.map(function(r){return'<div class="row"><dt>'+r[0]+"</dt><dd>"+r[1]+"</dd></div>"}).join("");
-var T=$("total"),nv=rp(c.tot);if(T.textContent!==nv){T.textContent=nv;T.classList.remove("bump");void T.offsetWidth;T.classList.add("bump")}}
-$("applyPromo").onclick=function(){var v=$("promo").value.trim().toUpperCase(),m=$("promoMsg");
-if(!v){st.disc=0;m.textContent="";}else if(v==="HEMAT10"){st.disc=.1;m.className="ok";m.textContent="Promo dipakai: diskon 10%."}else{st.disc=0;m.className="err";m.textContent="Kode promo tidak dikenali."}render()};
-var t=new Date();$("date").min=$("date").value=t.getFullYear()+"-"+String(t.getMonth()+1).padStart(2,"0")+"-"+String(t.getDate()).padStart(2,"0");
-$("go").onclick=function(){var e="",n=$("name").value.trim(),w=$("wa").value.replace(/\D/g,"");
-if(!st.b)e="Pilih sepeda dulu.";else if(!st.h)e="Pilih durasi sewa.";else if(!$("date").value)e="Isi tanggal ambil.";
-else if(n.length<3)e="Isi nama lengkap.";else if(w.length<9||w.length>14)e="Nomor WhatsApp belum valid.";else if(!st.pay)e="Pilih metode bayar.";
-$("err").textContent=e;if(e)return;
-var btn=$("go");btn.disabled=true;btn.textContent="Memproses pembayaran...";
-setTimeout(function(){ticket(n)},1400)};
-function ticket(n){var s=S.find(function(x){return x.id===st.s}),b=B.find(function(x){return x.id===st.b}),c=cost();
-var code="ECO-"+Math.random().toString(36).slice(2,6).toUpperCase()+"-"+Math.floor(100+Math.random()*900);
-var d=new Date($("date").value+"T"+($("time").value||"08:00"));
-var when=d.toLocaleDateString("id-ID",{weekday:"long",day:"numeric",month:"long",year:"numeric"})+", "+($("time").value||"08:00");
-var lunas=st.pay==="Bayar di lokasi"?"Bayar saat ambil sepeda":"Lunas via "+st.pay;
-$("form").classList.add("hide");document.querySelector("header").classList.add("hide");var o=$("done");o.classList.remove("hide");
-o.innerHTML='<div class="ticket"><div class="top"><h2>Pesanan berhasil</h2><div>Halo '+esc(n)+', sepedamu sudah kami siapkan.</div></div><div class="body">'
-+'<div style="color:var(--mute);font-size:13px">Kode booking</div><div class="code">'+code+'</div><div class="qr" id="qr" aria-label="QR code booking"></div><div class="note">Scan QR ini atau tunjukkan kode ke petugas</div>'
-+'<dl class="sum" style="margin-top:16px">'+[["Titik ambil",s.n],["Sepeda",b.n],["Ambil",when],["Durasi",st.h+" jam"],["Total",rp(c.tot)],["Status",lunas]].map(function(r){return'<div class="row"><dt>'+r[0]+"</dt><dd>"+r[1]+"</dd></div>"}).join("")+'</dl>'
-+'<button class="btn" onclick="location.reload()">Pesan lagi</button></div></div>';try{new QRCode($("qr"),{text:["ECOBIKE",code,s.n,b.n,when,st.h+" jam",rp(c.tot)].join("|"),width:176,height:176,colorDark:"#000000",colorLight:"#ffffff",correctLevel:QRCode.CorrectLevel.M})}catch(x){$("qr").style.display="none"}
-window.scrollTo(0,0)}
-function esc(s){var d=document.createElement("div");d.textContent=s;return d.innerHTML}
-render();
-</script>
-<script>
-(function(){
-function bike(o){var A=[o.ax,o.cy],F=[o.bx,o.cy],B=o.bb,S=o.s,H=o.h,c=o.c,t=o.dash?' stroke-dasharray="3 2.4"':'';
-var g='<svg viewBox="0 0 120 76" width="96" height="61" aria-hidden="true"><rect width="120" height="76" rx="12" fill="'+c+'" fill-opacity=".16"/>';
-[A,F].forEach(function(p){g+='<circle class="tr" cx="'+p[0]+'" cy="'+p[1]+'" r="'+o.r+'" stroke-width="'+o.tw+'"'+t+'/>'});
-g+='<path class="fr" stroke="'+c+'" stroke-width="4" d="M'+A+' L'+B+' L'+H+' L'+S+' L'+A+' M'+S+' L'+B+' M'+H+' L'+F+' M'+S+' L'+S[0]+' '+(S[1]-6)+' M'+(S[0]-8)+' '+(S[1]-6)+' L'+(S[0]+6)+' '+(S[1]-6)+' M'+H+' L'+(H[0]-3)+' '+(H[1]-o.hh)+' L'+(H[0]+7)+' '+(H[1]-o.hh)+'"/>';
-g+='<rect x="'+((B[0]+H[0])/2-5)+'" y="'+((B[1]+H[1])/2-4)+'" width="10" height="8" rx="2" fill="#f5b82e"/>'+(o.x||'')+'</svg>';return g}
-var C={city:{r:19,cy:52,ax:24,bx:94,bb:[54,52],s:[42,24],h:[82,28],hh:12,tw:4,c:"#1f8a5b"},
-lipat:{r:13,cy:58,ax:28,bx:90,bb:[56,58],s:[46,32],h:[80,32],hh:16,tw:4,c:"#2f7fd1",x:'<circle cx="63" cy="32" r="3.5" fill="#f5b82e"/>'},
-trail:{r:20,cy:52,ax:23,bx:95,bb:[54,52],s:[44,24],h:[84,28],hh:11,tw:6,dash:1,c:"#d9822b"},
-cargo:{r:17,cy:54,ax:24,bx:86,bb:[52,54],s:[40,28],h:[76,30],hh:12,tw:4,c:"#8a56c9",x:'<rect x="90" y="16" width="26" height="20" rx="4" fill="#8a56c9" fill-opacity=".28" stroke="#8a56c9" stroke-width="3"/><path d="M97 16v20M104 16v20M111 16v20" stroke="#8a56c9" stroke-width="1.5"/>'}};
-document.querySelectorAll("#bikes .opt").forEach(function(e){var d=document.createElement("div");d.className="txt";while(e.firstChild)d.appendChild(e.firstChild);
-var p=document.createElement("div");p.className="pic";p.innerHTML=bike(C[e.dataset.id]);e.classList.add("bk");e.appendChild(p);e.appendChild(d)})})();
-</script>
-<script>
-(function(){var els=document.querySelectorAll("main section, main aside .box");els.forEach(function(e){e.classList.add("rv")});
-if(!("IntersectionObserver" in window)){els.forEach(function(e){e.classList.add("in")});return}
-var io=new IntersectionObserver(function(en){en.forEach(function(x){if(x.isIntersecting){x.target.classList.add("in");io.unobserve(x.target)}})},{threshold:.1});
-els.forEach(function(e){io.observe(e)})})();
-</script>
-<script>
-(function(){var el=document.getElementById("splash");if(!el)return;document.body.style.overflow="hidden";
-setTimeout(function(){el.classList.add("out");document.body.style.overflow=""},3700);
-setTimeout(function(){el.remove()},4300)})();
-</script>
+  <main id="top">
+    <section class="hero">
+      <div class="hero-text">
+        <p class="hello">Halo, saya</p>
+        <h1>Ndrexan</h1>
+        <p class="role">Saya <span id="role">web developer</span><span class="caret" aria-hidden="true"></span></p>
+        <p class="lead">Saya bikin website yang cepat, rapi, dan enak dipakai. Ganti teks ini dengan satu kalimat tentang kamu.</p>
+        <div class="cta">
+          <a class="btn primary" href="#proyek">Lihat proyek</a>
+          <a class="btn" href="#kontak">Hubungi saya</a>
+        </div>
+      </div>
+      <div class="photo">
+        <img src="foto.jpg" alt="Foto Ndrexan" onerror="this.parentElement.classList.add('no-photo')">
+        <span class="initial" aria-hidden="true">N</span>
+      </div>
+    </section>
+
+    <section id="tentang" class="block">
+      <h2>Tentang saya</h2>
+      <p class="wide">Tulis cerita singkat kamu di sini: siapa kamu, apa yang kamu kerjakan, dan apa yang lagi kamu pelajari. Dua sampai tiga kalimat sudah cukup.</p>
+    </section>
+
+    <section id="skill" class="block">
+      <h2>Skill</h2>
+      <ul class="chips">
+        <li>HTML</li>
+        <li>CSS</li>
+        <li>JavaScript</li>
+        <li>Git</li>
+        <li>Vercel</li>
+      </ul>
+    </section>
+
+    <section id="proyek" class="block">
+      <h2>Proyek</h2>
+      <div class="filters" role="group" aria-label="Filter proyek">
+        <button class="filter active" data-f="all">Semua</button>
+        <button class="filter" data-f="web">Web</button>
+        <button class="filter" data-f="lainnya">Lainnya</button>
+      </div>
+      <div class="grid">
+        <article class="card" data-cat="web">
+          <h3>Nama proyek 1</h3>
+          <p>Deskripsi singkat proyek: apa masalahnya dan apa yang kamu bangun.</p>
+          <p class="tags">HTML, CSS, JavaScript</p>
+          <a href="#" class="link">Lihat proyek</a>
+        </article>
+        <article class="card" data-cat="web">
+          <h3>Nama proyek 2</h3>
+          <p>Deskripsi singkat proyek: apa masalahnya dan apa yang kamu bangun.</p>
+          <p class="tags">HTML, CSS</p>
+          <a href="#" class="link">Lihat proyek</a>
+        </article>
+        <article class="card" data-cat="lainnya">
+          <h3>Nama proyek 3</h3>
+          <p>Deskripsi singkat proyek: apa masalahnya dan apa yang kamu bangun.</p>
+          <p class="tags">Isi teknologinya</p>
+          <a href="#" class="link">Lihat proyek</a>
+        </article>
+      </div>
+    </section>
+
+    <section id="kontak" class="block">
+      <h2>Kontak</h2>
+      <p class="wide">Punya proyek atau mau ngobrol? Kirim pesan, nanti terbuka di aplikasi email kamu.</p>
+      <form id="form" class="form">
+        <label>Nama <input id="fName" required autocomplete="name"></label>
+        <label>Pesan <textarea id="fMsg" rows="4" required></textarea></label>
+        <button class="btn primary" type="submit">Kirim pesan</button>
+      </form>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <span>© <span id="year"></span> Ndrexan</span>
+    <a href="#top">Kembali ke atas</a>
+  </footer>
+
+  <script src="script.js"></script>
 </body>
 </html>

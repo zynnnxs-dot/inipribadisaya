@@ -97,6 +97,7 @@ if (!reduce) {
   rv(".cap-intro", .1);
   rv(".arrows", .1);
   rv(".row", 0, .12);
+  rv(".webprev");
   rv(".g", 0, .1, .3);
   rv(".mail", .1);
   rv(".socials", .2);
@@ -152,15 +153,32 @@ if (!reduce) {
   snd.preload = "auto";
   snd.volume = .8;
   const t0 = performance.now();
+  const hint = document.getElementById("loaderHint");
   let started = false;
   const go = () => {
     if (started) return;
     const el = (performance.now() - t0) / 1000;
     if (el > 2.9) { started = true; return; }
     try { if (el > .1) snd.currentTime = el; } catch (e) {}
-    snd.play().then(() => { started = true; }).catch(() => {});
+    snd.play().then(() => { started = true; hint.classList.remove("show"); })
+      .catch(() => { if (performance.now() - t0 < 2300) hint.classList.add("show"); });
   };
-  go(); // coba langsung; kalau diblokir browser, mulai di klik/tap/tombol pertama
+  go(); // coba langsung; kalau diblokir browser, muncul petunjuk dan suara mulai di klik/tap/tombol pertama
   ["pointerdown", "pointerup", "touchend", "keydown", "click"].forEach(ev =>
     addEventListener(ev, go, { once: true, passive: true }));
 }
+
+// Preview website: iframe dirender besar lalu diperkecil agar muat
+document.querySelectorAll(".screen").forEach(sc => {
+  const fr = sc.querySelector("iframe");
+  const fit = () => {
+    const w = sc.clientWidth, vw = w < 560 ? 480 : 1280, ratio = w < 560 ? 1.2 : .625;
+    fr.style.width = vw + "px";
+    fr.style.height = Math.round(vw * ratio) + "px";
+    fr.style.transform = "scale(" + (w / vw) + ")";
+    sc.style.height = Math.round(w * ratio) + "px";
+  };
+  fit();
+  if ("ResizeObserver" in window) new ResizeObserver(fit).observe(sc);
+  else addEventListener("resize", fit);
+});

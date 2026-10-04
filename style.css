@@ -160,3 +160,26 @@ html.loading { overflow: hidden; }
 .socials a { display: inline-flex; align-items: center; gap: .6rem; text-decoration: none; }
 .socials a:hover { text-decoration: underline; text-underline-offset: 6px; }
 .socials .ico { width: 1.6rem; height: 1.6rem; }
+
+/* Preview website di bagian Skill */
+.webprev { display: grid; grid-template-columns: 1fr 1.6fr; gap: 1.5rem 3rem; align-items: center; margin-top: clamp(2rem, 5vw, 3.5rem); }
+.wp-info h3 { margin: 0 0 .75rem; font-weight: 700; font-stretch: 112%; font-size: clamp(1.5rem, 3.2vw, 2.4rem); letter-spacing: -.02em; line-height: 1.1; }
+.wp-info p { margin: 0 0 1.25rem; color: #b9b9b9; max-width: 30rem; }
+.wp-info a { font-weight: 600; text-underline-offset: 6px; text-decoration-thickness: 2px; }
+.wp-info a:hover { text-decoration-thickness: 4px; }
+.browser { background: #161616; border: 1px solid var(--dl); border-radius: 10px; overflow: hidden; box-shadow: 0 24px 60px rgba(0, 0, 0, .55); transition: transform .5s cubic-bezier(.2, .8, .2, 1); }
+.browser:hover { transform: translateY(-6px); }
+.bar { display: flex; align-items: center; gap: .4rem; padding: .6rem .8rem; border-bottom: 1px solid var(--dl); }
+.bar i { width: 10px; height: 10px; border-radius: 50%; background: #3a3a3a; }
+.bar span { margin-left: .6rem; flex: 1; max-width: 22rem; padding: .2rem .8rem; border-radius: 99px; background: #222; color: #9a9a9a; font-size: .8rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.screen { position: relative; overflow: hidden; background: #0f0f0f; display: grid; place-items: center; color: #8a8a8a; font-size: .9rem; text-align: center; padding: 1rem; }
+.screen iframe { position: absolute; top: 0; left: 0; border: 0; transform-origin: 0 0; pointer-events: none; }
+.screen-link { position: absolute; inset: 0; z-index: 2; display: flex; align-items: flex-end; justify-content: flex-end; padding: 1rem; text-decoration: none; }
+.screen-link span { opacity: 0; transform: translateY(8px); transition: opacity .3s, transform .3s; background: var(--w); color: var(--k); font-weight: 600; font-size: .9rem; padding: .5rem 1rem; border-radius: 99px; }
+.screen-link:hover span, .screen-link:focus-visible span { opacity: 1; transform: none; }
+@media (hover: none) { .screen-link span { opacity: 1; transform: none; } }
+@media (max-width: 760px) { .webprev { grid-template-columns: 1fr; } }
+
+/* Petunjuk suara di layar loading (muncul hanya kalau browser memblokir suara otomatis) */
+.loader-hint { position: absolute; left: 0; right: 0; bottom: max(2rem, env(safe-area-inset-bottom, 0px)); margin: 0; text-align: center; font-size: .95rem; color: #9a9a9a; opacity: 0; transition: opacity .5s; pointer-events: none; }
+.loader-hint.show { opacity: 1; }

@@ -101,7 +101,7 @@ if (!reduce) {
   rv(".mail", .1);
   rv(".socials", .2);
 
-  const targets = document.querySelectorAll(".rv, .photo, h1");
+  const targets = document.querySelectorAll(".rv, h1");
   const reveal = () => {
     if (!("IntersectionObserver" in window)) { targets.forEach(t => t.classList.add("in")); return; }
     const io = new IntersectionObserver(es => es.forEach(e => {
@@ -112,7 +112,7 @@ if (!reduce) {
 
   // Loading 3 detik: keluar di 2,3 dtk (0,7 dtk), konten mulai muncul bersamaan
   const loader = document.getElementById("loader");
-  setTimeout(() => { loader.classList.add("exit"); reveal(); }, 2300);
+  setTimeout(() => { loader.classList.add("exit"); document.getElementById("photo").classList.add("in"); reveal(); }, 2300);
   setTimeout(() => { loader.remove(); root.classList.remove("loading"); }, 3000);
 
   // Galeri: gambar bergeser dan miring tipis saat digeser
@@ -144,4 +144,72 @@ if (!reduce) {
     window.addEventListener("resize", kick);
     kick();
   });
+}
+
+// ===== Sound effect loading (dibuat langsung dengan Web Audio, tanpa file) =====
+const AudioCtx = window.AudioContext || window.webkitAudioContext;
+if (!reduce && AudioCtx) {
+  const ctx = new AudioCtx();
+  const t0 = performance.now();
+  let played = false;
+  const master = ctx.createGain();
+  master.gain.value = .22; // volume: 0 sampai 1
+  master.connect(ctx.destination);
+
+  // Bunyi "tik" kecil tiap huruf muncul
+  const tick = (at, f) => {
+    const o = ctx.createOscillator(), g = ctx.createGain();
+    o.type = "triangle";
+    o.frequency.setValueAtTime(f, at);
+    o.frequency.exponentialRampToValueAtTime(f * 1.5, at + .08);
+    g.gain.setValueAtTime(.0001, at);
+    g.gain.exponentialRampToValueAtTime(.8, at + .01);
+    g.gain.exponentialRampToValueAtTime(.0001, at + .14);
+    o.connect(g).connect(master);
+    o.start(at); o.stop(at + .16);
+  };
+  // Desiran saat layar loading naik
+  const whoosh = at => {
+    const buf = ctx.createBuffer(1, Math.floor(ctx.sampleRate * .8), ctx.sampleRate);
+    const d = buf.getChannelData(0);
+    for (let i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1;
+    const src = ctx.createBufferSource(), f = ctx.createBiquadFilter(), g = ctx.createGain();
+    src.buffer = buf;
+    f.type = "bandpass"; f.Q.value = 1.2;
+    f.frequency.setValueAtTime(250, at);
+    f.frequency.exponentialRampToValueAtTime(4000, at + .7);
+    g.gain.setValueAtTime(.0001, at);
+    g.gain.exponentialRampToValueAtTime(.7, at + .3);
+    g.gain.exponentialRampToValueAtTime(.0001, at + .75);
+    src.connect(f).connect(g).connect(master);
+    src.start(at); src.stop(at + .8);
+  };
+  // Dentuman rendah di akhir
+  const boom = at => {
+    const o = ctx.createOscillator(), g = ctx.createGain();
+    o.type = "sine";
+    o.frequency.setValueAtTime(95, at);
+    o.frequency.exponentialRampToValueAtTime(38, at + .5);
+    g.gain.setValueAtTime(.0001, at);
+    g.gain.exponentialRampToValueAtTime(1, at + .02);
+    g.gain.exponentialRampToValueAtTime(.0001, at + .6);
+    o.connect(g).connect(master);
+    o.start(at); o.stop(at + .65);
+  };
+
+  // Jadwal (detik sejak loading mulai), sama dengan animasi huruf NDREXAN
+  const events = [];
+  for (let i = 0; i < 7; i++) events.push([.2 + i * .1, at => tick(at, 320 + i * 55)]);
+  events.push([2.25, whoosh], [2.3, boom]);
+
+  const play = () => {
+    if (played || ctx.state !== "running") return;
+    played = true;
+    const el = (performance.now() - t0) / 1000;
+    events.forEach(([t, fn]) => { if (t >= el - .05) fn(ctx.currentTime + Math.max(0, t - el)); });
+  };
+  // Browser sering memblokir suara otomatis: kalau diblokir, bunyi mulai setelah klik/tap/tombol pertama
+  ctx.resume().then(play).catch(() => {});
+  ["pointerdown", "pointerup", "touchend", "keydown", "click"].forEach(ev =>
+    addEventListener(ev, () => ctx.resume().then(play).catch(() => {}), { once: true, passive: true }));
 }

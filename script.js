@@ -45,3 +45,24 @@ document.querySelectorAll(".shot").forEach(btn => btn.addEventListener("click", 
 }));
 document.getElementById("lbClose").addEventListener("click", () => lb.close());
 lb.addEventListener("click", e => { if (e.target === lb) lb.close(); });
+
+// Panah geser galeri
+document.querySelectorAll(".arrow").forEach(btn => {
+  const strip = document.getElementById(btn.dataset.strip);
+  const dir = Number(btn.dataset.dir);
+  btn.addEventListener("click", () => {
+    strip.scrollBy({ left: dir * strip.clientWidth * .8, behavior: reduce ? "auto" : "smooth" });
+  });
+});
+function updateArrows(strip) {
+  const max = strip.scrollWidth - strip.clientWidth - 2;
+  document.querySelectorAll('.arrow[data-strip="' + strip.id + '"]').forEach(b => {
+    b.disabled = Number(b.dataset.dir) < 0 ? strip.scrollLeft <= 2 : strip.scrollLeft >= max;
+  });
+}
+document.querySelectorAll(".gallery").forEach(strip => {
+  strip.addEventListener("scroll", () => updateArrows(strip), { passive: true });
+  window.addEventListener("resize", () => updateArrows(strip));
+  strip.querySelectorAll("img").forEach(img => img.addEventListener("load", () => updateArrows(strip)));
+  updateArrows(strip);
+});

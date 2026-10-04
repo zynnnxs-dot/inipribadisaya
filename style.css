@@ -150,3 +150,13 @@ html.loading { overflow: hidden; }
 @keyframes zin { from { opacity: 0; transform: scale(.92); } }
 @keyframes fin { from { opacity: 0; } }
 @media (prefers-reduced-motion: reduce) { #lb::backdrop { animation: none !important; } }
+
+/* Kontak: logo Gmail dan Instagram */
+.ico { flex: none; display: inline-block; line-height: 0; transition: transform .3s cubic-bezier(.2, .8, .2, 1); }
+.ico svg { display: block; width: 100%; height: 100%; }
+.mail { display: inline-flex; align-items: center; gap: .55em; }
+.mail .ico { width: 1.25em; height: 1.25em; }
+.mail:hover .ico, .socials a:hover .ico { transform: rotate(-8deg) scale(1.12); }
+.socials a { display: inline-flex; align-items: center; gap: .6rem; text-decoration: none; }
+.socials a:hover { text-decoration: underline; text-underline-offset: 6px; }
+.socials .ico { width: 1.6rem; height: 1.6rem; }

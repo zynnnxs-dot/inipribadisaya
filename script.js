@@ -1,7 +1,7 @@
 // Email kontak
 const EMAIL = "andrearshavinkece73@gmail.com";
 document.getElementById("mail").href = "mailto:" + EMAIL;
-document.getElementById("mail").textContent = EMAIL;
+document.getElementById("mailText").textContent = EMAIL;
 document.getElementById("year").textContent = new Date().getFullYear();
 
 const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -146,70 +146,21 @@ if (!reduce) {
   });
 }
 
-// ===== Sound effect loading (dibuat langsung dengan Web Audio, tanpa file) =====
-const AudioCtx = window.AudioContext || window.webkitAudioContext;
-if (!reduce && AudioCtx) {
-  const ctx = new AudioCtx();
+// ===== Sound effect loading (file audio: loading.mp3) =====
+if (!reduce) {
+  const snd = new Audio("loading.mp3");
+  snd.preload = "auto";
+  snd.volume = .8;
   const t0 = performance.now();
-  let played = false;
-  const master = ctx.createGain();
-  master.gain.value = .22; // volume: 0 sampai 1
-  master.connect(ctx.destination);
-
-  // Bunyi "tik" kecil tiap huruf muncul
-  const tick = (at, f) => {
-    const o = ctx.createOscillator(), g = ctx.createGain();
-    o.type = "triangle";
-    o.frequency.setValueAtTime(f, at);
-    o.frequency.exponentialRampToValueAtTime(f * 1.5, at + .08);
-    g.gain.setValueAtTime(.0001, at);
-    g.gain.exponentialRampToValueAtTime(.8, at + .01);
-    g.gain.exponentialRampToValueAtTime(.0001, at + .14);
-    o.connect(g).connect(master);
-    o.start(at); o.stop(at + .16);
-  };
-  // Desiran saat layar loading naik
-  const whoosh = at => {
-    const buf = ctx.createBuffer(1, Math.floor(ctx.sampleRate * .8), ctx.sampleRate);
-    const d = buf.getChannelData(0);
-    for (let i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1;
-    const src = ctx.createBufferSource(), f = ctx.createBiquadFilter(), g = ctx.createGain();
-    src.buffer = buf;
-    f.type = "bandpass"; f.Q.value = 1.2;
-    f.frequency.setValueAtTime(250, at);
-    f.frequency.exponentialRampToValueAtTime(4000, at + .7);
-    g.gain.setValueAtTime(.0001, at);
-    g.gain.exponentialRampToValueAtTime(.7, at + .3);
-    g.gain.exponentialRampToValueAtTime(.0001, at + .75);
-    src.connect(f).connect(g).connect(master);
-    src.start(at); src.stop(at + .8);
-  };
-  // Dentuman rendah di akhir
-  const boom = at => {
-    const o = ctx.createOscillator(), g = ctx.createGain();
-    o.type = "sine";
-    o.frequency.setValueAtTime(95, at);
-    o.frequency.exponentialRampToValueAtTime(38, at + .5);
-    g.gain.setValueAtTime(.0001, at);
-    g.gain.exponentialRampToValueAtTime(1, at + .02);
-    g.gain.exponentialRampToValueAtTime(.0001, at + .6);
-    o.connect(g).connect(master);
-    o.start(at); o.stop(at + .65);
-  };
-
-  // Jadwal (detik sejak loading mulai), sama dengan animasi huruf NDREXAN
-  const events = [];
-  for (let i = 0; i < 7; i++) events.push([.2 + i * .1, at => tick(at, 320 + i * 55)]);
-  events.push([2.25, whoosh], [2.3, boom]);
-
-  const play = () => {
-    if (played || ctx.state !== "running") return;
-    played = true;
+  let started = false;
+  const go = () => {
+    if (started) return;
     const el = (performance.now() - t0) / 1000;
-    events.forEach(([t, fn]) => { if (t >= el - .05) fn(ctx.currentTime + Math.max(0, t - el)); });
+    if (el > 2.9) { started = true; return; }
+    try { if (el > .1) snd.currentTime = el; } catch (e) {}
+    snd.play().then(() => { started = true; }).catch(() => {});
   };
-  // Browser sering memblokir suara otomatis: kalau diblokir, bunyi mulai setelah klik/tap/tombol pertama
-  ctx.resume().then(play).catch(() => {});
+  go(); // coba langsung; kalau diblokir browser, mulai di klik/tap/tombol pertama
   ["pointerdown", "pointerup", "touchend", "keydown", "click"].forEach(ev =>
-    addEventListener(ev, () => ctx.resume().then(play).catch(() => {}), { once: true, passive: true }));
+    addEventListener(ev, go, { once: true, passive: true }));
 }

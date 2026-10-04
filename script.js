@@ -1,5 +1,5 @@
-// Ganti email di sini dan di index.html
-const EMAIL = "emailkamu@example.com";
+// Email kontak
+const EMAIL = "andrearshavinkece73@gmail.com";
 document.getElementById("mail").href = "mailto:" + EMAIL;
 document.getElementById("mail").textContent = EMAIL;
 document.getElementById("year").textContent = new Date().getFullYear();

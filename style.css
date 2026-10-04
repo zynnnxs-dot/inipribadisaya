@@ -191,3 +191,15 @@ html.loading { overflow: hidden; }
 .js .logo.in .lc { opacity: 1; transform: none; }
 .logo:hover .lc, .logo:focus-visible .lc, .logo.wave .lc { animation: hop .6s cubic-bezier(.3, .9, .4, 1) calc(var(--i) * .05s); }
 @keyframes hop { 40% { transform: translateY(-.3em); } }
+
+/* Logo: gerakan lebih ringan dan cepat */
+@keyframes hop { 40% { transform: translateY(-.18em); } }
+.logo:hover .lc, .logo:focus-visible .lc, .logo.wave .lc { animation: hop .45s ease-out calc(var(--i) * .035s); }
+
+/* Navigasi di HP: lebih ringkas dan lega */
+@media (max-width: 560px) {
+  .nav-in { height: 54px; }
+  .logo { font-size: .95rem; }
+  .nav nav { gap: .9rem; }
+  .nav nav a { font-size: .92rem; }
+}

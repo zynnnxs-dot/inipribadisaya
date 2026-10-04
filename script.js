@@ -85,7 +85,7 @@ if (!reduce) {
     h1.appendChild(s);
   });
 
-  // Logo kiri atas: huruf muncul satu per satu, lompat saat di-hover, dan menyapa tiap 6 detik
+  // Logo kiri atas: huruf muncul satu per satu, lompat saat di-hover, dan menyapa tiap 2,5 detik
   const logo = document.querySelector(".logo");
   const logoText = logo.textContent;
   logo.setAttribute("aria-label", logoText);
@@ -100,8 +100,8 @@ if (!reduce) {
   });
   setTimeout(() => setInterval(() => {
     logo.classList.add("wave");
-    setTimeout(() => logo.classList.remove("wave"), 900);
-  }, 6000), 5000);
+    setTimeout(() => logo.classList.remove("wave"), 800);
+  }, 2500), 3200);
 
   // Elemen yang muncul saat terlihat (delay bertingkat)
   const rv = (sel, base = 0, step = .1, cap = .4) => document.querySelectorAll(sel).forEach((el, i) => {

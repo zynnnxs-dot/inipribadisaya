@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Ndrexan</title>
-  <meta name="description" content="Ndrexan: desain, fotografi, dan pembuatan website.">
+  <title>Ndrexan · Andre Arshavin</title>
+  <meta name="description" content="Andre Arshavin (Ndrexan): desain, fotografi, dan pembuatan website.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&display=swap" rel="stylesheet">
@@ -16,6 +16,7 @@
       <a class="logo" href="#top">ndrexan</a>
       <nav>
         <a href="#skill">Skill</a>
+        <a href="#foto">Foto</a>
         <a href="#proyek">Proyek</a>
         <a href="#kontak">Kontak</a>
       </nav>
@@ -28,7 +29,7 @@
       <div class="hero-grid">
         <div class="intro">
           <p class="statement">Desainer, fotografer, dan pembuat website.</p>
-          <p class="muted">Ganti teks ini dengan dua kalimat tentang kamu: dari mana, apa yang kamu kerjakan, dan apa yang lagi kamu cari.</p>
+          <p class="muted">Saya Andre Arshavin, berasal dari Tangerang Selatan dan bersekolah di SMKN 4 Tangsel jurusan DKV. Skill saya fotografi, desain, dan pembuatan website.</p>
           <p class="links"><a href="#proyek">Lihat proyek</a><a href="#kontak">Hubungi saya</a></p>
         </div>
         <figure class="photo" id="photo">
@@ -53,6 +54,17 @@
           <h3>Build Web</h3>
           <p>Website ringan yang ditulis langsung dengan HTML, CSS, dan JavaScript, lalu diluncurkan lewat Vercel.</p>
         </div>
+      </div>
+    </section>
+
+    <section id="foto" class="wrap">
+      <h2>Fotografi</h2>
+      <p class="muted cap-intro">Beberapa jepretan saya. Klik foto untuk memperbesar.</p>
+      <div class="gallery">
+        <figure class="g g1"><button class="shot" data-src="galeri-1.jpg" data-alt="Pohon dan langit biru"><img src="galeri-1.jpg" alt="Pohon dan langit biru" width="1600" height="1200" loading="lazy"></button><figcaption>Pohon dan langit</figcaption></figure>
+        <figure class="g g2"><button class="shot" data-src="galeri-2.jpg" data-alt="Bunga merah muda"><img src="galeri-2.jpg" alt="Bunga merah muda" width="1200" height="1600" loading="lazy"></button><figcaption>Bunga merah muda</figcaption></figure>
+        <figure class="g g3"><button class="shot" data-src="galeri-3.jpg" data-alt="Bunga kertas dari bawah"><img src="galeri-3.jpg" alt="Bunga kertas dari bawah" width="1200" height="1600" loading="lazy"></button><figcaption>Bunga kertas</figcaption></figure>
+        <figure class="g g4"><button class="shot" data-src="galeri-4.jpg" data-alt="Pohon di halaman sekolah"><img src="galeri-4.jpg" alt="Pohon di halaman sekolah" width="1600" height="796" loading="lazy"></button><figcaption>Pohon di halaman sekolah</figcaption></figure>
       </div>
     </section>
 
@@ -94,6 +106,8 @@
       <a href="#top">Kembali ke atas</a>
     </div>
   </footer>
+
+  <dialog id="lb" aria-label="Foto diperbesar"><img alt=""><button id="lbClose" type="button">Tutup</button></dialog>
 
   <script src="script.js"></script>
 </body>

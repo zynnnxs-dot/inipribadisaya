@@ -34,3 +34,14 @@ if (!reduce) {
     io.observe(car);
   } else car.classList.add("go");
 }
+
+// Galeri: klik untuk memperbesar
+const lb = document.getElementById("lb");
+const lbImg = lb.querySelector("img");
+document.querySelectorAll(".shot").forEach(btn => btn.addEventListener("click", () => {
+  lbImg.src = btn.dataset.src;
+  lbImg.alt = btn.dataset.alt;
+  lb.showModal();
+}));
+document.getElementById("lbClose").addEventListener("click", () => lb.close());
+lb.addEventListener("click", e => { if (e.target === lb) lb.close(); });

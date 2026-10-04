@@ -85,6 +85,24 @@ if (!reduce) {
     h1.appendChild(s);
   });
 
+  // Logo kiri atas: huruf muncul satu per satu, lompat saat di-hover, dan menyapa tiap 6 detik
+  const logo = document.querySelector(".logo");
+  const logoText = logo.textContent;
+  logo.setAttribute("aria-label", logoText);
+  logo.textContent = "";
+  [...logoText].forEach((c, i) => {
+    const s = document.createElement("span");
+    s.className = "lc";
+    s.textContent = c;
+    s.setAttribute("aria-hidden", "true");
+    s.style.setProperty("--i", i);
+    logo.appendChild(s);
+  });
+  setTimeout(() => setInterval(() => {
+    logo.classList.add("wave");
+    setTimeout(() => logo.classList.remove("wave"), 900);
+  }, 6000), 5000);
+
   // Elemen yang muncul saat terlihat (delay bertingkat)
   const rv = (sel, base = 0, step = .1, cap = .4) => document.querySelectorAll(sel).forEach((el, i) => {
     el.classList.add("rv");
@@ -113,7 +131,7 @@ if (!reduce) {
 
   // Loading 3 detik: keluar di 2,3 dtk (0,7 dtk), konten mulai muncul bersamaan
   const loader = document.getElementById("loader");
-  setTimeout(() => { loader.classList.add("exit"); document.getElementById("photo").classList.add("in"); reveal(); }, 2300);
+  setTimeout(() => { loader.classList.add("exit"); logo.classList.add("in"); document.getElementById("photo").classList.add("in"); reveal(); }, 2300);
   setTimeout(() => { loader.remove(); root.classList.remove("loading"); }, 3000);
 
   // Galeri: gambar bergeser dan miring tipis saat digeser

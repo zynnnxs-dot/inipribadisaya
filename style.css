@@ -183,3 +183,11 @@ html.loading { overflow: hidden; }
 /* Petunjuk suara di layar loading (muncul hanya kalau browser memblokir suara otomatis) */
 .loader-hint { position: absolute; left: 0; right: 0; bottom: max(2rem, env(safe-area-inset-bottom, 0px)); margin: 0; text-align: center; font-size: .95rem; color: #9a9a9a; opacity: 0; transition: opacity .5s; pointer-events: none; }
 .loader-hint.show { opacity: 1; }
+
+/* Logo ndrexan kiri atas */
+.logo { display: inline-flex; }
+.logo .lc { display: inline-block; }
+.js .logo .lc { opacity: 0; transform: translateY(.7em); transition: opacity .5s, transform .7s cubic-bezier(.2, .8, .2, 1); transition-delay: calc(var(--i) * .06s); }
+.js .logo.in .lc { opacity: 1; transform: none; }
+.logo:hover .lc, .logo:focus-visible .lc, .logo.wave .lc { animation: hop .6s cubic-bezier(.3, .9, .4, 1) calc(var(--i) * .05s); }
+@keyframes hop { 40% { transform: translateY(-.3em); } }

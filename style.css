@@ -248,3 +248,12 @@ html.loading { overflow: hidden; }
 .wordmark span { display: inline-block; color: transparent; -webkit-text-stroke: 1.5px rgba(255, 255, 255, .4); }
 .js .wordmark span { transform: translateY(105%); transition: transform .9s cubic-bezier(.2, .8, .2, 1) calc(var(--i) * .07s), color .6s ease calc(var(--i) * .1s + .7s); }
 .js .wordmark.in span { transform: none; color: #fff; }
+
+/* Tombol suara */
+.snd { position: fixed; right: 1rem; bottom: 1rem; z-index: 90; display: grid; place-items: center; width: 44px; height: 44px; padding: 0; border: 1px solid #cfcfcf; border-radius: 50%; background: var(--w); color: var(--k); cursor: pointer; box-shadow: 0 6px 20px rgba(0, 0, 0, .25); transition: transform .2s; }
+.snd[hidden] { display: none; }
+.snd:hover { transform: scale(1.08); }
+.snd:active { transform: scale(.92); }
+.snd .x { display: none; }
+.snd.off .w { display: none; }
+.snd.off .x { display: inline; }

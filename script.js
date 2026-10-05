@@ -167,41 +167,35 @@ if (!reduce) {
   });
 }
 
-// ===== Sound effect loading (file audio: loading.mp3) =====
+// ===== Sound saat web dibuka (file audio: sound.mp3) =====
 if (!reduce) {
-  const snd = new Audio("loading.mp3");
-  snd.preload = "auto";
-  snd.volume = .8;
+  const snd = new Audio("sound.mp3");
+  snd.preload = "metadata"; // file lagu cukup besar, jangan diunduh kalau suara diblokir
+  snd.volume = 0;
   const t0 = performance.now();
+  const fadeIn = () => { // volume naik pelan sampai 60%
+    let v = 0;
+    const id = setInterval(() => { v = Math.min(v + .04, .6); snd.volume = v; if (v >= .6) clearInterval(id); }, 90);
+  };
   const hint = document.getElementById("loaderHint");
+  const btn = document.getElementById("sndBtn");
   let started = false;
   const go = () => {
-    if (started) return;
-    const el = (performance.now() - t0) / 1000;
-    if (el > 2.9) { started = true; return; }
-    try { if (el > .1) snd.currentTime = el; } catch (e) {}
-    snd.play().then(() => { started = true; hint.classList.remove("show"); })
+    if (started || performance.now() - t0 > 8000) return;
+    snd.play().then(() => { started = true; fadeIn(); hint.classList.remove("show"); btn.hidden = false; })
       .catch(() => { if (performance.now() - t0 < 2300) hint.classList.add("show"); });
   };
-  go(); // coba langsung; kalau diblokir browser, muncul petunjuk dan suara mulai di klik/tap/tombol pertama
+  go(); // coba langsung; kalau diblokir browser, mulai di klik/tap/tombol pertama (maksimal 8 detik setelah web dibuka)
   ["pointerdown", "pointerup", "touchend", "keydown", "click"].forEach(ev =>
     addEventListener(ev, go, { once: true, passive: true }));
+  // Tombol kecil untuk mematikan/menyalakan suara
+  btn.addEventListener("click", () => {
+    if (snd.paused) snd.play(); else snd.pause();
+    btn.classList.toggle("off", snd.paused);
+    btn.setAttribute("aria-label", snd.paused ? "Nyalakan suara" : "Matikan suara");
+  });
+  snd.addEventListener("ended", () => { btn.hidden = true; });
 }
-
-// Preview website: iframe dirender besar lalu diperkecil agar muat
-document.querySelectorAll(".screen").forEach(sc => {
-  const fr = sc.querySelector("iframe");
-  const fit = () => {
-    const w = sc.clientWidth, vw = w < 560 ? 480 : 1280, ratio = w < 560 ? 1.2 : .625;
-    fr.style.width = vw + "px";
-    fr.style.height = Math.round(vw * ratio) + "px";
-    fr.style.transform = "scale(" + (w / vw) + ")";
-    sc.style.height = Math.round(w * ratio) + "px";
-  };
-  fit();
-  if ("ResizeObserver" in window) new ResizeObserver(fit).observe(sc);
-  else addEventListener("resize", fit);
-});
 
 // ===== Elemen branding =====
 // Jam lokal Tangsel

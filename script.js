@@ -113,6 +113,7 @@ if (!reduce) {
   rv(".hero .links", .8);
   rv(".chips", .95);
   rv(".marquee");
+  rv(".facts", .1);
   rv("h2");
   rv(".cap-intro", .1);
   rv(".arrows", .1);
@@ -122,7 +123,24 @@ if (!reduce) {
   rv(".mail", .1);
   rv(".socials", .2);
 
-  const targets = document.querySelectorAll(".rv, h1, .wordmark");
+  // Kalimat "Tentang saya": kata-kata menyala satu per satu
+  const at = document.querySelector(".about-t");
+  if (at) {
+    const words = at.textContent.trim().split(/\s+/);
+    at.setAttribute("aria-label", words.join(" "));
+    at.textContent = "";
+    words.forEach((w, i) => {
+      const sp = document.createElement("span");
+      sp.className = "w";
+      sp.textContent = w;
+      sp.setAttribute("aria-hidden", "true");
+      sp.style.setProperty("--i", i);
+      at.appendChild(sp);
+      at.appendChild(document.createTextNode(" "));
+    });
+  }
+
+  const targets = document.querySelectorAll(".rv, h1, .wordmark, .about-t");
   const reveal = () => {
     if (!("IntersectionObserver" in window)) { targets.forEach(t => t.classList.add("in")); return; }
     const io = new IntersectionObserver(es => es.forEach(e => {

@@ -257,3 +257,13 @@ html.loading { overflow: hidden; }
 .snd .x { display: none; }
 .snd.off .w { display: none; }
 .snd.off .x { display: inline; }
+
+/* Tentang saya */
+.about { padding-top: clamp(3rem, 8vw, 6rem); padding-bottom: clamp(3rem, 8vw, 6rem); }
+.about-t { margin: 0; max-width: 34em; font-weight: 600; font-size: clamp(1.5rem, 3.6vw, 2.6rem); line-height: 1.25; letter-spacing: -.02em; }
+.js .about .w { opacity: .15; transition: opacity .6s ease calc(var(--i) * .04s); }
+.js .about-t.in .w { opacity: 1; }
+.facts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin: clamp(2rem, 5vw, 3.5rem) 0 0; padding-top: 1.5rem; border-top: 1px solid var(--l); }
+.facts dt { margin-bottom: .35rem; font-size: .78rem; font-weight: 500; letter-spacing: .12em; text-transform: uppercase; color: var(--g); }
+.facts dd { margin: 0; font-weight: 600; }
+@media (max-width: 600px) { .facts { grid-template-columns: 1fr; gap: 1rem; } }

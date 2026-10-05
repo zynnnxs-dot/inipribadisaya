@@ -259,3 +259,18 @@ if (!reduce) {
     move();
   }
 }
+
+// Preview website: iframe dirender besar lalu diperkecil agar muat
+document.querySelectorAll(".screen").forEach(sc => {
+  const fr = sc.querySelector("iframe");
+  const fit = () => {
+    const w = sc.clientWidth, vw = w < 560 ? 480 : 1280, ratio = w < 560 ? 1.2 : .625;
+    fr.style.width = vw + "px";
+    fr.style.height = Math.round(vw * ratio) + "px";
+    fr.style.transform = "scale(" + (w / vw) + ")";
+    sc.style.height = Math.round(w * ratio) + "px";
+  };
+  fit();
+  if ("ResizeObserver" in window) new ResizeObserver(fit).observe(sc);
+  else addEventListener("resize", fit);
+});

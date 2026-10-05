@@ -111,6 +111,8 @@ if (!reduce) {
   rv(".hero .statement", .5);
   rv(".hero .intro .muted", .65);
   rv(".hero .links", .8);
+  rv(".chips", .95);
+  rv(".marquee");
   rv("h2");
   rv(".cap-intro", .1);
   rv(".arrows", .1);
@@ -120,7 +122,7 @@ if (!reduce) {
   rv(".mail", .1);
   rv(".socials", .2);
 
-  const targets = document.querySelectorAll(".rv, h1");
+  const targets = document.querySelectorAll(".rv, h1, .wordmark");
   const reveal = () => {
     if (!("IntersectionObserver" in window)) { targets.forEach(t => t.classList.add("in")); return; }
     const io = new IntersectionObserver(es => es.forEach(e => {
@@ -200,3 +202,66 @@ document.querySelectorAll(".screen").forEach(sc => {
   if ("ResizeObserver" in window) new ResizeObserver(fit).observe(sc);
   else addEventListener("resize", fit);
 });
+
+// ===== Elemen branding =====
+// Jam lokal Tangsel
+const clock = document.getElementById("clock");
+if (clock) {
+  const tick = () => { clock.textContent = new Date().toLocaleTimeString("id-ID", { hour: "2-digit", minute: "2-digit", hour12: false, timeZone: "Asia/Jakarta" }); };
+  tick();
+  setInterval(tick, 10000);
+}
+
+if (!reduce) {
+  // Marquee: makin cepat saat scroll, berbalik arah saat scroll ke atas
+  const track = document.querySelector(".mq-track");
+  const mq = track && track.getAnimations()[0];
+  if (mq) {
+    let lastY = scrollY, dir = 1, boost = 0, cur = 1;
+    addEventListener("scroll", () => {
+      const dy = scrollY - lastY; lastY = scrollY;
+      if (dy) dir = dy > 0 ? 1 : -1;
+      boost = Math.min(Math.abs(dy) * .12, 8);
+    }, { passive: true });
+    const loop = () => {
+      boost *= .92;
+      const rate = 1 + dir * boost;
+      if (Math.abs(rate - cur) > .01) { mq.updatePlaybackRate(rate); cur = rate; }
+      requestAnimationFrame(loop);
+    };
+    loop();
+  }
+
+  // Garis progres scroll di paling atas
+  const prog = document.createElement("div");
+  prog.className = "prog";
+  document.body.appendChild(prog);
+  const setProg = () => {
+    const max = document.documentElement.scrollHeight - innerHeight;
+    prog.style.transform = "scaleX(" + (max > 0 ? Math.min(scrollY / max, 1) : 0) + ")";
+  };
+  addEventListener("scroll", setProg, { passive: true });
+  setProg();
+
+  // Cincin kursor (hanya mouse)
+  if (matchMedia("(hover: hover) and (pointer: fine)").matches) {
+    const ring = document.createElement("div");
+    ring.className = "cur";
+    ring.setAttribute("aria-hidden", "true");
+    document.body.appendChild(ring);
+    let x = 0, y = 0, rx = 0, ry = 0, seen = false;
+    addEventListener("mousemove", e => {
+      x = e.clientX; y = e.clientY;
+      if (!seen) { seen = true; rx = x; ry = y; ring.classList.add("on"); }
+    }, { passive: true });
+    document.addEventListener("mouseover", e => ring.classList.toggle("hot", !!e.target.closest("a, button")));
+    document.addEventListener("mouseleave", () => ring.classList.remove("on"));
+    document.addEventListener("mouseenter", () => seen && ring.classList.add("on"));
+    const move = () => {
+      rx += (x - rx) * .18; ry += (y - ry) * .18;
+      ring.style.transform = "translate3d(" + rx.toFixed(1) + "px," + ry.toFixed(1) + "px,0)";
+      requestAnimationFrame(move);
+    };
+    move();
+  }
+}

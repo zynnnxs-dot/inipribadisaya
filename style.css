@@ -214,3 +214,37 @@ html.loading { overflow: hidden; }
 #contoh .bar span { background: var(--w); color: var(--g); }
 #contoh .screen { background: #ececec; color: var(--g); }
 #contoh .screen-link span { background: var(--k); color: var(--w); }
+
+/* ===== Elemen branding ===== */
+/* Chip di hero */
+.chips { display: flex; flex-wrap: wrap; gap: .6rem; margin: 1.5rem 0 0; padding: 0; font-size: .85rem; }
+.chip { display: inline-flex; align-items: center; gap: .5rem; padding: .35rem .85rem; border: 1px solid var(--l); border-radius: 99px; color: var(--g); font-weight: 500; }
+.chip b { color: var(--k); font-weight: 600; font-variant-numeric: tabular-nums; }
+.dot { width: 8px; height: 8px; border-radius: 50%; background: #22c55e; animation: pulse 2s infinite; }
+@keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(34, 197, 94, .55); } 80%, 100% { box-shadow: 0 0 0 10px rgba(34, 197, 94, 0); } }
+
+/* Pita teks berjalan */
+.marquee { overflow: hidden; border-top: 1px solid var(--l); border-bottom: 1px solid var(--l); padding: .85rem 0; background: var(--w); }
+.mq-track { display: flex; width: max-content; animation: mq 24s linear infinite; }
+.mq-g { display: flex; flex: none; }
+.mq-g span { flex: none; white-space: nowrap; font-weight: 800; font-stretch: 125%; font-size: clamp(1.5rem, 4vw, 2.8rem); line-height: 1.1; letter-spacing: -.02em; }
+@keyframes mq { to { transform: translateX(-50%); } }
+
+/* Nomor di baris Skill */
+#skill .wrap { counter-reset: r; }
+.row h3::before { counter-increment: r; content: "0" counter(r); display: block; margin-bottom: .5rem; font-size: .8rem; font-weight: 500; font-stretch: 100%; letter-spacing: .12em; color: #8a8a8a; }
+.row { transition: padding-left .45s cubic-bezier(.2, .8, .2, 1), border-color .3s; }
+.row:hover { padding-left: clamp(.5rem, 2vw, 1.25rem); border-top-color: #777; }
+
+/* Garis progres dan kursor */
+.prog { position: fixed; top: 0; left: 0; width: 100%; height: 3px; background: #fff; mix-blend-mode: difference; transform-origin: 0 0; transform: scaleX(0); z-index: 150; pointer-events: none; }
+.cur { position: fixed; left: 0; top: 0; width: 0; height: 0; z-index: 200; pointer-events: none; opacity: 0; transition: opacity .3s; }
+.cur::before { content: ""; position: absolute; width: 34px; height: 34px; margin: -17px 0 0 -17px; border: 1.5px solid #fff; border-radius: 50%; mix-blend-mode: difference; transition: width .25s, height .25s, margin .25s, background .25s; }
+.cur.on { opacity: 1; }
+.cur.hot::before { width: 68px; height: 68px; margin: -34px 0 0 -34px; background: #fff; }
+
+/* Tulisan besar NDREXAN di footer: garis dulu, lalu terisi */
+.wordmark { display: flex; justify-content: space-between; overflow: hidden; padding: clamp(1.5rem, 4vw, 3rem) 0 .06em; font-weight: 900; font-stretch: 125%; font-size: min(16.5vw, 200px); line-height: .95; letter-spacing: -.04em; user-select: none; }
+.wordmark span { display: inline-block; color: transparent; -webkit-text-stroke: 1.5px rgba(255, 255, 255, .4); }
+.js .wordmark span { transform: translateY(105%); transition: transform .9s cubic-bezier(.2, .8, .2, 1) calc(var(--i) * .07s), color .6s ease calc(var(--i) * .1s + .7s); }
+.js .wordmark.in span { transform: none; color: #fff; }

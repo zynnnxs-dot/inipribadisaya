@@ -215,6 +215,18 @@ if (!reduce) {
   snd.addEventListener("ended", () => { btn.hidden = true; });
 }
 
+
+// The Motivator: automatic crossfade slideshow (no swipe needed)
+const motivatorSlides = document.querySelectorAll(".motivator-slide");
+if (motivatorSlides.length > 1) {
+  let motivatorIndex = 0;
+  setInterval(() => {
+    motivatorSlides[motivatorIndex].classList.remove("is-active");
+    motivatorIndex = (motivatorIndex + 1) % motivatorSlides.length;
+    motivatorSlides[motivatorIndex].classList.add("is-active");
+  }, 2800);
+}
+
 // ===== Elemen branding =====
 // Jam lokal Tangsel
 const clock = document.getElementById("clock");

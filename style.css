@@ -282,3 +282,59 @@ html.loading { overflow: hidden; }
   .motivator-photo { max-width: 230px; }
   .motivator-slideshow .motivator-slides { aspect-ratio: 1.25 / 1; }
 }
+/* === Ndrexan portfolio refresh === */
+:root {
+  --accent: #b8f36b;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+a {
+  transition: color 0.25s ease, opacity 0.25s ease;
+}
+
+a:hover {
+  color: var(--accent);
+}
+
+button,
+.button {
+  transition: transform 0.25s ease, background 0.25s ease;
+}
+
+button:hover,
+.button:hover {
+  transform: translateY(-2px);
+}
+
+img {
+  max-width: 100%;
+}
+
+img,
+.gallery img {
+  transition: transform 0.35s ease, filter 0.35s ease;
+}
+
+.gallery img:hover {
+  transform: scale(1.025);
+}
+
+::selection {
+  color: #111;
+  background: var(--accent);
+}
+
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+}
+
+@media (max-width: 600px) {
+  section {
+    scroll-margin-top: 80px;
+  }
+    }

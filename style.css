@@ -338,3 +338,166 @@ button:focus-visible {
     scroll-margin-top: 80px;
   }
     }
+/* ===== NDREXAN DESIGN REFRESH V2 ===== */
+:root {
+  --accent: #b8f36b;
+}
+
+.nav {
+  background: rgba(255, 255, 255, .92);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+
+.logo {
+  letter-spacing: -.06em;
+}
+
+.logo::after {
+  content: ".";
+  color: #75a92d;
+}
+
+.hero h1 {
+  letter-spacing: -.075em;
+  line-height: .84;
+}
+
+.statement {
+  text-wrap: balance;
+}
+
+.links a {
+  text-decoration-color: var(--accent);
+  text-decoration-thickness: 3px;
+  text-underline-offset: 7px;
+}
+
+.links a:hover {
+  color: #507d19;
+}
+
+.chip {
+  background: #f5faed;
+  border-color: #d9e8c9;
+}
+
+.chip b {
+  color: #31540e;
+}
+
+.dot {
+  background: #76b82a;
+}
+
+.marquee {
+  background: #0b0b0b;
+  color: var(--accent);
+  border-color: #1b1b1b;
+}
+
+#skill {
+  background:
+    radial-gradient(
+      ellipse at 90% 0%,
+      rgba(184, 243, 107, .10),
+      transparent 40%
+    ),
+    #0b0b0b;
+}
+
+#skill h2 {
+  color: var(--accent);
+}
+
+.row:hover h3 {
+  color: var(--accent);
+}
+
+.row:hover {
+  border-top-color: var(--accent);
+}
+
+.browser {
+  border-radius: 14px;
+}
+
+.shot {
+  border-radius: 8px;
+}
+
+.g figcaption {
+  transition: color .2s ease, transform .2s ease;
+}
+
+.g:hover figcaption {
+  color: #507d19;
+  transform: translateX(3px);
+}
+
+.arrow:hover:not(:disabled) {
+  background: var(--accent);
+  color: #0b0b0b;
+  border-color: var(--accent);
+}
+
+#kontak {
+  background:
+    radial-gradient(
+      ellipse at 10% 100%,
+      rgba(184, 243, 107, .10),
+      transparent 40%
+    ),
+    #0b0b0b;
+}
+
+#kontak .big {
+  max-width: 11ch;
+}
+
+#kontak .mail {
+  text-decoration-color: var(--accent);
+}
+
+#kontak .socials a:hover {
+  color: var(--accent);
+}
+
+.foot .wordmark span {
+  -webkit-text-stroke-color: rgba(184, 243, 107, .5);
+}
+
+.foot .wordmark.in span {
+  color: var(--accent);
+}
+
+::selection {
+  color: #0b0b0b;
+  background: var(--accent);
+}
+
+a:focus-visible,
+button:focus-visible {
+  outline-color: #75a92d;
+}
+
+@media (max-width: 600px) {
+  .hero h1 {
+    font-size: clamp(4.2rem, 17vw, 7rem);
+  }
+
+  .links {
+    flex-wrap: wrap;
+    gap: 1rem 1.4rem;
+  }
+
+  .chip {
+    font-size: .78rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mq-track {
+    animation: none !important;
+  }
+                             }

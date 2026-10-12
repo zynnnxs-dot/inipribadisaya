@@ -373,3 +373,63 @@ body[data-theme="light"] .project-cta:hover{color:#fff!important}
  #contoh .webprev{grid-template-columns:1fr;gap:2rem}#contoh h2{font-size:clamp(2.7rem,13vw,4.5rem)}
  .wp-info h3{font-size:3.4rem}.project-tags span{font-size:.58rem}.contact-note{max-width:32ch}
 }
+
+/* ===== Mobile fix: Android small screens, no clipped headings, tighter gallery rhythm ===== */
+@media (max-width: 700px) {
+  html { scroll-padding-top: 68px; }
+  .wrap { width: 100%; padding-left: 18px; padding-right: 18px; }
+  .nav-in { gap: 10px; }
+  .nav nav { gap: 12px; }
+  .nav nav a { font-size: .82rem; }
+  .theme-toggle { max-width: 44vw; white-space: nowrap; font-size: .68rem; }
+
+  .hero { padding-top: 3.2rem; padding-bottom: 3.5rem; }
+  .hero-title-wrap { margin-bottom: 1.7rem; }
+  .hero-title-wrap h1 { font-size: clamp(2.85rem, 15.2vw, 5.4rem); line-height: .9; letter-spacing: -.085em; overflow-wrap: anywhere; }
+  .hero-signature { font-size: clamp(1.55rem, 7.5vw, 2rem); margin-top: .8rem; }
+  .hero-grid { gap: 1.6rem; margin-top: 1.8rem; }
+  .statement { overflow-wrap: anywhere; }
+  .hero .photo { width: min(78%, 290px); max-width: 290px; }
+  .links { gap: 1rem; flex-wrap: wrap; }
+
+  .about { padding-block: 3.25rem; }
+  .dark > .wrap, .dark .wrap { padding-block: 3.25rem; }
+  #skill .row { padding: 1.1rem 0; }
+  #contoh { padding-top: 3.25rem; padding-bottom: 3.25rem; }
+  #contoh h2 { font-size: clamp(2.2rem, 11.5vw, 3.4rem); line-height: .98; overflow-wrap: anywhere; }
+  #contoh .webprev { gap: 1.5rem; }
+  .wp-info h3 { font-size: clamp(2.4rem, 12vw, 3.4rem); line-height: .98; overflow-wrap: anywhere; }
+  .browser { width: 100%; min-width: 0; }
+  .screen { min-height: 180px; }
+
+  #desain, #foto, #motivator { padding-top: 2.8rem; padding-bottom: 2.8rem; }
+  #desain .head, #foto .head, #motivator .head { align-items: center; gap: .65rem; margin-bottom: .7rem; }
+  #desain h2, #foto h2, #motivator h2 { min-width: 0; font-size: clamp(1.75rem, 8vw, 2.45rem); line-height: 1.05; overflow-wrap: anywhere; }
+  .arrows { flex: 0 0 auto; gap: 6px; }
+  .arrow { width: 36px; height: 36px; }
+  .cap-intro { font-size: .9rem; line-height: 1.55; margin: 0 0 1.1rem; max-width: 34ch; }
+  .gallery { --h: clamp(185px, 58vw, 250px); gap: 12px; margin-right: -18px; padding-right: 18px; padding-bottom: 8px; }
+  .g { min-width: min(72vw, 250px); width: min(72vw, 250px); }
+  .g figcaption { font-size: .78rem; line-height: 1.4; margin-top: .55rem; }
+  .shot { max-width: 100%; }
+  .motivator-photo { max-width: 100%; }
+  .motivator-slideshow .motivator-slides { aspect-ratio: 4 / 3; }
+
+  .contact { padding-top: 3.25rem; }
+  .contact h2.big { font-size: clamp(2.65rem, 12vw, 4.4rem); line-height: .96; overflow-wrap: anywhere; }
+  .contact-note { font-size: .95rem; }
+  .mail { max-width: 100%; font-size: clamp(.82rem, 3.6vw, 1rem); overflow-wrap: anywhere; }
+  .wordmark { font-size: 15vw; letter-spacing: -.06em; }
+  .foot-in { gap: .6rem; }
+}
+
+@media (max-width: 360px) {
+  .wrap { padding-left: 15px; padding-right: 15px; }
+  .nav nav { gap: 8px; }
+  .nav nav a { font-size: .76rem; }
+  .theme-toggle { padding: 8px; }
+  #desain h2, #foto h2, #motivator h2 { font-size: clamp(1.55rem, 7.3vw, 1.85rem); }
+  .arrow { width: 32px; height: 32px; }
+  .gallery { margin-right: -15px; padding-right: 15px; --h: 185px; }
+  .g { min-width: 76vw; width: 76vw; }
+}

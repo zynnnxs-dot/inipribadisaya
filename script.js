@@ -304,3 +304,27 @@ document.querySelectorAll(".screen").forEach(sc => {
   if ("ResizeObserver" in window) new ResizeObserver(fit).observe(sc);
   else addEventListener("resize", fit);
 });
+
+// Theme switch: dark noir/red by default, light ivory/gold.
+(() => {
+  const body = document.body;
+  const toggle = document.getElementById('themeToggle');
+  if (!toggle) return;
+  let saved = null;
+  try { saved = localStorage.getItem('ndrexan-theme'); } catch (_) {}
+  const setTheme = (theme) => {
+    body.dataset.theme = theme;
+    const light = theme === 'light';
+    toggle.querySelector('.theme-icon').textContent = light ? '◐' : '☼';
+    toggle.querySelector('.theme-label').textContent = light ? 'Dark mode' : 'Light mode';
+    toggle.setAttribute('aria-label', light ? 'Aktifkan mode gelap' : 'Aktifkan mode terang');
+    const meta = document.querySelector('meta[name="theme-color"]');
+    if (meta) meta.content = light ? '#f7f6f2' : '#090909';
+  };
+  setTheme(saved === 'light' ? 'light' : 'dark');
+  toggle.addEventListener('click', () => {
+    const next = body.dataset.theme === 'light' ? 'dark' : 'light';
+    setTheme(next);
+    try { localStorage.setItem('ndrexan-theme', next); } catch (_) {}
+  });
+})();

@@ -593,69 +593,96 @@ body[data-theme="light"] .project-cta:hover{color:#fff!important}
 /* Footer wordmark edge spacing */
 .foot .wordmark{padding-inline:.12em;overflow:visible;line-height:1.08}
 
-
-/* V7 — intro landscape split: copy left, photo right (also works in Chrome "Desktop site") */
-.intro-screen { overflow: hidden; }
+/* V8 FINAL: real split-screen intro layout, tested for narrow and wide viewports */
+.js .intro-screen {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) minmax(0, .92fr);
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  column-gap: clamp(18px, 4vw, 64px);
+  align-items: center;
+  padding: clamp(22px, 4vw, 56px) clamp(22px, 5vw, 76px) !important;
+  min-height: 100vh;
+  min-height: 100dvh;
+  isolation: isolate;
+  background: #080808;
+}
+.intro-grain { z-index: -3 !important; }
+.intro-top { grid-column: 1 / -1; grid-row: 1; width: 100%; align-self: start; }
 .intro-art {
-  inset: 0 0 0 49% !important;
+  position: absolute !important;
+  inset: 0 0 0 52% !important;
+  z-index: -2 !important;
   opacity: 1 !important;
+  overflow: hidden;
 }
 .intro-art img {
-  object-position: 55% center !important;
-  opacity: .96 !important;
-  mask-image: linear-gradient(90deg, transparent 0%, #000 9%, #000 100%) !important;
+  width: 100%; height: 100%; object-fit: cover;
+  object-position: 58% center !important;
+  opacity: .94 !important;
+  mask-image: linear-gradient(90deg, transparent 0%, rgba(0,0,0,.8) 9%, #000 25%) !important;
 }
 .intro-art:after {
-  background:
-    linear-gradient(90deg, #080808 0%, rgba(8,8,8,.34) 16%, transparent 45%, rgba(8,8,8,.16) 100%),
-    linear-gradient(0deg, rgba(8,8,8,.45), transparent 25%, transparent 76%, rgba(8,8,8,.32)) !important;
+  content: ""; position: absolute; inset: 0;
+  background: linear-gradient(90deg, #080808 0%, rgba(8,8,8,.1) 24%, transparent 55%),
+              linear-gradient(0deg, rgba(8,8,8,.48), transparent 25%, transparent 75%, rgba(8,8,8,.2)) !important;
 }
 .intro-copy {
-  left: clamp(22px, 5vw, 76px) !important;
-  width: 48% !important;
-  max-width: 48% !important;
-  top: 51% !important;
-  transform: translateY(-42%) !important;
+  position: relative !important;
+  grid-column: 1; grid-row: 2;
+  left: auto !important; right: auto !important; top: auto !important;
+  width: 100% !important; max-width: 620px !important;
+  transform: none !important; align-self: center;
+  padding-block: 24px;
 }
-.intro-title {
-  font-size: clamp(3.2rem, 8.3vw, 8.8rem) !important;
-  white-space: normal !important;
-  overflow-wrap: anywhere;
-  line-height: .86 !important;
-}
-.intro-signature { font-size: clamp(2rem, 4.7vw, 4.8rem) !important; }
-.intro-bottom { left: clamp(22px, 5vw, 76px) !important; }
+.intro-kicker { font-size: clamp(.55rem, .8vw, .75rem) !important; line-height: 1.6; letter-spacing: .16em !important; margin: 0 0 clamp(14px, 2vh, 24px) !important; }
+.intro-title { display: block !important; color: #f7f5f2 !important; font-size: clamp(3.2rem, 7.3vw, 7.4rem) !important; line-height: .88 !important; letter-spacing: -.085em !important; white-space: normal !important; overflow-wrap: anywhere; }
+.intro-signature { font-size: clamp(2rem, 4.1vw, 4.5rem) !important; line-height: .98; margin: clamp(12px, 2vh, 22px) 0 clamp(14px, 2vh, 24px) !important; }
+.intro-description { font-size: clamp(.86rem, 1.2vw, 1.05rem) !important; max-width: 30ch !important; line-height: 1.65 !important; margin-bottom: clamp(16px, 2.5vh, 28px) !important; }
+.intro-bottom { grid-column: 1 / -1; grid-row: 3; position: relative !important; left: auto !important; right: auto !important; bottom: auto !important; width: 100%; align-self: end; padding-top: 18px; }
+.intro-stamp { right: clamp(18px, 3vw, 46px) !important; top: 20% !important; }
+.intro-redline { right: 8% !important; }
+
+/* Narrow portrait phones: keep the composition horizontal, with readable copy */
 @media (max-width: 700px) {
   .js .intro-screen {
+    grid-template-columns: minmax(0, 1fr) minmax(0, .78fr);
+    column-gap: 10px;
+    padding: max(18px, env(safe-area-inset-top, 0px)) 18px max(18px, env(safe-area-inset-bottom, 0px)) !important;
     min-height: 100svh;
-    padding: 18px 20px calc(18px + env(safe-area-inset-bottom,0px)) !important;
   }
-  .intro-art { inset: 0 0 0 47% !important; }
-  .intro-art img {
-    object-position: 54% center !important;
-    mask-image: linear-gradient(90deg, transparent 0%, #000 12%, #000 100%) !important;
-  }
-  .intro-copy {
-    left: 20px !important;
-    width: 49% !important;
-    max-width: 49% !important;
-    top: 51% !important;
-  }
-  .intro-kicker { font-size: .46rem !important; letter-spacing: .1em !important; line-height: 1.5; }
-  .intro-title { font-size: clamp(2.1rem, 7vw, 3.6rem) !important; line-height: .88 !important; }
-  .intro-signature { font-size: clamp(1.65rem, 5.8vw, 2.45rem) !important; margin: .65rem 0 .8rem !important; }
-  .intro-description { font-size: .76rem !important; line-height: 1.5 !important; max-width: 13rem; }
-  .intro-enter { font-size: .72rem !important; gap: .45rem; padding: .38rem .7rem .38rem .38rem !important; }
-  .intro-enter-icon { width: 1.5rem !important; height: 1.5rem !important; }
-  .intro-stamp { right: 3% !important; top: 20% !important; font-size: .42rem !important; }
-  .intro-redline { right: 8% !important; top: 26% !important; width: 18vw !important; }
-  .intro-bottom { left: 20px !important; right: 14px !important; bottom: calc(14px + env(safe-area-inset-bottom,0px)) !important; font-size: .42rem !important; letter-spacing: .08em !important; }
+  .intro-top { align-self: start; }
+  .intro-brand { font-size: 1rem !important; }
+  .intro-index { display: none !important; }
+  .intro-art { inset: 0 0 0 43% !important; }
+  .intro-art img { object-position: 56% center !important; mask-image: linear-gradient(90deg, transparent 0%, rgba(0,0,0,.9) 10%, #000 28%) !important; }
+  .intro-art:after { background: linear-gradient(90deg, #080808 0%, rgba(8,8,8,.45) 22%, rgba(8,8,8,.03) 70%), linear-gradient(0deg, rgba(8,8,8,.42), transparent 24%, transparent 75%, rgba(8,8,8,.16)) !important; }
+  .intro-copy { grid-column: 1; width: 100% !important; max-width: none !important; padding: 16px 0; }
+  .intro-kicker { font-size: clamp(.42rem, 1.6vw, .54rem) !important; letter-spacing: .08em !important; margin-bottom: 12px !important; }
+  .intro-title { font-size: clamp(2rem, 7.5vw, 3.2rem) !important; line-height: .9 !important; letter-spacing: -.08em !important; }
+  .intro-signature { font-size: clamp(1.45rem, 5.5vw, 2.15rem) !important; margin: 12px 0 14px !important; transform: rotate(-4deg); }
+  .intro-description { font-size: clamp(.68rem, 2.7vw, .82rem) !important; line-height: 1.5 !important; max-width: 23ch !important; margin-bottom: 16px !important; }
+  .intro-enter { font-size: .7rem !important; gap: .42rem; padding: .35rem .7rem .35rem .35rem !important; }
+  .intro-enter-icon { width: 1.45rem !important; height: 1.45rem !important; }
+  .intro-stamp { top: 24% !important; right: 3% !important; font-size: .38rem !important; letter-spacing: .12em !important; }
+  .intro-redline { top: 30% !important; right: 4% !important; width: 17vw !important; }
+  .intro-bottom { padding-top: 10px; font-size: .4rem !important; letter-spacing: .06em !important; }
   .intro-scroll { display: none !important; }
 }
-@media (max-height: 520px) {
-  .intro-copy { top: 53% !important; }
-  .intro-kicker { margin-bottom: .45rem !important; }
-  .intro-signature { margin: .35rem 0 .5rem !important; }
-  .intro-description { margin-bottom: .65rem !important; }
-  .intro-bottom { bottom: 10px !important; }
+/* Very narrow devices: reserve enough width for the copy; prevent clipping */
+@media (max-width: 360px) {
+  .js .intro-screen { grid-template-columns: minmax(0, 1.04fr) minmax(0, .66fr); padding-left: 14px !important; padding-right: 14px !important; }
+  .intro-art { inset: 0 0 0 46% !important; }
+  .intro-title { font-size: clamp(1.85rem, 7.4vw, 2.35rem) !important; }
+  .intro-signature { font-size: 1.4rem !important; }
+  .intro-description { font-size: .66rem !important; }
+}
+/* Landscape phones: use more width and keep all controls visible */
+@media (max-height: 520px) and (orientation: landscape) {
+  .js .intro-screen { padding: 12px 26px !important; grid-template-columns: minmax(0, 1fr) minmax(0, .95fr); }
+  .intro-copy { padding: 4px 0; }
+  .intro-kicker { margin-bottom: 7px !important; }
+  .intro-title { font-size: clamp(2.3rem, 6vw, 4rem) !important; }
+  .intro-signature { font-size: clamp(1.5rem, 3.5vw, 2.5rem) !important; margin: 8px 0 !important; }
+  .intro-description { font-size: .72rem !important; margin-bottom: 8px !important; }
+  .intro-bottom { padding-top: 4px; }
 }

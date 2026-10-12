@@ -592,3 +592,59 @@ body[data-theme="light"] .project-cta:hover{color:#fff!important}
 
 /* Footer wordmark edge spacing */
 .foot .wordmark{padding-inline:.12em;overflow:visible;line-height:1.08}
+
+
+/* V5: fix Android Chrome "Desktop site" using the physical screen size class */
+html.compact-device { -webkit-text-size-adjust: 100%; }
+html.compact-device body { overflow-x: clip; }
+html.compact-device .js .intro-screen {
+  width: 100%; min-width: 0; height: 100vh; height: 100dvh; min-height: 0;
+  padding: max(22px, env(safe-area-inset-top)) 24px max(24px, env(safe-area-inset-bottom));
+}
+html.compact-device .intro-top { left: 24px; right: 24px; top: 24px; }
+html.compact-device .intro-brand { font-size: clamp(1.15rem, 4vw, 1.65rem); }
+html.compact-device .intro-index { display: none; }
+html.compact-device .intro-art { inset: 0 -3% 0 20%; opacity: .86; }
+html.compact-device .intro-art img {
+  width: 100%; height: 100%; object-fit: cover; object-position: 58% center;
+  mask-image: linear-gradient(90deg, transparent 0%, #000 18%, #000 100%);
+}
+html.compact-device .intro-art:after {
+  background: linear-gradient(90deg, #080808 0%, rgba(8,8,8,.84) 24%, rgba(8,8,8,.18) 72%, rgba(8,8,8,.22) 100%),
+              linear-gradient(0deg, rgba(8,8,8,.56), transparent 45%, rgba(8,8,8,.2) 100%);
+}
+html.compact-device .intro-copy {
+  left: 5%; right: auto; top: 50%; transform: translateY(-42%);
+  width: min(74%, 520px); max-width: 74%;
+}
+html.compact-device .intro-kicker { font-size: clamp(.62rem, 2vw, .82rem); letter-spacing: .14em; margin-bottom: 1.2rem; }
+html.compact-device .intro-title { font-size: clamp(3.4rem, 10vw, 6.8rem); line-height: .86; letter-spacing: -.085em; }
+html.compact-device .intro-signature { font-size: clamp(2rem, 6vw, 3.4rem); line-height: 1.05; margin: .85rem 0 1rem; }
+html.compact-device .intro-description { font-size: clamp(.95rem, 2.5vw, 1.2rem); line-height: 1.55; max-width: 20rem; margin-bottom: 1.1rem; }
+html.compact-device .intro-enter { font-size: clamp(.9rem, 2.2vw, 1.05rem); padding: .5rem 1.05rem .5rem .5rem; }
+html.compact-device .intro-enter-icon { width: 2rem; height: 2rem; }
+html.compact-device .intro-bottom { left: 5%; right: 5%; bottom: max(18px, env(safe-area-inset-bottom)); font-size: .58rem; letter-spacing: .14em; }
+html.compact-device .intro-scroll { display: none; }
+
+/* Content remains within the real phone width even if the browser reports a desktop viewport. */
+html.compact-device .wrap { width: calc(100% - 40px); max-width: 100%; }
+html.compact-device .nav-in { min-width: 0; gap: 12px; }
+html.compact-device .nav nav { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: .7rem; }
+html.compact-device .nav nav a { font-size: .82rem; }
+html.compact-device .hero { padding-top: 3.2rem; padding-bottom: 3.5rem; }
+html.compact-device .hero h1 { font-size: clamp(3.4rem, 14vw, 6.2rem); line-height: .86; letter-spacing: -.085em; overflow-wrap: anywhere; }
+html.compact-device .hero-grid { grid-template-columns: minmax(0, 1fr); gap: 1.8rem; }
+html.compact-device .photo { width: min(100%, 340px); max-width: 100%; justify-self: start; }
+html.compact-device .row, html.compact-device .webprev { grid-template-columns: minmax(0, 1fr); }
+html.compact-device .wordmark { display: flex; flex-wrap: nowrap; width: 100%; font-size: clamp(2.4rem, 13vw, 5rem); letter-spacing: -.06em; padding-inline: .04em; }
+html.compact-device .wordmark span { min-width: 0; }
+html.compact-device img, html.compact-device video, html.compact-device iframe { max-width: 100%; }
+html.compact-device * { min-width: 0; }
+html.compact-device .foot-in { flex-wrap: wrap; gap: .8rem; }
+
+@media (orientation: landscape) {
+  html.compact-device .intro-copy { width: min(62%, 560px); max-width: 62%; top: 51%; }
+  html.compact-device .intro-title { font-size: clamp(2.5rem, 7.4vw, 5rem); }
+  html.compact-device .intro-signature { font-size: clamp(1.6rem, 4vw, 2.5rem); }
+  html.compact-device .intro-description { font-size: clamp(.82rem, 1.8vw, 1rem); }
+}

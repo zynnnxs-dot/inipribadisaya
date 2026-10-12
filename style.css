@@ -627,14 +627,23 @@ html.compact-device .intro-bottom { left: 5%; right: 5%; bottom: max(18px, env(s
 html.compact-device .intro-scroll { display: none; }
 
 /* Content remains within the real phone width even if the browser reports a desktop viewport. */
-html.compact-device .wrap { width: calc(100% - 40px); max-width: 100%; }
+html.compact-device .wrap { width: min(calc(100% - 40px), 680px); max-width: 680px; margin-inline: auto; padding-inline: 0; }
+html.compact-device .hero, html.compact-device .about, html.compact-device #skill,
+html.compact-device #desain, html.compact-device #foto, html.compact-device .contact,
+html.compact-device .foot { width: 100%; }
+html.compact-device .hero-grid { grid-template-columns: minmax(0, 1fr); gap: 1.5rem; }
+html.compact-device .intro { max-width: 100%; }
+html.compact-device .photo { width: min(100%, 340px); max-width: 340px; justify-self: center; margin-inline: auto; }
+html.compact-device .about-t { max-width: 30ch; }
+html.compact-device .nav-in { width: min(calc(100% - 40px), 680px); margin-inline: auto; padding-inline: 0; }
+html.compact-device .foot-in { width: min(calc(100% - 40px), 680px); margin-inline: auto; padding-inline: 0; }
 html.compact-device .nav-in { min-width: 0; gap: 12px; }
 html.compact-device .nav nav { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: .7rem; }
 html.compact-device .nav nav a { font-size: .82rem; }
 html.compact-device .hero { padding-top: 3.2rem; padding-bottom: 3.5rem; }
 html.compact-device .hero h1 { font-size: clamp(3.4rem, 14vw, 6.2rem); line-height: .86; letter-spacing: -.085em; overflow-wrap: anywhere; }
 html.compact-device .hero-grid { grid-template-columns: minmax(0, 1fr); gap: 1.8rem; }
-html.compact-device .photo { width: min(100%, 340px); max-width: 100%; justify-self: start; }
+html.compact-device .photo { width: min(100%, 340px); max-width: 340px; justify-self: center; margin-inline: auto; }
 html.compact-device .row, html.compact-device .webprev { grid-template-columns: minmax(0, 1fr); }
 html.compact-device .wordmark { display: flex; flex-wrap: nowrap; width: 100%; font-size: clamp(2.4rem, 13vw, 5rem); letter-spacing: -.06em; padding-inline: .04em; }
 html.compact-device .wordmark span { min-width: 0; }

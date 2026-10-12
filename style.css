@@ -623,3 +623,46 @@ body[data-theme="light"] .project-cta:hover{color:#fff!important}
 /* Footer wordmark: prevent the first N from being clipped by its own oversized line box. */
 .foot .wordmark{overflow:visible;padding:.08em .08em .12em;box-sizing:content-box;line-height:.95;}
 .foot .wordmark span:first-child{padding-left:.035em;}
+
+
+/* V2 verified fix: footer NDREXAN wordmark clipping */
+.foot { overflow: visible !important; }
+.foot .wordmark {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  overflow: visible !important;
+  width: auto;
+  max-width: 100%;
+  box-sizing: border-box;
+  padding: clamp(1.5rem, 4vw, 3rem) .10em .16em .14em !important;
+  margin-left: -.02em;
+  line-height: 1.08 !important;
+  letter-spacing: -.025em;
+}
+.foot .wordmark span:first-child {
+  margin-left: .015em;
+  padding-left: .025em;
+}
+@media (max-width: 700px) {
+  .foot .wordmark {
+    font-size: min(15vw, 150px);
+    padding-left: .16em !important;
+    padding-right: .08em !important;
+    letter-spacing: -.02em;
+  }
+}
+
+/* Desktop-site-on-phone: keep intro composition inside the available viewport */
+@media (min-width: 701px) and (max-width: 900px) {
+  .js .intro-screen { padding-left: 26px; padding-right: 26px; }
+  .intro-top { gap: 10px; }
+  .intro-nav { gap: 10px; }
+  .intro-nav a { font-size: .62rem; letter-spacing: 0; }
+  .intro-index { display: none; }
+  .intro-copy { left: 28px; width: 72%; max-width: 72%; }
+  .intro-title { font-size: clamp(4rem, 10vw, 6.5rem); }
+  .intro-signature { font-size: clamp(2.2rem, 5vw, 3.3rem); }
+  .intro-art { inset: 0 -8% 0 20%; }
+  .intro-bottom { left: 28px; right: 24px; }
+}

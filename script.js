@@ -98,10 +98,6 @@ if (!reduce) {
     s.style.setProperty("--i", i);
     logo.appendChild(s);
   });
-  setTimeout(() => setInterval(() => {
-    logo.classList.add("wave");
-    setTimeout(() => logo.classList.remove("wave"), 800);
-  }, 2500), 3200);
 
   // Elemen yang muncul saat terlihat (delay bertingkat)
   const rv = (sel, base = 0, step = .1, cap = .4) => document.querySelectorAll(sel).forEach((el, i) => {
@@ -123,23 +119,6 @@ if (!reduce) {
   rv(".mail", .1);
   rv(".socials", .2);
 
-  // Kalimat "Tentang saya": kata-kata menyala satu per satu
-  const at = document.querySelector(".about-t");
-  if (at) {
-    const words = at.textContent.trim().split(/\s+/);
-    at.setAttribute("aria-label", words.join(" "));
-    at.textContent = "";
-    words.forEach((w, i) => {
-      const sp = document.createElement("span");
-      sp.className = "w";
-      sp.textContent = w;
-      sp.setAttribute("aria-hidden", "true");
-      sp.style.setProperty("--i", i);
-      at.appendChild(sp);
-      at.appendChild(document.createTextNode(" "));
-    });
-  }
-
   const targets = document.querySelectorAll(".rv, h1, .wordmark, .about-t");
   const reveal = () => {
     if (!("IntersectionObserver" in window)) { targets.forEach(t => t.classList.add("in")); return; }
@@ -149,10 +128,10 @@ if (!reduce) {
     targets.forEach(t => io.observe(t));
   };
 
-  // Loading 3 detik: keluar di 2,3 dtk (0,7 dtk), konten mulai muncul bersamaan
+  // Intro singkat supaya pengunjung cepat melihat isi portofolio.
   const loader = document.getElementById("loader");
-  setTimeout(() => { loader.classList.add("exit"); logo.classList.add("in"); document.getElementById("photo").classList.add("in"); reveal(); }, 2300);
-  setTimeout(() => { loader.remove(); root.classList.remove("loading"); }, 3000);
+  setTimeout(() => { loader.classList.add("exit"); logo.classList.add("in"); document.getElementById("photo").classList.add("in"); reveal(); }, 650);
+  setTimeout(() => { loader.remove(); root.classList.remove("loading"); }, 1050);
 
   // Galeri: gambar bergeser dan miring tipis saat digeser
   document.querySelectorAll(".gallery").forEach(strip => {

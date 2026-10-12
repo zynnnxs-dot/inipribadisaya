@@ -318,3 +318,58 @@ body[data-theme="light"]{--k:var(--paper);--w:#fff;--g:#77756f;--l:rgba(35,31,22
 body[data-theme="light"]:before{opacity:.16;background-image:radial-gradient(rgba(35,31,22,.18) .5px,transparent .5px)}body[data-theme="light"] .nav{background:rgba(247,246,242,.86)}body[data-theme="light"] .photo img{filter:grayscale(.45)}body[data-theme="light"] .marquee{background:#b48a43;color:#fff}body[data-theme="light"] #skill{background:#f0eee7}body[data-theme="light"] .browser{box-shadow:0 24px 60px rgba(70,55,25,.1)}body[data-theme="light"] .screen{background:#f2f0e9}body[data-theme="light"] .bar{background:#fff}body[data-theme="light"] .road svg{stroke:#26231c}body[data-theme="light"] .road svg path,body[data-theme="light"] .road svg circle{fill:#f7f6f2}body[data-theme="light"] .foot{background:#eeece5}body[data-theme="light"] .wordmark span{-webkit-text-stroke:1px rgba(45,39,27,.35)}body[data-theme="light"] .js .wordmark.in span{color:var(--gold)}body[data-theme="light"] .snd{background:#fff;color:#222;border-color:var(--l)}
 @media(max-width:700px){.wrap{width:calc(100% - 36px)}.nav-in{min-height:60px}.theme-toggle{padding:9px 11px}.hero{padding-top:4.5rem}.hero h1{font-size:clamp(4rem,18vw,7.2rem);margin-bottom:2.8rem}.hero-grid{grid-template-columns:1fr;gap:2.2rem}.statement{font-size:clamp(2rem,8vw,3rem)}.photo{justify-self:start;width:min(76%,330px);aspect-ratio:4/4.6}.facts{grid-template-columns:1fr;gap:1.2rem}.about-t{font-size:clamp(1.35rem,6vw,1.8rem)}#skill .row{grid-template-columns:1fr;gap:.5rem;padding:1.3rem 0}.webprev{grid-template-columns:1fr;gap:2rem}.g{min-width:78vw;width:78vw}.arrow{width:38px;height:38px}.contact h2.big{font-size:clamp(3rem,13vw,5rem)}.mail{font-size:.86rem;overflow-wrap:anywhere}.wordmark{font-size:16vw}}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;animation-duration:.01ms!important;transition-duration:.01ms!important}}
+
+
+/* ===== Intro refresh: lebih cepat, halus, dan tidak terlalu teatrikal ===== */
+.js .loader { opacity: 1; transform: none; transition: opacity .38s ease; }
+.js .loader.exit { opacity: 0; transform: none; pointer-events: none; }
+.loader-t span { animation-duration: .42s; animation-delay: calc(var(--i) * .035s); }
+.js .nav-in { animation: nd .48s ease .18s backwards; }
+.js h1 .ch { transition-duration: .52s; transition-delay: calc(var(--i) * .035s); }
+.js .rv { transform: translateY(14px); transition-duration: .52s; }
+.js .g.rv { transform: translateY(14px); }
+.js .photo { clip-path: none; opacity: 0; transform: translateY(12px); transition: opacity .55s ease .12s, transform .55s ease .12s; }
+.js .photo.in { opacity: 1; transform: none; }
+.js .photo img { transform: none; transition: filter .3s ease, transform .3s ease-out; }
+.js .about .w { opacity: 1; }
+@media (prefers-reduced-motion: reduce) { .js .loader, .js .nav-in, .js h1 .ch, .js .rv, .js .photo, .js .photo img { animation: none !important; transition: none !important; transform: none !important; opacity: 1 !important; clip-path: none !important; } }
+
+
+/* ===== V3 polish: hero identity + featured project ===== */
+.hero-title-wrap{position:relative;margin-bottom:clamp(2.5rem,7vw,5rem)}
+.hero-title-wrap .hero h1,.hero-title-wrap h1{margin-bottom:0}
+.hero-signature{display:block;width:max-content;max-width:100%;margin:.8rem 0 0 auto;font:600 clamp(1.7rem,4vw,3.4rem)/.9 var(--signature);color:var(--accent);transform:rotate(-5deg);letter-spacing:-.025em}
+.hero-grid{margin-top:clamp(1.7rem,4vw,3rem)}
+.hero .statement{max-width:15ch}
+.hero .photo{box-shadow:16px 16px 0 var(--accent-soft)}
+.links a{display:inline-flex;align-items:center;gap:.5rem;transition:color .2s,transform .2s}
+.links a:first-child:after{content:'↗';font-size:1.05em;color:var(--accent)}
+.links a:hover{transform:translateY(-2px)}
+#contoh{position:relative;overflow:hidden}
+#contoh .section-kicker,.project-index{display:flex;align-items:center;gap:12px;color:var(--accent);font-size:.68rem;font-weight:800;letter-spacing:.16em;margin:0 0 1rem}
+.section-kicker span,.project-index span{color:var(--g);font-weight:600}
+#contoh h2{font-size:clamp(2.8rem,8vw,6.5rem);margin-bottom:clamp(2rem,5vw,3.5rem)}
+.heading-dot{color:var(--accent)}
+#contoh .webprev{grid-template-columns:minmax(0,.78fr) minmax(0,1.22fr);gap:clamp(2rem,7vw,6rem)}
+.wp-info h3{font-size:clamp(2.6rem,6vw,5rem);line-height:.95;margin-bottom:1rem}
+.wp-info p:not(.project-index):not(.project-tags){max-width:42ch;font-size:.97rem}
+.project-tags{display:flex;gap:7px;flex-wrap:wrap;margin:0 0 1.5rem}
+.project-tags span{border:1px solid var(--l);border-radius:999px;padding:6px 9px;font-size:.62rem;letter-spacing:.07em;color:var(--g)}
+.project-cta{display:inline-flex;align-items:center;gap:1.5rem!important;padding:13px 17px;border:1px solid var(--accent)!important;border-radius:3px;transition:background .2s,color .2s,transform .2s}
+.project-cta span{font-size:1.15rem}.project-cta:hover{background:var(--accent);color:#fff!important;transform:translateY(-2px)}
+.browser{border-radius:8px;transform:translateY(0);transition:transform .35s,box-shadow .35s}
+.browser:hover{transform:translateY(-5px);box-shadow:0 34px 85px rgba(0,0,0,.32)}
+#desain h2,#foto h2,#motivator h2{display:flex;align-items:baseline;gap:.05em}
+.contact-kicker{color:var(--accent);font-size:.7rem;letter-spacing:.18em;font-weight:800;margin:0 0 1.5rem}
+.contact-note{max-width:38ch;color:var(--g);margin:0 0 1.7rem;font-size:1rem}
+.contact h2.big{max-width:12ch}
+.contact-script{font-family:var(--signature);font-weight:600;letter-spacing:-.02em;color:var(--accent);font-size:1.05em}
+.mail{display:inline-flex;align-items:center;gap:.65rem;padding-bottom:7px;border-bottom:1px solid var(--accent);text-decoration:none;word-break:normal}
+.mail:hover{border-bottom-width:3px}
+body[data-theme="light"] .hero .photo{box-shadow:16px 16px 0 var(--gold-soft)}
+body[data-theme="light"] .project-cta:hover{color:#fff!important}
+@media(max-width:700px){
+ .hero-title-wrap{margin-bottom:2.6rem}.hero-title-wrap h1{font-size:clamp(4rem,18vw,7.2rem)}.hero-signature{font-size:2rem;margin-top:1rem}
+ #contoh .webprev{grid-template-columns:1fr;gap:2rem}#contoh h2{font-size:clamp(2.7rem,13vw,4.5rem)}
+ .wp-info h3{font-size:3.4rem}.project-tags span{font-size:.58rem}.contact-note{max-width:32ch}
+}

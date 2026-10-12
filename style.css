@@ -560,3 +560,66 @@ body[data-theme="light"] .project-cta:hover{color:#fff!important}
 }
 @media(max-width:380px){.intro-copy{top:43%}.intro-title{font-size:14.5vw}.intro-signature{font-size:9.5vw}.intro-description{font-size:.82rem}.intro-art{inset:22% -34% 10% 0}}
 @media(prefers-reduced-motion:reduce){.js .intro-screen{transition:none}.intro-enter{transition:none}}
+
+
+/* ===== Reference-inspired cinematic intro + responsive desktop-site fix ===== */
+.js .intro-screen{box-sizing:border-box;width:100%;height:100vh;height:100dvh;min-height:540px;padding:34px clamp(28px,6.3vw,100px);background:#070707}
+.intro-top{width:100%;min-height:42px;display:flex;align-items:center;justify-content:space-between;gap:24px}
+.intro-brand{flex:0 0 auto;text-decoration:none;color:#f7f5f2;font-size:clamp(1.3rem,1.8vw,1.8rem);letter-spacing:-.075em;font-weight:900}
+.intro-nav{display:flex;align-items:center;justify-content:center;gap:clamp(16px,3vw,46px);margin-left:auto;margin-right:auto}
+.intro-nav a{position:relative;color:#f3f0ee;text-decoration:none;font-size:clamp(.65rem,.85vw,.83rem);font-weight:600;letter-spacing:.035em;white-space:nowrap;transition:color .2s}
+.intro-nav a:first-child,.intro-nav a:hover{color:#ed1231}
+.intro-nav a:first-child:after{content:"";position:absolute;left:0;right:0;bottom:-13px;height:2px;background:#ed1231}
+.intro-index{font-size:.56rem;letter-spacing:.16em;white-space:nowrap}
+.intro-art{inset:0 0 0 25%;z-index:0;overflow:hidden}
+.intro-art img{object-position:57% 40%;opacity:.94;filter:contrast(1.08) saturate(.88);mask-image:linear-gradient(90deg,transparent 0%,rgba(0,0,0,.35) 10%,#000 34%,#000 100%)}
+.intro-art:after{background:linear-gradient(90deg,#070707 0%,rgba(7,7,7,.92) 8%,rgba(7,7,7,.43) 38%,rgba(7,7,7,.06) 66%,rgba(7,7,7,.15) 100%),linear-gradient(0deg,rgba(7,7,7,.28),transparent 28%,transparent 78%,rgba(7,7,7,.18))}
+.intro-grain{z-index:1;background:radial-gradient(ellipse at 72% 47%,rgba(190,0,25,.18),transparent 46%),linear-gradient(90deg,#070707 0%,rgba(7,7,7,.12) 72%,rgba(7,7,7,.1) 100%)}
+.intro-copy{left:clamp(28px,6.3vw,100px);top:51%;transform:translateY(-43%);width:min(64vw,850px);max-width:68%;}
+.intro-kicker{font-size:clamp(.62rem,.9vw,.84rem);letter-spacing:.28em;margin-bottom:1.35rem}
+.intro-title{font-size:clamp(5.2rem,11.5vw,11.5rem);line-height:.82;letter-spacing:-.085em;max-width:100%;}
+.intro-signature{font-size:clamp(2.7rem,5.1vw,5.4rem);margin:.45rem 0 1rem;white-space:nowrap;text-shadow:0 3px 22px rgba(0,0,0,.5)}
+.intro-description{font-size:clamp(.9rem,1.15vw,1.08rem);max-width:26rem;margin-bottom:1.55rem;line-height:1.65}
+.intro-enter{padding:.62rem 1.3rem .62rem .62rem;box-shadow:0 6px 28px rgba(237,18,49,.12)}
+.intro-stamp{top:21%;right:5%;font-size:.7rem;letter-spacing:.24em}
+.intro-bottom{left:clamp(28px,6.3vw,100px);right:clamp(28px,5.5vw,84px);bottom:clamp(26px,4vw,48px);font-size:.58rem;letter-spacing:.2em}
+.intro-socials{display:flex;align-items:center;gap:17px;min-width:0}
+.intro-socials a{color:#eee;text-decoration:none;font-size:1.35rem;line-height:1;transition:color .2s}
+.intro-socials a:hover{color:#ed1231}
+.intro-social-rule{display:block;width:28px;height:1px;background:#eee;margin:0 10px}
+.intro-scroll{gap:.75rem;letter-spacing:.18em}
+.intro-scroll i{height:58px}
+/* Keep all oversized lettering inside the screen when Chrome requests Desktop site on a phone. */
+@media(min-width:701px) and (max-width:1100px){
+ .js .intro-screen{padding:24px 34px;min-height:500px}
+ .intro-top{gap:14px}.intro-nav{gap:clamp(10px,1.7vw,20px)}.intro-nav a{font-size:clamp(.58rem,.9vw,.72rem)}
+ .intro-index{font-size:.48rem;letter-spacing:.1em}
+ .intro-art{inset:0 -4% 0 23%}.intro-art img{object-position:58% center}
+ .intro-copy{left:34px;max-width:72%;width:72%;top:51%}
+ .intro-kicker{font-size:.6rem;letter-spacing:.19em;margin-bottom:1rem}
+ .intro-title{font-size:clamp(4.3rem,10.3vw,7.3rem);letter-spacing:-.09em}
+ .intro-signature{font-size:clamp(2.3rem,5.2vw,3.8rem);margin:.5rem 0 .9rem}
+ .intro-description{font-size:.88rem;max-width:22rem;margin-bottom:1rem}
+ .intro-bottom{left:34px;right:28px;bottom:24px}.intro-socials{gap:12px}.intro-socials a{font-size:1.1rem}.intro-social-rule{margin:0 4px;width:20px}
+ .intro-scroll i{height:35px}
+}
+@media(max-width:700px){
+ .js .intro-screen{height:100vh;height:100dvh;min-height:600px;padding:22px 22px calc(24px + env(safe-area-inset-bottom,0px))}
+ .intro-top{min-height:36px;gap:8px}.intro-nav{display:none}.intro-index{font-size:.5rem;letter-spacing:.1em}
+ .intro-art{inset:12% -22% 8% 0;opacity:.83}.intro-art img{object-position:58% center;mask-image:linear-gradient(180deg,transparent 0%,#000 15%,#000 76%,transparent 100%)}
+ .intro-art:after{background:linear-gradient(180deg,#070707 0%,rgba(7,7,7,.14) 28%,rgba(7,7,7,.08) 57%,#070707 100%),linear-gradient(90deg,rgba(7,7,7,.25),transparent 75%)}
+ .intro-copy{left:22px;right:22px;top:48%;width:auto;max-width:none;transform:translateY(-20%)}
+ .intro-kicker{font-size:.53rem;letter-spacing:.14em;margin-bottom:.9rem}
+ .intro-title{font-size:clamp(3.2rem,14.8vw,5.8rem);line-height:.88;letter-spacing:-.09em;white-space:nowrap}
+ .intro-signature{font-size:clamp(2.15rem,9.6vw,3.5rem);margin:.72rem 0 .9rem;white-space:normal}
+ .intro-description{font-size:.88rem;line-height:1.55;max-width:18rem;margin-bottom:1.1rem}
+ .intro-enter{font-size:.85rem;padding:.48rem .95rem .48rem .48rem}.intro-enter-icon{width:1.8rem;height:1.8rem}
+ .intro-stamp{top:25%;right:5%;font-size:.52rem;letter-spacing:.15em}.intro-redline{top:30%;right:10%;width:30vw}
+ .intro-bottom{left:22px;right:22px;bottom:calc(20px + env(safe-area-inset-bottom,0px));font-size:.48rem;letter-spacing:.1em}
+ .intro-socials{gap:10px;flex-wrap:wrap}.intro-socials a{font-size:1.05rem}.intro-social-rule{width:16px;margin:0 2px}.intro-socials>span:last-child{font-size:.42rem;letter-spacing:.08em}
+ .intro-scroll{display:none}
+}
+@media(max-width:380px){.intro-copy{top:46%}.intro-title{font-size:14vw}.intro-signature{font-size:9vw}.intro-description{font-size:.8rem}.intro-socials>span:last-child{display:none}}
+/* Footer wordmark: prevent the first N from being clipped by its own oversized line box. */
+.foot .wordmark{overflow:visible;padding:.08em .08em .12em;box-sizing:content-box;line-height:.95;}
+.foot .wordmark span:first-child{padding-left:.035em;}

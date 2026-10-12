@@ -1,8 +1,17 @@
-NDREXAN WEB — V3 UI POLISH
+NDREXAN WEB — V7 CONTACT + PORTFOLIO UPGRADE
 
-Upload isi folder ndrexan-web ke root repository GitHub (index.html, style.css, script.js, dan seluruh aset).
-Jangan upload folder ZIP-nya sebagai pengganti file website; ekstrak dahulu.
+Isi ZIP ini adalah folder ndrexan-web. Upload semua isi folder ndrexan-web ke root repository GitHub, menimpa file lama. Pastikan index.html, style.css, script.js, dan aset gambar/audio berada di root repository.
 
-Update desain: hero dengan aksen signature, featured project ECObike lebih kuat, label kategori proyek, tombol CTA yang jelas, dan bagian kontak yang lebih rapi. Intro/logo berulang dan slideshow The Motivator tetap dipertahankan.
+Yang dipertahankan/ditambahkan:
+- Tema hitam-merah dengan opsi light mode yang sudah ada.
+- Intro dan animasi logo berulang tetap dipertahankan.
+- Urutan section tetap: Hero, Tentang, project/Desain, Fotografi, The Motivator, Kontak.
+- Filter kategori Desain dan Fotografi.
+- Foto fullscreen dengan navigasi sebelumnya/berikutnya.
+- Animasi reveal saat scroll dan transisi halus.
+- Tombol WhatsApp diarahkan ke 6285715559734 dengan pesan awal.
+- Email kontak: andrearshavinkece73@gmail.com. Instagram yang sudah ada tetap dipertahankan (@whytakefoto).
 
-Website statis HTML/CSS/JS; tidak membutuhkan build command.
+CATATAN FOTO HERO: file foto.jpg saat ini tetap memakai foto yang ada. Untuk menggantinya, kirim foto baru lalu ganti foto.jpg dengan foto pilihan; nama file harus tetap foto.jpg agar tidak perlu mengubah HTML.
+
+Website statis HTML/CSS/JS, tidak membutuhkan build command.

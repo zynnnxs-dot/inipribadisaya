@@ -35,16 +35,46 @@ if (!reduce) {
   } else car.classList.add("go");
 }
 
-// Galeri: klik untuk memperbesar
+// Galeri: fullscreen dengan navigasi foto
 const lb = document.getElementById("lb");
 const lbImg = lb.querySelector("img");
-document.querySelectorAll(".shot").forEach(btn => btn.addEventListener("click", () => {
+const lbCaption = document.getElementById("lbCaption");
+let activeShots = [];
+let activeShotIndex = 0;
+function openShot(btn) {
+  activeShots = [...document.querySelectorAll(".shot")].filter(b => !b.closest(".g")?.hidden);
+  activeShotIndex = Math.max(0, activeShots.indexOf(btn));
+  showShot(activeShotIndex);
+  if (!lb.open) lb.showModal();
+}
+function showShot(index) {
+  if (!activeShots.length) return;
+  activeShotIndex = (index + activeShots.length) % activeShots.length;
+  const btn = activeShots[activeShotIndex];
   lbImg.src = btn.dataset.src;
-  lbImg.alt = btn.dataset.alt;
-  lb.showModal();
-}));
+  lbImg.alt = btn.dataset.alt || "Foto portofolio";
+  lbCaption.textContent = btn.dataset.alt || "";
+}
+document.querySelectorAll(".shot").forEach(btn => btn.addEventListener("click", () => openShot(btn)));
 document.getElementById("lbClose").addEventListener("click", () => lb.close());
+document.getElementById("lbPrev").addEventListener("click", () => showShot(activeShotIndex - 1));
+document.getElementById("lbNext").addEventListener("click", () => showShot(activeShotIndex + 1));
 lb.addEventListener("click", e => { if (e.target === lb) lb.close(); });
+lb.addEventListener("keydown", e => {
+  if (e.key === "ArrowLeft") { e.preventDefault(); showShot(activeShotIndex - 1); }
+  if (e.key === "ArrowRight") { e.preventDefault(); showShot(activeShotIndex + 1); }
+});
+
+// Filter kategori per galeri
+ document.querySelectorAll(".gallery-filters").forEach(group => {
+  const strip = document.getElementById(group.dataset.filterTarget);
+  group.querySelectorAll(".filter-btn").forEach(btn => btn.addEventListener("click", () => {
+    group.querySelectorAll(".filter-btn").forEach(b => { b.classList.toggle("is-active", b === btn); b.setAttribute("aria-pressed", String(b === btn)); });
+    strip.querySelectorAll(".g").forEach(card => { card.hidden = btn.dataset.filter !== "all" && card.dataset.category !== btn.dataset.filter; });
+    strip.scrollTo({ left: 0, behavior: reduce ? "auto" : "smooth" });
+    updateArrows(strip);
+  }));
+});
 
 // Panah geser galeri
 document.querySelectorAll(".arrow").forEach(btn => {

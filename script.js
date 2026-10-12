@@ -158,10 +158,27 @@ if (!reduce) {
     targets.forEach(t => io.observe(t));
   };
 
-  // Intro singkat supaya pengunjung cepat melihat isi portofolio.
+  // Intro cinematic: menggantikan animasi huruf NDREXAN. Bisa dilewati dan otomatis lanjut.
   const loader = document.getElementById("loader");
-  setTimeout(() => { loader.classList.add("exit"); logo.classList.add("in"); document.getElementById("photo").classList.add("in"); reveal(); }, 650);
-  setTimeout(() => { loader.remove(); root.classList.remove("loading"); }, 1050);
+  const enterIntro = document.getElementById("introEnter");
+  let introClosed = false;
+  const closeIntro = () => {
+    if (introClosed || !loader) return;
+    introClosed = true;
+    loader.classList.add("exit");
+    logo.classList.add("in");
+    const heroPhoto = document.getElementById("photo");
+    if (heroPhoto) heroPhoto.classList.add("in");
+    reveal();
+    root.classList.remove("loading");
+    setTimeout(() => { if (loader.isConnected) loader.remove(); }, 720);
+  };
+  if (enterIntro) enterIntro.addEventListener("click", closeIntro);
+  // Auto lanjut setelah beberapa detik agar intro terasa sinematik, tanpa menahan pengunjung.
+  const introTimer = setTimeout(closeIntro, reduce ? 1200 : 5200);
+  if (loader) loader.addEventListener("click", e => {
+    if (e.target === loader || e.target.classList.contains("intro-art") || e.target.classList.contains("intro-grain")) closeIntro();
+  });
 
   // Galeri: gambar bergeser dan miring tipis saat digeser
   document.querySelectorAll(".gallery").forEach(strip => {

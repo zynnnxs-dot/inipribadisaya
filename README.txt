@@ -15,3 +15,10 @@ Yang dipertahankan/ditambahkan:
 CATATAN FOTO HERO: file foto.jpg saat ini tetap memakai foto yang ada. Untuk menggantinya, kirim foto baru lalu ganti foto.jpg dengan foto pilihan; nama file harus tetap foto.jpg agar tidak perlu mengubah HTML.
 
 Website statis HTML/CSS/JS, tidak membutuhkan build command.
+
+
+V9 INTRO UPDATE
+- Intro layar penuh sinematik menggantikan animasi huruf NDREXAN lama.
+- Memakai foto profil sebagai visual latar, layout responsif desktop/Android.
+- Tombol Masuk ke portfolio bisa melewati intro; intro juga otomatis selesai setelah sekitar 5,2 detik.
+- Tetap mempertahankan bagian website, animasi logo berulang, tema, galeri, dan kontak.

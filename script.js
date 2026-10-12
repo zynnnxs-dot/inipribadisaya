@@ -1,9 +1,3 @@
-// Detect small physical screens even when Android Chrome is forced into "Desktop site".
-(function () {
-  const smallPhysicalScreen = Math.min(window.screen.width || window.innerWidth, window.screen.height || window.innerHeight) <= 760;
-  if (smallPhysicalScreen) document.documentElement.classList.add("compact-device");
-})();
-
 // Email kontak
 const EMAIL = "andrearshavinkece73@gmail.com";
 document.getElementById("mail").href = "mailto:" + EMAIL;

@@ -1,0 +1,16 @@
+NDREXAN — CREATIVE EXPERIMENTAL REFRESH
+
+Perubahan visual:
+- Navigasi cepat ke Proyek, Desain, Foto, dan Kontak.
+- Hero lebih ekspresif dengan label editorial, foto berbingkai, dan aksen kontras.
+- Grid dekoratif tipis dan label section bernuansa editorial.
+- Skill, featured project, galeri, The Motivator, kontak, dan footer diberi tata visual experimental.
+- Layout responsif untuk layar kecil serta dukungan prefers-reduced-motion.
+- Mode terang/gelap tetap tersedia.
+
+File yang sengaja tidak diubah:
+- admin.html, cms.js, reset-password.html, supabase-admin-setup.sql, vercel.json
+- Seluruh gambar, ikon, audio, dan manifest asli.
+
+Catatan: revisi ini mengubah tampilan front-end utama (index.html dan style.css).
+Sebelum deploy, uji login admin dan koneksi Supabase pada environment milik Anda.

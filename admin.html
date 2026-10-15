@@ -4,7 +4,7 @@
 :root{color-scheme:dark;--bg:#090909;--panel:#141414;--line:#303030;--red:#e33131;--text:#f5f5f5;--muted:#aaa}*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at top right,#291111 0,transparent 34%),var(--bg);color:var(--text);font:16px/1.5 system-ui,sans-serif}main{width:min(850px,100%);margin:auto;padding:24px 16px 60px}.top{display:flex;justify-content:space-between;align-items:center;gap:12px}h1{font-size:clamp(28px,5vw,42px);letter-spacing:-.05em;margin:0}.red{color:var(--red)}p{color:var(--muted)}.panel{background:#111;border:1px solid var(--line);border-radius:18px;padding:20px;margin:18px 0}label{display:block;font-size:13px;color:#ccc;margin:15px 0 6px}input,textarea{width:100%;border:1px solid #393939;background:#090909;color:white;border-radius:10px;padding:12px;font:inherit}textarea{min-height:90px;resize:vertical}button,.link{border:0;border-radius:999px;padding:11px 17px;font-weight:700;cursor:pointer;text-decoration:none;display:inline-block}.primary{background:var(--red);color:white}.secondary,.link{background:#252525;color:white;border:1px solid #444}.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}.hidden{display:none!important}.status{min-height:24px;font-size:14px}.bad{color:#ffaaaa}.small{font-size:12px;color:#888}
 </style></head><body><main>
 <div class="top"><h1>ndrexan<span class="red">.</span> <span style="font-size:14px;letter-spacing:0;color:#aaa">/ ADMIN</span></h1><a class="link" href="./index.html">Lihat website ↗</a></div>
-<p>Panel untuk mengubah teks website. Perubahan disimpan ke Supabase.</p>
+<p>Panel untuk mengubah teks dan foto website. Perubahan disimpan ke Supabase.</p>
 <section class="panel" id="loginPanel"><h2>Masuk admin</h2><form id="loginForm">
 <label for="email">Email</label><input id="email" type="email" autocomplete="username" value="andrearshavinkece73@gmail.com" required>
 <label for="password">Password Supabase</label><input id="password" type="password" autocomplete="current-password" required>
@@ -19,8 +19,83 @@
 <label for="contactNote">Deskripsi kontak</label><textarea id="contactNote" maxlength="500">
 </textarea><label for="emailContent">Email kontak</label><input id="emailContent" type="email" maxlength="180">
 <div class="row" style="margin-top:18px"><button class="primary" type="submit">Simpan perubahan</button><button class="secondary" type="button" id="reload">Muat ulang</button></div>
-<p class="status" id="status" role="status" aria-live="polite"></p><p class="small">Panel ini mengedit teks, bukan foto/galeri/animasi.</p>
-</form></section>
+<p class="status" id="status" role="status" aria-live="polite"></p><p class="small">Teks disimpan melalui form di atas; foto dikelola di bagian Kelola foto.</p>
+</form>
+
+<div class="panel" style="background:#0b0b0b;margin:22px 0 0">
+<h2>Kelola foto</h2>
+<p class="small">Pilih foto dari HP, lihat preview, lalu tekan Upload. Foto langsung tersimpan di Supabase Storage dan dipakai website publik.</p>
+<div id="photoSlots" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px">
+<div style="border:1px solid #303030;border-radius:14px;padding:12px;min-width:0">
+<strong>Foto utama / Hero</strong>
+<img id="preview-hero" alt="Preview Foto utama / Hero" src="foto.jpg" style="display:block;width:100%;height:160px;object-fit:contain;background:#171717;border-radius:9px;margin:10px 0">
+<input id="file-hero" type="file" accept="image/*" style="font-size:13px;padding:8px">
+<button class="primary upload-photo" type="button" data-key="hero" style="margin-top:9px">Upload foto</button>
+<p id="photo-status-hero" class="small" aria-live="polite"></p>
+</div><div style="border:1px solid #303030;border-radius:14px;padding:12px;min-width:0">
+<strong>Desain 1</strong>
+<img id="preview-desain1" alt="Preview Desain 1" src="desain-1.jpg" style="display:block;width:100%;height:160px;object-fit:contain;background:#171717;border-radius:9px;margin:10px 0">
+<input id="file-desain1" type="file" accept="image/*" style="font-size:13px;padding:8px">
+<button class="primary upload-photo" type="button" data-key="desain1" style="margin-top:9px">Upload foto</button>
+<p id="photo-status-desain1" class="small" aria-live="polite"></p>
+</div><div style="border:1px solid #303030;border-radius:14px;padding:12px;min-width:0">
+<strong>Desain 2</strong>
+<img id="preview-desain2" alt="Preview Desain 2" src="desain-2.jpg" style="display:block;width:100%;height:160px;object-fit:contain;background:#171717;border-radius:9px;margin:10px 0">
+<input id="file-desain2" type="file" accept="image/*" style="font-size:13px;padding:8px">
+<button class="primary upload-photo" type="button" data-key="desain2" style="margin-top:9px">Upload foto</button>
+<p id="photo-status-desain2" class="small" aria-live="polite"></p>
+</div><div style="border:1px solid #303030;border-radius:14px;padding:12px;min-width:0">
+<strong>Desain 3</strong>
+<img id="preview-desain3" alt="Preview Desain 3" src="desain-3.jpg" style="display:block;width:100%;height:160px;object-fit:contain;background:#171717;border-radius:9px;margin:10px 0">
+<input id="file-desain3" type="file" accept="image/*" style="font-size:13px;padding:8px">
+<button class="primary upload-photo" type="button" data-key="desain3" style="margin-top:9px">Upload foto</button>
+<p id="photo-status-desain3" class="small" aria-live="polite"></p>
+</div><div style="border:1px solid #303030;border-radius:14px;padding:12px;min-width:0">
+<strong>Desain 4</strong>
+<img id="preview-desain4" alt="Preview Desain 4" src="desain-4.jpg" style="display:block;width:100%;height:160px;object-fit:contain;background:#171717;border-radius:9px;margin:10px 0">
+<input id="file-desain4" type="file" accept="image/*" style="font-size:13px;padding:8px">
+<button class="primary upload-photo" type="button" data-key="desain4" style="margin-top:9px">Upload foto</button>
+<p id="photo-status-desain4" class="small" aria-live="polite"></p>
+</div><div style="border:1px solid #303030;border-radius:14px;padding:12px;min-width:0">
+<strong>Fotografi 1</strong>
+<img id="preview-foto1" alt="Preview Fotografi 1" src="galeri-1.jpg" style="display:block;width:100%;height:160px;object-fit:contain;background:#171717;border-radius:9px;margin:10px 0">
+<input id="file-foto1" type="file" accept="image/*" style="font-size:13px;padding:8px">
+<button class="primary upload-photo" type="button" data-key="foto1" style="margin-top:9px">Upload foto</button>
+<p id="photo-status-foto1" class="small" aria-live="polite"></p>
+</div><div style="border:1px solid #303030;border-radius:14px;padding:12px;min-width:0">
+<strong>Fotografi 2</strong>
+<img id="preview-foto2" alt="Preview Fotografi 2" src="galeri-2.jpg" style="display:block;width:100%;height:160px;object-fit:contain;background:#171717;border-radius:9px;margin:10px 0">
+<input id="file-foto2" type="file" accept="image/*" style="font-size:13px;padding:8px">
+<button class="primary upload-photo" type="button" data-key="foto2" style="margin-top:9px">Upload foto</button>
+<p id="photo-status-foto2" class="small" aria-live="polite"></p>
+</div><div style="border:1px solid #303030;border-radius:14px;padding:12px;min-width:0">
+<strong>Fotografi 3</strong>
+<img id="preview-foto3" alt="Preview Fotografi 3" src="galeri-3.jpg" style="display:block;width:100%;height:160px;object-fit:contain;background:#171717;border-radius:9px;margin:10px 0">
+<input id="file-foto3" type="file" accept="image/*" style="font-size:13px;padding:8px">
+<button class="primary upload-photo" type="button" data-key="foto3" style="margin-top:9px">Upload foto</button>
+<p id="photo-status-foto3" class="small" aria-live="polite"></p>
+</div><div style="border:1px solid #303030;border-radius:14px;padding:12px;min-width:0">
+<strong>Fotografi 4</strong>
+<img id="preview-foto4" alt="Preview Fotografi 4" src="galeri-4.jpg" style="display:block;width:100%;height:160px;object-fit:contain;background:#171717;border-radius:9px;margin:10px 0">
+<input id="file-foto4" type="file" accept="image/*" style="font-size:13px;padding:8px">
+<button class="primary upload-photo" type="button" data-key="foto4" style="margin-top:9px">Upload foto</button>
+<p id="photo-status-foto4" class="small" aria-live="polite"></p>
+</div><div style="border:1px solid #303030;border-radius:14px;padding:12px;min-width:0">
+<strong>The Motivator — Foto 1</strong>
+<img id="preview-motivator1" alt="Preview The Motivator — Foto 1" src="the-motivator.jpg" style="display:block;width:100%;height:160px;object-fit:contain;background:#171717;border-radius:9px;margin:10px 0">
+<input id="file-motivator1" type="file" accept="image/*" style="font-size:13px;padding:8px">
+<button class="primary upload-photo" type="button" data-key="motivator1" style="margin-top:9px">Upload foto</button>
+<p id="photo-status-motivator1" class="small" aria-live="polite"></p>
+</div><div style="border:1px solid #303030;border-radius:14px;padding:12px;min-width:0">
+<strong>The Motivator — Foto 2</strong>
+<img id="preview-motivator2" alt="Preview The Motivator — Foto 2" src="the-motivator-2.jpg" style="display:block;width:100%;height:160px;object-fit:contain;background:#171717;border-radius:9px;margin:10px 0">
+<input id="file-motivator2" type="file" accept="image/*" style="font-size:13px;padding:8px">
+<button class="primary upload-photo" type="button" data-key="motivator2" style="margin-top:9px">Upload foto</button>
+<p id="photo-status-motivator2" class="small" aria-live="polite"></p>
+</div></div>
+<p class="small">Format gambar umum seperti JPG, PNG, atau WebP. Disarankan ukuran di bawah 5 MB.</p>
+</div>
+</section>
 <section class="panel"><h3>Langkah setup database</h3><p class="small">Buka file <b>supabase-admin-setup.sql</b> dari ZIP, jalankan di Supabase → SQL Editor → New query → Run. Kebijakan database membatasi penulisan ke email admin yang ditetapkan.</p></section>
 </main>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script>
@@ -34,7 +109,48 @@
  async function session(){const {data,error}=await db.auth.getSession();if(error)throw error;const u=data.session?.user;if(!u){panels(false);return false}if((u.email||"").toLowerCase()!==ADMIN){await db.auth.signOut();panels(false);alert("Email ini bukan admin yang diizinkan.");return false}panels(true);return true}
  async function load(){say("Memuat...");const {data,error}=await db.from("site_content").select("content").eq("id","main").maybeSingle();if(error){say("Gagal memuat: "+error.message+" — jalankan SQL setup.",true);return}const c=data?.content||defaults;fill({...c,emailContent:c.email||c.emailContent});say(data?"Konten dimuat.":"Belum ada data; nilai awal ditampilkan.")}
  $("loginForm").addEventListener("submit",async e=>{e.preventDefault();if($("email").value.trim().toLowerCase()!==ADMIN){alert("Gunakan email admin yang ditetapkan.");return}const {error}=await db.auth.signInWithPassword({email:ADMIN,password:$("password").value});if(error){alert("Login gagal: "+error.message);return}$("password").value="";if(await session())await load()});
- $("editForm").addEventListener("submit",async e=>{e.preventDefault();if(!(await session()))return;const c={};Object.keys(defaults).forEach(k=>c[k]=$(k).value.trim());c.email=c.emailContent;delete c.emailContent;say("Menyimpan...");const {error}=await db.from("site_content").upsert({id:"main",content:c,updated_at:new Date().toISOString()},{onConflict:"id"});if(error){say("Gagal menyimpan: "+error.message+". Jalankan SQL setup.",true);return}say("Tersimpan! Refresh website utama untuk melihat perubahan.")});
+ $("editForm").addEventListener("submit",async e=>{e.preventDefault();if(!(await session()))return;const c={};Object.keys(defaults).forEach(k=>c[k]=$(k).value.trim());c.email=c.emailContent;delete c.emailContent;say("Menyimpan...");const {data:existing,error:readError}=await db.from("site_content").select("content").eq("id","main").maybeSingle();if(readError){say("Gagal membaca konten: "+readError.message,true);return}if(existing?.content?.photos)c.photos=existing.content.photos;const {error}=await db.from("site_content").upsert({id:"main",content:c,updated_at:new Date().toISOString()},{onConflict:"id"});if(error){say("Gagal menyimpan: "+error.message+". Jalankan SQL setup.",true);return}say("Tersimpan! Refresh website utama untuk melihat perubahan.")});
+
+ const photoSlots = {
+  hero:"foto.jpg",
+  desain1:"desain-1.jpg",desain2:"desain-2.jpg",desain3:"desain-3.jpg",desain4:"desain-4.jpg",
+  foto1:"galeri-1.jpg",foto2:"galeri-2.jpg",foto3:"galeri-3.jpg",foto4:"galeri-4.jpg",
+  motivator1:"the-motivator.jpg",motivator2:"the-motivator-2.jpg"
+ };
+ Object.keys(photoSlots).forEach(key=>{
+   const input=$("file-"+key), preview=$("preview-"+key);
+   input.addEventListener("change",()=>{
+     const file=input.files?.[0]; if(!file)return;
+     if(!file.type.startsWith("image/")){alert("Pilih file gambar.");input.value="";return}
+     if(file.size>5*1024*1024){alert("Ukuran foto maksimal 5 MB.");input.value="";return}
+     preview.src=URL.createObjectURL(file);
+   });
+ });
+ document.querySelectorAll(".upload-photo").forEach(btn=>btn.addEventListener("click",async()=>{
+   const key=btn.dataset.key, input=$("file-"+key), file=input.files?.[0], statusEl=$("photo-status-"+key);
+   if(!file){statusEl.textContent="Pilih foto terlebih dahulu.";return}
+   if(!(await session()))return;
+   btn.disabled=true;statusEl.textContent="Mengunggah...";
+   try{
+     const ext=(file.name.split(".").pop()||"jpg").toLowerCase().replace(/[^a-z0-9]/g,"")||"jpg";
+     const path=key+"."+ext;
+     const {error:upErr}=await db.storage.from("site-photos").upload(path,file,{upsert:true,contentType:file.type,cacheControl:"60"});
+     if(upErr)throw upErr;
+     const {data:pub}=db.storage.from("site-photos").getPublicUrl(path);
+     const {data:row,error:readErr}=await db.from("site_content").select("content").eq("id","main").maybeSingle();
+     if(readErr)throw readErr;
+     const content=row?.content||{};
+     content.photos=content.photos||{};
+     content.photos[key]=pub.publicUrl;
+     const {error:saveErr}=await db.from("site_content").upsert({id:"main",content,updated_at:new Date().toISOString()},{onConflict:"id"});
+     if(saveErr)throw saveErr;
+     statusEl.textContent="Berhasil di-upload dan disimpan!";
+     input.value="";
+     if(window.refreshNdrexanPhotos)window.refreshNdrexanPhotos(content.photos);
+   }catch(err){statusEl.textContent="Gagal: "+(err.message||"Upload error");statusEl.className="small bad"}
+   finally{btn.disabled=false}
+ }));
+
  $("reload").addEventListener("click",load);$("logout").addEventListener("click",async()=>{await db.auth.signOut();panels(false);say("")});
  session().then(ok=>ok&&load()).catch(e=>say("Error: "+e.message,true));
 })();

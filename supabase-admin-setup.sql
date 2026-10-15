@@ -39,3 +39,44 @@ values ('main', '{
  "email":"andrearshavinkece73@gmail.com"
 }'::jsonb)
 on conflict (id) do nothing;
+
+
+-- Storage bucket for portfolio photos.
+insert into storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
+values ('site-photos', 'site-photos', true, 5242880, array['image/jpeg','image/png','image/webp','image/gif','image/avif'])
+on conflict (id) do update set public = true, file_size_limit = 5242880,
+  allowed_mime_types = array['image/jpeg','image/png','image/webp','image/gif','image/avif'];
+
+drop policy if exists "Ndrexan photos public read" on storage.objects;
+drop policy if exists "Ndrexan admin upload photos" on storage.objects;
+drop policy if exists "Ndrexan admin update photos" on storage.objects;
+drop policy if exists "Ndrexan admin delete photos" on storage.objects;
+
+create policy "Ndrexan photos public read"
+on storage.objects for select to public
+using (bucket_id = 'site-photos');
+
+create policy "Ndrexan admin upload photos"
+on storage.objects for insert to authenticated
+with check (
+  bucket_id = 'site-photos'
+  and (auth.jwt() ->> 'email') = 'andrearshavinkece73@gmail.com'
+);
+
+create policy "Ndrexan admin update photos"
+on storage.objects for update to authenticated
+using (
+  bucket_id = 'site-photos'
+  and (auth.jwt() ->> 'email') = 'andrearshavinkece73@gmail.com'
+)
+with check (
+  bucket_id = 'site-photos'
+  and (auth.jwt() ->> 'email') = 'andrearshavinkece73@gmail.com'
+);
+
+create policy "Ndrexan admin delete photos"
+on storage.objects for delete to authenticated
+using (
+  bucket_id = 'site-photos'
+  and (auth.jwt() ->> 'email') = 'andrearshavinkece73@gmail.com'
+);

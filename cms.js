@@ -30,24 +30,45 @@
     if (!valid.length) { section.hidden = true; grid.replaceChildren(); return; }
     section.hidden = false;
     grid.replaceChildren();
-    valid.forEach((w) => {
-      const card = document.createElement("article"); card.className = "website-project-card";
-      const info = document.createElement("div"); info.className = "website-project-info";
-      const kicker = document.createElement("p"); kicker.className = "project-index"; kicker.textContent = "WEBSITE PROJECT";
+    valid.forEach((w, index) => {
+      const card = document.createElement("article"); card.className = "website-project-card webprev";
+      const info = document.createElement("div"); info.className = "wp-info";
+      const kicker = document.createElement("p"); kicker.className = "project-index"; kicker.textContent = `FEATURED WEBSITE / ${String(index + 1).padStart(2, "0")}`;
       const title = document.createElement("h3"); title.textContent = w.name;
       const desc = document.createElement("p"); desc.textContent = w.description || "Website design & development.";
-      const actions = document.createElement("div"); actions.className = "website-project-actions";
-      const visit = document.createElement("a"); visit.className = "project-cta"; visit.href = w.url; visit.target = "_blank"; visit.rel = "noopener noreferrer"; visit.textContent = "Visit Website ↗";
-      actions.append(visit); info.append(kicker,title,desc,actions);
-      const browser = document.createElement("div"); browser.className = "website-project-browser";
-      const bar = document.createElement("div"); bar.className = "bar"; bar.setAttribute("aria-hidden","true");
-      for(let i=0;i<3;i++){const dot=document.createElement("i");bar.append(dot)}
-      const host=document.createElement("span");try{host.textContent=new URL(w.url).hostname}catch{host.textContent=w.url}bar.append(host);
-      const screen = document.createElement("div"); screen.className = "website-project-screen";
-      if (typeof w.cover === "string" && /^https?:\/\//i.test(w.cover)) { const img=document.createElement("img");img.src=w.cover;img.alt="Preview "+w.name;img.loading="lazy";screen.append(img); }
-      else { const frame=document.createElement("iframe");frame.src=w.url;frame.title="Live preview "+w.name;frame.loading="lazy";frame.referrerPolicy="strict-origin-when-cross-origin";frame.setAttribute("sandbox","allow-scripts allow-forms allow-same-origin allow-popups");screen.append(frame); }
-      const open=document.createElement("a");open.className="screen-link";open.href=w.url;open.target="_blank";open.rel="noopener noreferrer";open.textContent="Buka website ↗";open.setAttribute("aria-label","Buka "+w.name+" di tab baru");screen.append(open);
-      browser.append(bar,screen);card.append(info,browser);grid.append(card);
+      const visit = document.createElement("a"); visit.className = "project-cta"; visit.href = w.url; visit.target = "_blank"; visit.rel = "noopener noreferrer"; visit.innerHTML = 'Lihat proyek <span aria-hidden="true">↗</span>';
+      info.append(kicker, title, desc, visit);
+
+      const browser = document.createElement("div"); browser.className = "browser";
+      const bar = document.createElement("div"); bar.className = "bar"; bar.setAttribute("aria-hidden", "true");
+      for (let i = 0; i < 3; i++) { const dot = document.createElement("i"); bar.append(dot); }
+      const host = document.createElement("span");
+      try { host.textContent = new URL(w.url).hostname; } catch { host.textContent = w.url; }
+      bar.append(host);
+      const screen = document.createElement("div"); screen.className = "screen website-project-screen";
+      const fallback = document.createElement("span"); fallback.className = "wp-fb"; fallback.textContent = "Preview tidak tampil? Klik untuk membuka website."; screen.append(fallback);
+      if (typeof w.cover === "string" && /^https?:\/\//i.test(w.cover)) {
+        const img = document.createElement("img"); img.src = w.cover; img.alt = "Preview " + w.name; img.loading = "lazy"; img.className = "website-project-cover"; screen.append(img);
+      } else {
+        const frame = document.createElement("iframe"); frame.src = w.url; frame.title = "Preview website " + w.name; frame.loading = "lazy"; frame.referrerPolicy = "strict-origin-when-cross-origin"; frame.setAttribute("sandbox", "allow-scripts allow-forms allow-same-origin allow-popups"); frame.setAttribute("scrolling", "no"); screen.append(frame);
+      }
+      const open = document.createElement("a"); open.className = "screen-link"; open.href = w.url; open.target = "_blank"; open.rel = "noopener noreferrer"; open.setAttribute("aria-label", "Buka " + w.name + " di tab baru");
+      const openLabel = document.createElement("span"); openLabel.textContent = "Buka website ↗"; open.append(openLabel); screen.append(open);
+      browser.append(bar, screen); card.append(info, browser); grid.append(card);
+      const fit = () => {
+        const frame = screen.querySelector("iframe");
+        const width = screen.clientWidth;
+        if (!frame || !width) return;
+        const viewport = width < 560 ? 480 : 1280;
+        const ratio = width < 560 ? 1.2 : .625;
+        frame.style.width = viewport + "px";
+        frame.style.height = Math.round(viewport * ratio) + "px";
+        frame.style.transform = "scale(" + (width / viewport) + ")";
+        screen.style.height = Math.round(width * ratio) + "px";
+      };
+      fit();
+      if ("ResizeObserver" in window) new ResizeObserver(fit).observe(screen);
+      else window.addEventListener("resize", fit);
     });
   }
 

@@ -116,8 +116,8 @@
 </main>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script>
 (() => {
- const URL="https://wbvtxojsjmkvbbymvriv.supabase.co", KEY="sb_publishable_7rH-1ZbGgb7FPb0eHFVziQ_Qna-BYFn";
- const ADMIN="andrearshavinkece73@gmail.com", db=window.supabase.createClient(URL,KEY), $=id=>document.getElementById(id);
+ const SUPABASE_URL="https://wbvtxojsjmkvbbymvriv.supabase.co", KEY="sb_publishable_7rH-1ZbGgb7FPb0eHFVziQ_Qna-BYFn";
+ const ADMIN="andrearshavinkece73@gmail.com", db=window.supabase.createClient(SUPABASE_URL,KEY), $=id=>document.getElementById(id);
  const defaults={siteTitle:"Ndrexan",signature:"creative by nature.",statement:"Desainer, fotografer, dan pembuat website.",intro:"Saya Andre Arshavin, berasal dari Tangerang Selatan dan bersekolah di SMKN 4 Tangsel jurusan DKV. Skill saya fotografi, desain, dan pembuatan website.",about:"Saya mulai suka dalam bidang editing, desain, maupun build web karena satu orang yang selalu memotivasi saya untuk terus mengasah kemampuan saya, dan karena itu saya juga memiliki banyak pengalaman.",contactNote:"Terbuka untuk kolaborasi, proyek kreatif, dan obrolan seputar desain atau website.",emailContent:ADMIN};
  const status=$("status"); function say(t,b=false){status.textContent=t;status.className="status"+(b?" bad":"")}
  function panels(on){$("loginPanel").classList.toggle("hidden",on);$("editPanel").classList.toggle("hidden",!on)}

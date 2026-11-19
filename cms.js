@@ -1,5 +1,5 @@
 (() => {
-  const URL = "https://wbvtxojsjmkvbbymvriv.supabase.co";
+  const SUPABASE_URL = "https://wbvtxojsjmkvbbymvriv.supabase.co";
   const KEY = "sb_publishable_7rH-1ZbGgb7FPb0eHFVziQ_Qna-BYFn";
 
   function applyPhotos(photos) {
@@ -53,7 +53,7 @@
 
   async function load() {
     try {
-      const r = await fetch(`${URL}/rest/v1/site_content?id=eq.main&select=content`, {
+      const r = await fetch(`${SUPABASE_URL}/rest/v1/site_content?id=eq.main&select=content`, {
         headers: { apikey: KEY, Authorization: `Bearer ${KEY}` }
       });
       if (!r.ok) return;

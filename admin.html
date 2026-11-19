@@ -96,6 +96,22 @@
 <p class="small">Format gambar umum seperti JPG, PNG, atau WebP. Disarankan ukuran di bawah 5 MB.</p>
 </div>
 </section>
+
+<div class="panel" id="websiteManager" style="background:#0b0b0b;margin:22px 0 0">
+  <div class="row" style="justify-content:space-between"><div><h2>Kelola Website</h2><p class="small">Tambah project website yang akan tampil di bagian Website Showcase pada halaman utama.</p></div><span class="small">SUPABASE CMS</span></div>
+  <form id="websiteForm">
+    <input id="websiteEditId" type="hidden">
+    <label for="websiteName">Nama website / project</label><input id="websiteName" maxlength="70" placeholder="Contoh: Ndrexan Store" required>
+    <label for="websiteUrl">URL website</label><input id="websiteUrl" type="url" maxlength="500" placeholder="https://contoh.vercel.app" required>
+    <label for="websiteDescription">Deskripsi singkat</label><textarea id="websiteDescription" maxlength="400" placeholder="Ceritakan fungsi dan teknologi project ini..."></textarea>
+    <label for="websiteCover">URL gambar thumbnail (opsional)</label><input id="websiteCover" type="url" maxlength="500" placeholder="https://.../preview.jpg">
+    <p class="small">Live preview memakai iframe. Jika website memblokir iframe, pengunjung tetap bisa membukanya lewat tombol Visit Website.</p>
+    <div class="row" style="margin-top:14px"><button class="primary" type="submit" id="websiteSave">Tambah website</button><button class="secondary hidden" type="button" id="websiteCancel">Batal edit</button></div>
+    <p class="status" id="websiteStatus" role="status" aria-live="polite"></p>
+  </form>
+  <div style="border-top:1px solid #303030;margin-top:18px;padding-top:14px"><h3>Daftar project</h3><div id="websiteList" style="display:grid;gap:10px"><p class="small">Memuat project...</p></div></div>
+</div>
+
 <section class="panel"><h3>Langkah setup database</h3><p class="small">Buka file <b>supabase-admin-setup.sql</b> dari ZIP, jalankan di Supabase → SQL Editor → New query → Run. Kebijakan database membatasi penulisan ke email admin yang ditetapkan.</p></section>
 </main>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script>
@@ -108,8 +124,8 @@
  function fill(c){Object.keys(defaults).forEach(k=>$(k).value=typeof c[k]==="string"?c[k]:defaults[k])}
  async function session(){const {data,error}=await db.auth.getSession();if(error)throw error;const u=data.session?.user;if(!u){panels(false);return false}if((u.email||"").toLowerCase()!==ADMIN){await db.auth.signOut();panels(false);alert("Email ini bukan admin yang diizinkan.");return false}panels(true);return true}
  async function load(){say("Memuat...");const {data,error}=await db.from("site_content").select("content").eq("id","main").maybeSingle();if(error){say("Gagal memuat: "+error.message+" — jalankan SQL setup.",true);return}const c=data?.content||defaults;fill({...c,emailContent:c.email||c.emailContent});say(data?"Konten dimuat.":"Belum ada data; nilai awal ditampilkan.")}
- $("loginForm").addEventListener("submit",async e=>{e.preventDefault();if($("email").value.trim().toLowerCase()!==ADMIN){alert("Gunakan email admin yang ditetapkan.");return}const {error}=await db.auth.signInWithPassword({email:ADMIN,password:$("password").value});if(error){alert("Login gagal: "+error.message);return}$("password").value="";if(await session())await load()});
- $("editForm").addEventListener("submit",async e=>{e.preventDefault();if(!(await session()))return;const c={};Object.keys(defaults).forEach(k=>c[k]=$(k).value.trim());c.email=c.emailContent;delete c.emailContent;say("Menyimpan...");const {data:existing,error:readError}=await db.from("site_content").select("content").eq("id","main").maybeSingle();if(readError){say("Gagal membaca konten: "+readError.message,true);return}if(existing?.content?.photos)c.photos=existing.content.photos;const {error}=await db.from("site_content").upsert({id:"main",content:c,updated_at:new Date().toISOString()},{onConflict:"id"});if(error){say("Gagal menyimpan: "+error.message+". Jalankan SQL setup.",true);return}say("Tersimpan! Refresh website utama untuk melihat perubahan.")});
+ $("loginForm").addEventListener("submit",async e=>{e.preventDefault();if($("email").value.trim().toLowerCase()!==ADMIN){alert("Gunakan email admin yang ditetapkan.");return}const {error}=await db.auth.signInWithPassword({email:ADMIN,password:$("password").value});if(error){alert("Login gagal: "+error.message);return}$("password").value="";if(await session()){await load();await loadWebsiteItems()}});
+ $("editForm").addEventListener("submit",async e=>{e.preventDefault();if(!(await session()))return;const c={};Object.keys(defaults).forEach(k=>c[k]=$(k).value.trim());c.email=c.emailContent;delete c.emailContent;say("Menyimpan...");const {data:existing,error:readError}=await db.from("site_content").select("content").eq("id","main").maybeSingle();if(readError){say("Gagal membaca konten: "+readError.message,true);return}if(existing?.content?.photos)c.photos=existing.content.photos;if(Array.isArray(existing?.content?.websites))c.websites=existing.content.websites;const {error}=await db.from("site_content").upsert({id:"main",content:c,updated_at:new Date().toISOString()},{onConflict:"id"});if(error){say("Gagal menyimpan: "+error.message+". Jalankan SQL setup.",true);return}say("Tersimpan! Refresh website utama untuk melihat perubahan.")});
 
  const photoSlots = {
   hero:"foto.jpg",
@@ -151,7 +167,21 @@
    finally{btn.disabled=false}
  }));
 
+
+ const websiteForm=$("websiteForm"), websiteStatus=$("websiteStatus"), websiteList=$("websiteList");
+ let websiteItems=[];
+ function websiteSay(t,b=false){websiteStatus.textContent=t;websiteStatus.className="status"+(b?" bad":"")}
+ function safeText(v){return String(v??"").replace(/[&<>"']/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch]))}
+ async function readMainContent(){const {data,error}=await db.from("site_content").select("content").eq("id","main").maybeSingle();if(error)throw error;return data?.content||{}}
+ async function saveWebsiteItems(items){const c=await readMainContent();c.websites=items;const {error}=await db.from("site_content").upsert({id:"main",content:c,updated_at:new Date().toISOString()},{onConflict:"id"});if(error)throw error;websiteItems=items;renderWebsiteItems()}
+ function renderWebsiteItems(){if(!websiteItems.length){websiteList.innerHTML='<p class="small">Belum ada project website. Tambahkan project pertama di atas.</p>';return}websiteList.innerHTML=websiteItems.map((w,i)=>`<div style="border:1px solid #303030;border-radius:12px;padding:12px;display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap"><div style="min-width:0;flex:1"><strong>${safeText(w.name)}</strong><div class="small" style="overflow-wrap:anywhere">${safeText(w.url)}</div><div class="small">${safeText(w.description||"")}</div></div><div class="row"><button class="secondary" type="button" data-web-edit="${i}">Edit</button><button class="secondary" type="button" data-web-delete="${i}">Hapus</button></div></div>`).join("")}
+ async function loadWebsiteItems(){try{const c=await readMainContent();websiteItems=Array.isArray(c.websites)?c.websites:[];renderWebsiteItems()}catch(e){websiteList.innerHTML='<p class="small bad">Gagal memuat project: '+safeText(e.message)+'</p>'}}
+ function resetWebsiteForm(){websiteForm.reset();$("websiteEditId").value="";$("websiteSave").textContent="Tambah website";$("websiteCancel").classList.add("hidden")}
+ websiteForm.addEventListener("submit",async e=>{e.preventDefault();if(!(await session()))return;const name=$("websiteName").value.trim(),url=$("websiteUrl").value.trim(),description=$("websiteDescription").value.trim(),cover=$("websiteCover").value.trim();try{const parsed=new URL(url);if(!["http:","https:"].includes(parsed.protocol))throw new Error("Gunakan URL http atau https.");if(cover){const cp=new URL(cover);if(!["http:","https:"].includes(cp.protocol))throw new Error("URL thumbnail harus http atau https.")}const id=$("websiteEditId").value;const item={id:id||("web-"+Date.now().toString(36)+Math.random().toString(36).slice(2,7)),name,url:parsed.href,description,cover};const next=[...websiteItems];const at=next.findIndex(x=>x.id===id);if(at>=0)next[at]=item;else next.push(item);websiteSay("Menyimpan project...");await saveWebsiteItems(next);resetWebsiteForm();websiteSay("Project berhasil disimpan.")}catch(err){websiteSay("Gagal menyimpan: "+err.message,true)}});
+ websiteList.addEventListener("click",async e=>{const edit=e.target.closest("[data-web-edit]"),del=e.target.closest("[data-web-delete]");if(edit){const w=websiteItems[Number(edit.dataset.webEdit)];if(!w)return;$("websiteEditId").value=w.id;$("websiteName").value=w.name||"";$("websiteUrl").value=w.url||"";$("websiteDescription").value=w.description||"";$("websiteCover").value=w.cover||"";$("websiteSave").textContent="Simpan edit";$("websiteCancel").classList.remove("hidden");websiteForm.scrollIntoView({behavior:"smooth",block:"center"})}if(del){const i=Number(del.dataset.webDelete);if(!Number.isInteger(i)||!websiteItems[i])return;if(!confirm("Hapus project "+websiteItems[i].name+"?"))return;try{if(!(await session()))return;const next=websiteItems.filter((_,n)=>n!==i);websiteSay("Menghapus project...");await saveWebsiteItems(next);websiteSay("Project berhasil dihapus.")}catch(err){websiteSay("Gagal menghapus: "+err.message,true)}}});
+ $("websiteCancel").addEventListener("click",resetWebsiteForm);
+
  $("reload").addEventListener("click",load);$("logout").addEventListener("click",async()=>{await db.auth.signOut();panels(false);say("")});
- session().then(ok=>ok&&load()).catch(e=>say("Error: "+e.message,true));
+ session().then(async ok=>{if(ok){await load();await loadWebsiteItems()}}).catch(e=>say("Error: "+e.message,true));
 })();
 </script></body></html>

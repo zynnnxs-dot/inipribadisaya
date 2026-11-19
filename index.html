@@ -31,6 +31,11 @@
   <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Caveat:wght@500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
   <script>if(!matchMedia("(prefers-reduced-motion: reduce)").matches)document.documentElement.className="js loading"</script>
+
+  <style>
+    .website-projects[hidden]{display:none!important}.website-project-grid{display:grid;grid-template-columns:1fr;gap:28px;margin-top:24px}.website-project-card{min-width:0;border:1px solid var(--line,#333);border-radius:18px;overflow:hidden;background:var(--panel,rgba(128,128,128,.06))}.website-project-info{padding:20px 22px}.website-project-info h3{font-size:clamp(24px,4vw,34px);margin:5px 0 8px;letter-spacing:-.04em}.website-project-info p{max-width:650px}.website-project-browser{padding:10px;background:#151515;border-top:1px solid #333}.website-project-browser .bar{height:28px;display:flex;align-items:center;gap:6px;color:#aaa;font-size:11px;padding:0 8px}.website-project-browser .bar i{width:7px;height:7px;border-radius:50%;background:#777}.website-project-browser .bar span{margin-left:8px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.website-project-screen{position:relative;aspect-ratio:16/9;background:#090909;border-radius:8px;overflow:hidden}.website-project-screen iframe{width:100%;height:100%;border:0;background:#fff}.website-project-screen img{width:100%;height:100%;object-fit:cover;display:block}.website-project-screen .screen-link{position:absolute;inset:0;display:grid;place-items:end center;padding:14px;text-decoration:none;background:linear-gradient(transparent 65%,rgba(0,0,0,.55));color:#fff;opacity:0;transition:opacity .2s}.website-project-screen:hover .screen-link,.website-project-screen:focus-within .screen-link{opacity:1}.website-project-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}.website-project-actions a{display:inline-flex;align-items:center;gap:8px}.website-project-empty{color:#888}@media(min-width:760px){.website-project-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.website-project-card:first-child:nth-last-child(odd){grid-column:1/-1}}
+  </style>
+
 </head>
 <body>
   <section class="loader intro-screen" id="loader" aria-label="Intro Ndrexan">
@@ -121,6 +126,14 @@
             </div>
           </div>
         </div>
+    </section>
+
+
+    <section id="website-projects" class="wrap website-projects" hidden>
+      <div class="section-kicker">SELECTED WORK <span>02 / WEBSITE</span></div>
+      <h2>WEBSITE SHOWCASE<span class="heading-dot">.</span></h2>
+      <p class="muted cap-intro">Website yang saya rancang dan kembangkan.</p>
+      <div class="website-project-grid" id="websiteProjectGrid"></div>
     </section>
 
     <section id="desain" class="wrap">

@@ -36,12 +36,12 @@
     .website-project-head{display:block}.website-project-title-row{display:flex;align-items:center;gap:1rem;flex-wrap:wrap}.website-project-title-row h2{margin:0}
     .website-project-controls{display:flex;gap:.55rem;flex-shrink:0}
     .website-project-controls button{width:42px;height:42px;border:1px solid var(--line,rgba(255,255,255,.22));border-radius:50%;background:transparent;color:inherit;font-size:1.2rem;cursor:pointer}
-    .website-project-grid{display:flex;gap:1.15rem;overflow-x:auto;overflow-y:hidden;margin-top:1.5rem;padding:0 0 1.1rem;scroll-snap-type:x mandatory;scroll-padding-inline:2px;overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+    .website-project-grid{display:flex;gap:0;overflow-x:auto;overflow-y:hidden;margin-top:1.5rem;padding:0 0 1.1rem;scroll-snap-type:x mandatory;scroll-padding-inline:0;overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch;scrollbar-width:none;scroll-behavior:smooth}
     .website-project-grid::-webkit-scrollbar{display:none}
-    .website-project-card{display:flex;flex:0 0 min(86%,760px);flex-direction:column;min-width:0;gap:1.15rem!important;margin:0!important;scroll-snap-align:start;scroll-snap-stop:always}
+    .website-project-card{display:flex;flex:0 0 100%;width:100%;min-width:100%;box-sizing:border-box;flex-direction:column;gap:1.15rem!important;margin:0!important;padding:0;scroll-snap-align:start;scroll-snap-stop:always}
     .website-project-card .wp-info{min-width:0}.website-project-card .wp-info h3{font-size:clamp(1.8rem,4vw,2.8rem);line-height:.98;letter-spacing:-.065em;margin:0 0 .65rem}.website-project-card .wp-info p{max-width:42rem}.website-project-card .browser{width:100%;min-width:0}.website-project-card .bar span{max-width:none}.website-project-card .screen{width:100%;padding:0;aspect-ratio:16/9;min-height:0;height:auto!important;overflow:hidden}.website-project-card .screen iframe{position:absolute;top:0;left:0;border:0;transform-origin:0 0;pointer-events:none;background:#fff}.website-project-card .wp-fb{position:absolute;z-index:0;inset:auto 12px 12px;color:#999;font-size:.75rem;text-align:center;pointer-events:none}.website-project-cover{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}.website-project-card .screen-link{z-index:3}.website-project-card .screen-link span{opacity:1;transform:none}.website-project-card .screen-link:hover span{background:var(--accent);color:#fff}
-    @media(max-width:600px){.website-project-card{flex-basis:88%}.website-project-controls button{width:36px;height:36px}}
-    @media(min-width:900px){.website-project-card{flex-basis: min(72%,820px)}}
+    @media(max-width:600px){.website-project-controls button{width:36px;height:36px}}
+    @media(min-width:900px){.website-project-card{flex-basis:100%;max-width:100%}}
   </style>
 
 </head>
@@ -117,7 +117,7 @@
 
     <section id="website-projects" class="wrap website-projects">
       <div class="website-project-head">
-        <div class="section-kicker">SELECTED WORK <span>01 / WEB</span></div>
+        <div class="section-kicker">SELECTED WORK <span id="websiteProjectCount">01 / 01</span></div>
         <div class="website-project-title-row">
           <h2>MY PROJECT<span class="heading-dot">.</span></h2>
           <div class="website-project-controls" aria-label="Navigasi project website">

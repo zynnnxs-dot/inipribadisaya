@@ -88,8 +88,23 @@
         screen.style.height = Math.round(width * ratio) + "px";
       };
       fit();
+      if (typeof updateWebsiteProjectState === "function") updateWebsiteProjectState();
       if ("ResizeObserver" in window) new ResizeObserver(fit).observe(screen);
       else window.addEventListener("resize", fit);
+    });
+  }
+
+  function updateWebsiteProjectState() {
+    const grid = document.getElementById("websiteProjectGrid");
+    if (!grid) return;
+    const cards = [...grid.querySelectorAll(".website-project-card")];
+    const count = document.getElementById("websiteProjectCount");
+    const width = grid.clientWidth || 1;
+    const index = Math.max(0, Math.min(cards.length - 1, Math.round(grid.scrollLeft / width)));
+    if (count) count.textContent = `${String(index + 1).padStart(2, "0")} / ${String(cards.length).padStart(2, "0")}`;
+    grid.querySelectorAll("[data-website-dir]").forEach(button => {
+      const dir = Number(button.dataset.websiteDir);
+      button.disabled = dir < 0 ? index === 0 : index >= cards.length - 1;
     });
   }
 
@@ -98,12 +113,21 @@
     if (!button) return;
     const grid = document.getElementById("websiteProjectGrid");
     if (!grid) return;
-    const card = grid.querySelector(".website-project-card");
-    const styles = card ? getComputedStyle(grid) : null;
-    const gap = styles ? (parseFloat(styles.columnGap || styles.gap) || 18) : 18;
-    const step = card ? card.getBoundingClientRect().width + gap : grid.clientWidth * .85;
-    grid.scrollBy({ left: Number(button.dataset.websiteDir) * step, behavior: "smooth" });
+    const cards = [...grid.querySelectorAll(".website-project-card")];
+    if (!cards.length) return;
+    const width = grid.clientWidth || cards[0].getBoundingClientRect().width;
+    const current = Math.max(0, Math.min(cards.length - 1, Math.round(grid.scrollLeft / width)));
+    const next = Math.max(0, Math.min(cards.length - 1, current + Number(button.dataset.websiteDir)));
+    grid.scrollTo({ left: next * width, behavior: "smooth" });
+    window.setTimeout(updateWebsiteProjectState, 350);
   });
+
+  const websiteGrid = document.getElementById("websiteProjectGrid");
+  if (websiteGrid) {
+    websiteGrid.addEventListener("scroll", () => window.requestAnimationFrame(updateWebsiteProjectState), { passive: true });
+    window.addEventListener("resize", updateWebsiteProjectState);
+    updateWebsiteProjectState();
+  }
 
   function fitFeaturedWebsite() {
     const screen = document.querySelector("#websiteProjectGrid .website-project-card:not([data-cms-website]) .screen");

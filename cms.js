@@ -99,8 +99,12 @@
     if (!grid) return;
     const cards = [...grid.querySelectorAll(".website-project-card")];
     const count = document.getElementById("websiteProjectCount");
-    const width = grid.clientWidth || 1;
-    const index = Math.max(0, Math.min(cards.length - 1, Math.round(grid.scrollLeft / width)));
+    const scrollLeft = grid.scrollLeft;
+    const index = cards.reduce((bestIndex, card, i) => {
+      const distance = Math.abs(card.offsetLeft - grid.offsetLeft - scrollLeft);
+      const bestDistance = Math.abs(cards[bestIndex].offsetLeft - grid.offsetLeft - scrollLeft);
+      return distance < bestDistance ? i : bestIndex;
+    }, 0);
     if (count) count.textContent = `${String(index + 1).padStart(2, "0")} / ${String(cards.length).padStart(2, "0")}`;
     grid.querySelectorAll("[data-website-dir]").forEach(button => {
       const dir = Number(button.dataset.websiteDir);
@@ -115,10 +119,14 @@
     if (!grid) return;
     const cards = [...grid.querySelectorAll(".website-project-card")];
     if (!cards.length) return;
-    const width = grid.clientWidth || cards[0].getBoundingClientRect().width;
-    const current = Math.max(0, Math.min(cards.length - 1, Math.round(grid.scrollLeft / width)));
+    const scrollLeft = grid.scrollLeft;
+    const current = cards.reduce((bestIndex, card, i) => {
+      const distance = Math.abs(card.offsetLeft - grid.offsetLeft - scrollLeft);
+      const bestDistance = Math.abs(cards[bestIndex].offsetLeft - grid.offsetLeft - scrollLeft);
+      return distance < bestDistance ? i : bestIndex;
+    }, 0);
     const next = Math.max(0, Math.min(cards.length - 1, current + Number(button.dataset.websiteDir)));
-    grid.scrollTo({ left: next * width, behavior: "smooth" });
+    grid.scrollTo({ left: cards[next].offsetLeft - grid.offsetLeft, behavior: "smooth" });
     window.setTimeout(updateWebsiteProjectState, 350);
   });
 

@@ -686,3 +686,104 @@ body[data-theme="light"] .project-cta:hover{color:#fff!important}
   .intro-description { font-size: .72rem !important; margin-bottom: 8px !important; }
   .intro-bottom { padding-top: 4px; }
 }
+
+
+/* ===== Website showcase alignment: all slides share one left edge ===== */
+#website-projects {
+  padding-top: clamp(2.5rem, 6vw, 4.5rem);
+  padding-bottom: clamp(2rem, 5vw, 3.5rem);
+  overflow: hidden;
+}
+#website-projects .website-project-head,
+#website-projects .website-project-title-row,
+#website-projects .cap-intro {
+  width: 100%;
+  margin-left: 0;
+  margin-right: 0;
+  text-align: left;
+}
+#website-projects .website-project-title-row {
+  justify-content: flex-start;
+}
+#website-projects .website-project-grid {
+  width: 100%;
+  min-width: 0;
+  align-items: stretch;
+}
+#website-projects .website-project-grid > .website-project-card {
+  display: grid !important;
+  flex: 0 0 100% !important;
+  width: 100% !important;
+  min-width: 100% !important;
+  max-width: 100% !important;
+  box-sizing: border-box;
+  grid-template-columns: minmax(0, .78fr) minmax(0, 1.22fr);
+  align-items: center;
+  justify-items: stretch;
+  gap: clamp(1.5rem, 5vw, 4rem) !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  text-align: left;
+}
+#website-projects .website-project-card .wp-info {
+  grid-column: 1;
+  width: 100%;
+  min-width: 0;
+  justify-self: start;
+  align-self: center;
+  text-align: left;
+  margin: 0;
+}
+#website-projects .website-project-card .wp-info > * {
+  margin-left: 0;
+  margin-right: 0;
+}
+#website-projects .website-project-card .browser {
+  grid-column: 2;
+  width: 100%;
+  min-width: 0;
+  justify-self: stretch;
+  align-self: center;
+  margin: 0;
+}
+#website-projects .website-project-card .screen {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  height: auto !important;
+  min-height: 0;
+  padding: 0;
+  overflow: hidden;
+}
+#website-projects .website-project-card .screen iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform-origin: top left;
+}
+#website-projects .website-project-card .project-index {
+  justify-content: flex-start;
+  text-align: left;
+}
+@media (max-width: 760px) {
+  #website-projects .website-project-grid > .website-project-card {
+    grid-template-columns: minmax(0, 1fr);
+    align-content: start;
+    align-items: start;
+    gap: 1.35rem !important;
+  }
+  #website-projects .website-project-card .wp-info,
+  #website-projects .website-project-card .browser {
+    grid-column: 1;
+    width: 100%;
+    justify-self: stretch;
+    text-align: left;
+  }
+  #website-projects .website-project-card .wp-info h3 {
+    text-align: left;
+  }
+  #website-projects .website-project-card .wp-info p:not(.project-index):not(.project-tags) {
+    max-width: 42rem;
+    text-align: left;
+  }
+}

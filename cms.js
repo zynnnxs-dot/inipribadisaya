@@ -22,6 +22,28 @@
   window.refreshNdrexanPhotos = applyPhotos;
 
 
+  function renderExtraGallery(photos) {
+    const groups = [
+      { key: "extraDesign", target: "desainStrip", fallback: "poster" },
+      { key: "extraPhotography", target: "fotoStrip", fallback: "alam" }
+    ];
+    groups.forEach(group => {
+      const strip = document.getElementById(group.target);
+      if (!strip) return;
+      strip.querySelectorAll(".g[data-extra-gallery='true']").forEach(node => node.remove());
+      const items = Array.isArray(photos?.[group.key]) ? photos[group.key] : [];
+      items.forEach(item => {
+        if (!item || typeof item.url !== "string" || !/^https?:\/\//i.test(item.url)) return;
+        const figure = document.createElement("figure"); figure.className = "g"; figure.dataset.category = item.category || group.fallback; figure.dataset.extraGallery = "true";
+        const button = document.createElement("button"); button.className = "shot"; button.type = "button"; button.dataset.src = item.url; button.dataset.alt = item.title || "Foto portofolio";
+        const img = document.createElement("img"); img.src = item.url; img.alt = item.title || "Foto portofolio"; img.loading = "lazy"; img.decoding = "async";
+        button.append(img);
+        const caption = document.createElement("figcaption"); caption.textContent = item.title || "Project";
+        figure.append(button, caption); strip.append(figure);
+      });
+    });
+  }
+
   function renderWebsiteProjects(items) {
     const section = document.getElementById("website-projects");
     const grid = document.getElementById("websiteProjectGrid");
@@ -59,8 +81,8 @@
         const frame = screen.querySelector("iframe");
         const width = screen.clientWidth;
         if (!frame || !width) return;
-        const viewport = width < 560 ? 480 : 1280;
-        const ratio = width < 560 ? 1.2 : .625;
+        const viewport = 1280;
+        const ratio = 9 / 16;
         frame.style.width = viewport + "px";
         frame.style.height = Math.round(viewport * ratio) + "px";
         frame.style.transform = "scale(" + (width / viewport) + ")";
@@ -72,6 +94,16 @@
     });
   }
 
+  document.addEventListener("click", event => {
+    const button = event.target.closest("[data-website-dir]");
+    if (!button) return;
+    const grid = document.getElementById("websiteProjectGrid");
+    if (!grid) return;
+    const card = grid.querySelector(".website-project-card");
+    const step = card ? card.getBoundingClientRect().width + 18 : grid.clientWidth * .85;
+    grid.scrollBy({ left: Number(button.dataset.websiteDir) * step, behavior: "smooth" });
+  });
+
   async function load() {
     try {
       const r = await fetch(`${SUPABASE_URL}/rest/v1/site_content?id=eq.main&select=content`, {
@@ -82,6 +114,7 @@
       if (!c || typeof c !== "object") return;
 
       applyPhotos(c.photos);
+      renderExtraGallery(c.photos || {});
       renderWebsiteProjects(Array.isArray(c.websites) ? c.websites : []);
 
       const put = (selector, value) => {

@@ -33,7 +33,16 @@
   <script>if(!matchMedia("(prefers-reduced-motion: reduce)").matches)document.documentElement.className="js loading"</script>
 
   <style>
-    .website-projects[hidden]{display:none!important}.website-project-grid{display:grid;grid-template-columns:1fr;gap:clamp(3rem,7vw,5rem);margin-top:clamp(2rem,5vw,3.5rem)}.website-project-card{min-width:0;grid-template-columns:1fr!important;gap:1.5rem!important;margin:0!important}.website-project-card .wp-info{min-width:0}.website-project-card .wp-info h3{font-size:clamp(2rem,5vw,3.4rem);line-height:.98;letter-spacing:-.065em;margin:0 0 .8rem}.website-project-card .wp-info p{max-width:42rem}.website-project-card .browser{width:100%;min-width:0}.website-project-card .bar span{max-width:none}.website-project-card .screen{width:100%;padding:0;aspect-ratio:auto;min-height:0}.website-project-card .screen iframe{position:absolute;top:0;left:0;border:0;transform-origin:0 0;pointer-events:none;background:#fff}.website-project-card .wp-fb{position:absolute;z-index:0;inset:auto 12px 12px;color:#999;font-size:.75rem;text-align:center;pointer-events:none}.website-project-cover{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}.website-project-card .screen-link{z-index:3}.website-project-card .screen-link span{opacity:1;transform:none}.website-project-card .screen-link:hover span{background:var(--accent);color:#fff}@media(min-width:760px){.website-project-card{grid-template-columns:1fr!important}.website-project-card .wp-info{max-width:48rem}}
+    .website-projects[hidden]{display:none!important}
+    .website-project-head{display:flex;align-items:end;justify-content:space-between;gap:1rem}
+    .website-project-controls{display:flex;gap:.55rem;flex-shrink:0}
+    .website-project-controls button{width:42px;height:42px;border:1px solid var(--line,rgba(255,255,255,.22));border-radius:50%;background:transparent;color:inherit;font-size:1.2rem;cursor:pointer}
+    .website-project-grid{display:flex;gap:1.15rem;overflow-x:auto;overflow-y:hidden;margin-top:clamp(1.5rem,4vw,2.5rem);padding:0 0 1.1rem;scroll-snap-type:x mandatory;scroll-padding-inline:2px;overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+    .website-project-grid::-webkit-scrollbar{display:none}
+    .website-project-card{display:flex;flex:0 0 min(86%,760px);flex-direction:column;min-width:0;gap:1.15rem!important;margin:0!important;scroll-snap-align:start;scroll-snap-stop:always}
+    .website-project-card .wp-info{min-width:0}.website-project-card .wp-info h3{font-size:clamp(1.8rem,4vw,2.8rem);line-height:.98;letter-spacing:-.065em;margin:0 0 .65rem}.website-project-card .wp-info p{max-width:42rem}.website-project-card .browser{width:100%;min-width:0}.website-project-card .bar span{max-width:none}.website-project-card .screen{width:100%;padding:0;aspect-ratio:16/9;min-height:0;height:auto!important;overflow:hidden}.website-project-card .screen iframe{position:absolute;top:0;left:0;border:0;transform-origin:0 0;pointer-events:none;background:#fff}.website-project-card .wp-fb{position:absolute;z-index:0;inset:auto 12px 12px;color:#999;font-size:.75rem;text-align:center;pointer-events:none}.website-project-cover{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}.website-project-card .screen-link{z-index:3}.website-project-card .screen-link span{opacity:1;transform:none}.website-project-card .screen-link:hover span{background:var(--accent);color:#fff}
+    @media(max-width:600px){.website-project-card{flex-basis:88%}.website-project-head{align-items:center}.website-project-controls button{width:36px;height:36px}}
+    @media(min-width:900px){.website-project-card{flex-basis: min(72%,820px)}}
   </style>
 
 </head>
@@ -130,10 +139,17 @@
 
 
     <section id="website-projects" class="wrap website-projects" hidden>
-      <div class="section-kicker">SELECTED WORK <span>02 / WEBSITE</span></div>
-      <h2>WEBSITE SHOWCASE<span class="heading-dot">.</span></h2>
-      <p class="muted cap-intro">Website yang saya rancang dan kembangkan.</p>
-      <div class="website-project-grid" id="websiteProjectGrid"></div>
+      <div class="website-project-head">
+        <div><div class="section-kicker">SELECTED WORK <span>02 / WEBSITE</span></div>
+          <h2>WEBSITE SHOWCASE<span class="heading-dot">.</span></h2>
+          <p class="muted cap-intro">Website yang saya rancang dan kembangkan. Geser ke samping untuk melihat project lainnya.</p>
+        </div>
+        <div class="website-project-controls" aria-label="Navigasi project website">
+          <button type="button" data-website-dir="-1" aria-label="Project sebelumnya">‹</button>
+          <button type="button" data-website-dir="1" aria-label="Project berikutnya">›</button>
+        </div>
+      </div>
+      <div class="website-project-grid" id="websiteProjectGrid" aria-label="Daftar project website"></div>
     </section>
 
     <section id="desain" class="wrap">

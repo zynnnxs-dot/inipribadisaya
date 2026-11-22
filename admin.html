@@ -95,6 +95,24 @@
 </div></div>
 <p class="small">Format gambar umum seperti JPG, PNG, atau WebP. Disarankan ukuran di bawah 5 MB.</p>
 </div>
+<div class="panel" id="extraGalleryManager" style="background:#0b0b0b;margin:18px 0 0">
+  <h2>Tambah banyak foto portofolio</h2>
+  <p class="small">Pilih beberapa foto sekaligus dari HP. Foto baru akan otomatis masuk ke slider Desain atau Fotografi di website. Foto lama tetap aman.</p>
+  <label for="extraGalleryType">Masukkan ke galeri</label>
+  <select id="extraGalleryType" style="width:100%;border:1px solid #393939;background:#090909;color:white;border-radius:10px;padding:12px;font:inherit">
+    <option value="design">Desain</option><option value="photography">Fotografi</option>
+  </select>
+  <label for="extraGalleryCategory">Kategori foto</label>
+  <select id="extraGalleryCategory" style="width:100%;border:1px solid #393939;background:#090909;color:white;border-radius:10px;padding:12px;font:inherit">
+    <option value="poster">Poster</option><option value="wallpaper">Wallpaper</option><option value="ilustrasi">Ilustrasi</option>
+  </select>
+  <label for="extraGalleryFiles">Pilih foto (bisa lebih dari satu)</label>
+  <input id="extraGalleryFiles" type="file" accept="image/*" multiple style="font-size:13px;padding:8px">
+  <p id="extraGallerySelection" class="small">Belum ada foto dipilih.</p>
+  <div class="row" style="margin-top:12px"><button class="primary" id="extraGalleryUpload" type="button">Upload foto terpilih</button></div>
+  <p id="extraGalleryStatus" class="status" role="status" aria-live="polite"></p>
+  <div style="border-top:1px solid #303030;margin-top:16px;padding-top:14px"><h3>Foto tambahan tersimpan</h3><div id="extraGalleryList" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px"><p class="small">Memuat foto...</p></div></div>
+</div>
 </section>
 
 <div class="panel" id="websiteManager" style="background:#0b0b0b;margin:22px 0 0">
@@ -124,7 +142,7 @@
  function fill(c){Object.keys(defaults).forEach(k=>$(k).value=typeof c[k]==="string"?c[k]:defaults[k])}
  async function session(){const {data,error}=await db.auth.getSession();if(error)throw error;const u=data.session?.user;if(!u){panels(false);return false}if((u.email||"").toLowerCase()!==ADMIN){await db.auth.signOut();panels(false);alert("Email ini bukan admin yang diizinkan.");return false}panels(true);return true}
  async function load(){say("Memuat...");const {data,error}=await db.from("site_content").select("content").eq("id","main").maybeSingle();if(error){say("Gagal memuat: "+error.message+" — jalankan SQL setup.",true);return}const c=data?.content||defaults;fill({...c,emailContent:c.email||c.emailContent});say(data?"Konten dimuat.":"Belum ada data; nilai awal ditampilkan.")}
- $("loginForm").addEventListener("submit",async e=>{e.preventDefault();if($("email").value.trim().toLowerCase()!==ADMIN){alert("Gunakan email admin yang ditetapkan.");return}const {error}=await db.auth.signInWithPassword({email:ADMIN,password:$("password").value});if(error){alert("Login gagal: "+error.message);return}$("password").value="";if(await session()){await load();await loadWebsiteItems()}});
+ $("loginForm").addEventListener("submit",async e=>{e.preventDefault();if($("email").value.trim().toLowerCase()!==ADMIN){alert("Gunakan email admin yang ditetapkan.");return}const {error}=await db.auth.signInWithPassword({email:ADMIN,password:$("password").value});if(error){alert("Login gagal: "+error.message);return}$("password").value="";if(await session()){await load();await loadWebsiteItems();await loadExtraGallery()}});
  $("editForm").addEventListener("submit",async e=>{e.preventDefault();if(!(await session()))return;const c={};Object.keys(defaults).forEach(k=>c[k]=$(k).value.trim());c.email=c.emailContent;delete c.emailContent;say("Menyimpan...");const {data:existing,error:readError}=await db.from("site_content").select("content").eq("id","main").maybeSingle();if(readError){say("Gagal membaca konten: "+readError.message,true);return}if(existing?.content?.photos)c.photos=existing.content.photos;if(Array.isArray(existing?.content?.websites))c.websites=existing.content.websites;const {error}=await db.from("site_content").upsert({id:"main",content:c,updated_at:new Date().toISOString()},{onConflict:"id"});if(error){say("Gagal menyimpan: "+error.message+". Jalankan SQL setup.",true);return}say("Tersimpan! Refresh website utama untuk melihat perubahan.")});
 
  const photoSlots = {
@@ -168,6 +186,20 @@
  }));
 
 
+ // Galeri tambahan: upload banyak foto tanpa mengganti slot foto lama.
+ const extraFiles=$("extraGalleryFiles"), extraType=$("extraGalleryType"), extraCategory=$("extraGalleryCategory"), extraStatus=$("extraGalleryStatus"), extraList=$("extraGalleryList");
+ const galleryCategories={design:["poster","wallpaper","ilustrasi"],photography:["alam","bunga"]};
+ function gallerySay(message,bad=false){extraStatus.textContent=message;extraStatus.className="status"+(bad?" bad":"")}
+ function slugName(value){return String(value||"foto").toLowerCase().replace(/\.[^.]+$/," ").trim().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"").slice(0,48)||"foto"}
+ async function getExtraGalleryData(){const c=await readMainContent();const p=c.photos||{};return {design:Array.isArray(p.extraDesign)?p.extraDesign:[],photography:Array.isArray(p.extraPhotography)?p.extraPhotography:[]}}
+ function renderExtraGallery(data){const all=[...data.design.map((x,i)=>({...x,_type:"design",_index:i})),...data.photography.map((x,i)=>({...x,_type:"photography",_index:i}))];if(!all.length){extraList.innerHTML='<p class="small">Belum ada foto tambahan. Upload beberapa foto di atas.</p>';return}extraList.innerHTML=all.map(x=>`<div style="border:1px solid #303030;border-radius:10px;padding:8px;min-width:0"><img src="${safeText(x.url)}" alt="" style="width:100%;height:105px;object-fit:cover;border-radius:7px;background:#171717"><div class="small" style="margin:6px 0;overflow-wrap:anywhere">${safeText(x.title||"Foto")}</div><div class="small">${x._type==="design"?"Desain":"Fotografi"} · ${safeText(x.category||"")}</div><button class="secondary" type="button" data-extra-delete="${x._type}" data-extra-index="${x._index}" style="margin-top:7px;padding:7px 10px">Hapus</button></div>`).join("")}
+ async function loadExtraGallery(){try{renderExtraGallery(await getExtraGalleryData())}catch(e){extraList.innerHTML='<p class="small bad">Gagal memuat foto: '+safeText(e.message)+'</p>'}}
+ function syncExtraCategories(){const type=extraType.value,opts=galleryCategories[type];extraCategory.innerHTML=opts.map(x=>`<option value="${x}">${x[0].toUpperCase()+x.slice(1)}</option>`).join("")}
+ extraType.addEventListener("change",syncExtraCategories);syncExtraCategories();
+ extraFiles.addEventListener("change",()=>{const files=[...(extraFiles.files||[])];$("extraGallerySelection").textContent=files.length?`${files.length} foto dipilih: ${files.map(f=>f.name).slice(0,3).join(", ")}${files.length>3?" dan lainnya":""}`:"Belum ada foto dipilih."});
+ $("extraGalleryUpload").addEventListener("click",async()=>{const files=[...(extraFiles.files||[])];if(!files.length){gallerySay("Pilih minimal satu foto dulu.",true);return}if(files.length>30){gallerySay("Maksimal 30 foto sekali upload.",true);return}for(const f of files){if(!f.type.startsWith("image/")){gallerySay("Ada file yang bukan gambar: "+f.name,true);return}if(f.size>5*1024*1024){gallerySay("Ukuran tiap foto maksimal 5 MB: "+f.name,true);return}}if(!(await session()))return;const btn=$("extraGalleryUpload");btn.disabled=true;let done=0;try{const type=extraType.value,category=extraCategory.value;const data=await getExtraGalleryData();const key=type==="design"?"design":"photography";const list=data[key];for(const file of files){gallerySay(`Mengunggah ${done+1}/${files.length}: ${file.name}`);const ext=(file.name.split(".").pop()||"jpg").toLowerCase().replace(/[^a-z0-9]/g,"")||"jpg";const path=`gallery/${key}/${Date.now()}-${Math.random().toString(36).slice(2,8)}-${slugName(file.name)}.${ext}`;const {error:upErr}=await db.storage.from("site-photos").upload(path,file,{upsert:false,contentType:file.type,cacheControl:"3600"});if(upErr)throw upErr;const {data:pub}=db.storage.from("site-photos").getPublicUrl(path);const title=file.name.replace(/\.[^.]+$/,"").replace(/[-_]+/g," ");list.push({id:"gallery-"+Date.now().toString(36)+Math.random().toString(36).slice(2,6),url:pub.publicUrl,path,title,category});done++}const {data:row,error:readErr}=await db.from("site_content").select("content").eq("id","main").maybeSingle();if(readErr)throw readErr;const content=row?.content||{};content.photos=content.photos||{};content.photos[key==="design"?"extraDesign":"extraPhotography"]=list;const {error:saveErr}=await db.from("site_content").upsert({id:"main",content,updated_at:new Date().toISOString()},{onConflict:"id"});if(saveErr)throw saveErr;extraFiles.value="";$("extraGallerySelection").textContent="Upload selesai.";gallerySay(`${done} foto berhasil ditambahkan ke galeri ${type==="design"?"Desain":"Fotografi"}.`);renderExtraGallery({design:key==="design"?list:data.design,photography:key==="photography"?list:data.photography})}catch(err){gallerySay("Upload gagal: "+(err.message||"Kesalahan tidak diketahui"),true);await loadExtraGallery()}finally{btn.disabled=false}});
+ extraList.addEventListener("click",async e=>{const btn=e.target.closest("[data-extra-delete]");if(!btn)return;const type=btn.dataset.extraDelete,index=Number(btn.dataset.extraIndex);if(!confirm("Hapus foto tambahan ini dari portofolio?"))return;if(!(await session()))return;try{const data=await getExtraGalleryData(),key=type==="design"?"design":"photography",list=data[key],item=list[index];if(!item)return;list.splice(index,1);const {data:row,error:readErr}=await db.from("site_content").select("content").eq("id","main").maybeSingle();if(readErr)throw readErr;const content=row?.content||{};content.photos=content.photos||{};content.photos[key==="design"?"extraDesign":"extraPhotography"]=list;const {error:saveErr}=await db.from("site_content").upsert({id:"main",content,updated_at:new Date().toISOString()},{onConflict:"id"});if(saveErr)throw saveErr;if(item.path)await db.storage.from("site-photos").remove([item.path]);gallerySay("Foto dihapus dari portofolio.");renderExtraGallery({design:key==="design"?list:data.design,photography:key==="photography"?list:data.photography})}catch(err){gallerySay("Gagal menghapus: "+err.message,true)}});
+
  const websiteForm=$("websiteForm"), websiteStatus=$("websiteStatus"), websiteList=$("websiteList");
  let websiteItems=[];
  function websiteSay(t,b=false){websiteStatus.textContent=t;websiteStatus.className="status"+(b?" bad":"")}
@@ -182,6 +214,6 @@
  $("websiteCancel").addEventListener("click",resetWebsiteForm);
 
  $("reload").addEventListener("click",load);$("logout").addEventListener("click",async()=>{await db.auth.signOut();panels(false);say("")});
- session().then(async ok=>{if(ok){await load();await loadWebsiteItems()}}).catch(e=>say("Error: "+e.message,true));
+ session().then(async ok=>{if(ok){await load();await loadWebsiteItems();await loadExtraGallery()}}).catch(e=>say("Error: "+e.message,true));
 })();
 </script></body></html>

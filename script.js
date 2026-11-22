@@ -55,7 +55,10 @@ function showShot(index) {
   lbImg.alt = btn.dataset.alt || "Foto portofolio";
   lbCaption.textContent = btn.dataset.alt || "";
 }
-document.querySelectorAll(".shot").forEach(btn => btn.addEventListener("click", () => openShot(btn)));
+document.addEventListener("click", event => {
+  const btn = event.target.closest(".shot");
+  if (btn) openShot(btn);
+});
 document.getElementById("lbClose").addEventListener("click", () => lb.close());
 document.getElementById("lbPrev").addEventListener("click", () => showShot(activeShotIndex - 1));
 document.getElementById("lbNext").addEventListener("click", () => showShot(activeShotIndex + 1));

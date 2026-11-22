@@ -48,7 +48,7 @@
     const section = document.getElementById("website-projects");
     const grid = document.getElementById("websiteProjectGrid");
     if (!section || !grid) return;
-    const valid = items.filter(w => w && typeof w.name === "string" && typeof w.url === "string" && /^https?:\/\//i.test(w.url));
+    const valid = (Array.isArray(items) ? items : []).filter(w => w && typeof w.name === "string" && typeof w.url === "string" && /^https?:\/\//i.test(w.url));
     section.hidden = false;
     grid.querySelectorAll(".website-project-card[data-cms-website]").forEach(card => card.remove());
     valid.forEach((w, index) => {
@@ -99,7 +99,9 @@
     const grid = document.getElementById("websiteProjectGrid");
     if (!grid) return;
     const card = grid.querySelector(".website-project-card");
-    const step = card ? card.getBoundingClientRect().width + 18 : grid.clientWidth * .85;
+    const styles = card ? getComputedStyle(grid) : null;
+    const gap = styles ? (parseFloat(styles.columnGap || styles.gap) || 18) : 18;
+    const step = card ? card.getBoundingClientRect().width + gap : grid.clientWidth * .85;
     grid.scrollBy({ left: Number(button.dataset.websiteDir) * step, behavior: "smooth" });
   });
 

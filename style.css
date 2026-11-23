@@ -855,3 +855,49 @@ body[data-theme="light"] .project-cta:hover{color:#fff!important}
     height: clamp(190px, 58vw, 250px);
   }
 }
+
+
+/* ===== V5: preserve each image's original aspect ratio ===== */
+#desain .gallery .g,
+#foto .gallery .g {
+  flex: 0 0 clamp(220px, 28vw, 340px);
+  width: clamp(220px, 28vw, 340px);
+  min-width: 0;
+}
+#desain .gallery .shot,
+#foto .gallery .shot {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: auto;
+  padding: 0;
+  overflow: hidden;
+  line-height: 0;
+}
+#desain .gallery .shot img,
+#foto .gallery .shot img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-width: 100%;
+  max-height: none;
+  object-fit: contain;
+  object-position: center;
+}
+@media (max-width: 700px) {
+  #desain .gallery .g,
+  #foto .gallery .g {
+    flex: 0 0 min(78vw, 320px);
+    width: min(78vw, 320px);
+  }
+  #desain .gallery .shot,
+  #foto .gallery .shot {
+    height: auto;
+    aspect-ratio: auto;
+  }
+  #desain .gallery .shot img,
+  #foto .gallery .shot img {
+    width: 100%;
+    height: auto;
+  }
+}

@@ -787,3 +787,71 @@ body[data-theme="light"] .project-cta:hover{color:#fff!important}
     text-align: left;
   }
 }
+
+
+/* ===== V9: gallery overlap fix — consistent cards and contained images ===== */
+#desain .gallery,
+#foto .gallery {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: clamp(12px, 1.5vw, 20px);
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+}
+#desain .gallery .g,
+#foto .gallery .g {
+  box-sizing: border-box;
+  flex: 0 0 clamp(220px, 28vw, 340px);
+  width: clamp(220px, 28vw, 340px);
+  min-width: 0;
+  max-width: none;
+  margin: 0;
+  scroll-snap-align: start;
+}
+#desain .gallery .shot,
+#foto .gallery .shot {
+  box-sizing: border-box;
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: clamp(230px, 34vw, 370px);
+  overflow: hidden;
+  background: #111;
+}
+#desain .gallery .shot img,
+#foto .gallery .shot img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  object-position: center;
+}
+#desain .gallery .g figcaption,
+#foto .gallery .g figcaption {
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+@media (max-width: 700px) {
+  #desain .gallery,
+  #foto .gallery {
+    gap: 12px;
+    margin-right: -18px;
+    padding-right: 18px;
+  }
+  #desain .gallery .g,
+  #foto .gallery .g {
+    flex: 0 0 min(78vw, 320px);
+    width: min(78vw, 320px);
+    min-width: 0;
+    max-width: none;
+  }
+  #desain .gallery .shot,
+  #foto .gallery .shot {
+    width: 100%;
+    height: clamp(190px, 58vw, 250px);
+  }
+}

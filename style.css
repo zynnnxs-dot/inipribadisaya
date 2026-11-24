@@ -901,3 +901,125 @@ body[data-theme="light"] .project-cta:hover{color:#fff!important}
     height: auto;
   }
 }
+
+
+/* ===== NDREXAN / EDITORIAL REBUILD 2026 =====
+/* A quiet, gallery-led visual system: paper, ink, restrained terracotta. */
+:root{--paper:#f4f2ec;--ink:#171715;--gold:#a24c37;--gold-soft:rgba(162,76,55,.13);--accent:#a24c37;--accent-soft:rgba(162,76,55,.13);--signature:'Caveat',cursive}
+body[data-theme="light"]{--k:#f4f2ec;--w:#ebe9e2;--g:#6f6d66;--l:rgba(23,23,21,.16);--accent:#a24c37;--gold:#a24c37;--gold-soft:rgba(162,76,55,.13);background:#f4f2ec;color:#171715}
+body[data-theme="light"]:before{opacity:.11;background-image:radial-gradient(rgba(23,23,21,.2) .45px,transparent .45px);background-size:4px 4px}
+body[data-theme="light"] .nav{background:rgba(244,242,236,.88);border-color:rgba(23,23,21,.13)}
+body[data-theme="light"] .nav-in{min-height:76px}
+.nav-links{display:flex;align-items:center;gap:clamp(14px,2.8vw,34px);margin-left:auto;margin-right:clamp(18px,4vw,52px)}
+.nav-links a{font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;color:var(--g);transition:color .2s}
+.nav-links a:hover{color:var(--accent)}
+body[data-theme="light"] .logo{font-size:1.22rem;letter-spacing:-.09em}
+body[data-theme="light"] .theme-toggle{border-radius:2px;border-color:var(--l);font-size:.68rem;letter-spacing:.06em;text-transform:uppercase}
+body[data-theme="light"] .hero{padding-top:clamp(4.5rem,10vw,9rem);padding-bottom:clamp(4rem,8vw,7rem)}
+body[data-theme="light"] .hero:before{background:radial-gradient(ellipse at 78% 40%,rgba(162,76,55,.10),transparent 38%),linear-gradient(90deg,transparent 0 62%,rgba(23,23,21,.025) 62% 62.1%,transparent 62.1%)}
+body[data-theme="light"] .hero-title-wrap h1{font-size:clamp(4.8rem,15.5vw,12.5rem);letter-spacing:-.105em;line-height:.78;color:#171715;background:none;-webkit-text-fill-color:currentColor}
+body[data-theme="light"] .hero h1:after{color:var(--accent)}
+body[data-theme="light"] .hero-signature{font-size:clamp(2.4rem,6.2vw,5.4rem);margin-left:clamp(2px,4vw,54px);margin-top:.12em;color:var(--accent);text-shadow:none;transform:rotate(-4deg)}
+body[data-theme="light"] .hero-grid{grid-template-columns:minmax(0,1fr) minmax(280px,.72fr);gap:clamp(2rem,7vw,7rem);align-items:center;margin-top:clamp(2rem,4vw,3.5rem)}
+body[data-theme="light"] .hero .statement{font-size:clamp(1.8rem,3.7vw,3.2rem);line-height:1.04;letter-spacing:-.065em;max-width:14ch;font-weight:750}
+body[data-theme="light"] .intro>.muted{font-size:1rem;line-height:1.85;max-width:40ch}
+body[data-theme="light"] .photo{max-width:430px;aspect-ratio:4/5;box-shadow:18px 18px 0 rgba(162,76,55,.12);border-radius:0}
+body[data-theme="light"] .photo:before{inset:12px -12px -12px 12px;border-color:var(--accent);opacity:.5}
+body[data-theme="light"] .photo img{filter:grayscale(.65) contrast(1.06);object-position:center 42%}
+body[data-theme="light"] .photo:hover img{filter:grayscale(.1) contrast(1.02)}
+body[data-theme="light"] .hero-eyebrow{letter-spacing:.2em;font-size:.64rem}
+body[data-theme="light"] .chip{border-radius:2px;background:rgba(255,255,255,.35);color:#625f58}
+body[data-theme="light"] .about{padding-block:clamp(5rem,10vw,9rem);border-top:1px solid var(--l)}
+body[data-theme="light"] .about h2{font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);margin-bottom:2rem}
+body[data-theme="light"] .about-t{font-size:clamp(1.65rem,3.8vw,3.35rem);line-height:1.18;letter-spacing:-.055em;max-width:25ch;font-weight:600}
+body[data-theme="light"] .facts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1.5rem;margin-top:4.2rem}
+body[data-theme="light"] .facts>div{border-top:1px solid var(--l);padding-top:1rem}
+body[data-theme="light"] .facts dt{font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;color:var(--accent)}
+body[data-theme="light"] .facts dd{margin:.45rem 0 0;font-size:.95rem;font-weight:650}
+body[data-theme="light"] .marquee{background:#a24c37;color:#fff;border:0}
+body[data-theme="light"] .mq-g{padding-block:12px}
+body[data-theme="light"] #skill{background:#1b1b19;color:#f4f2ec}
+body[data-theme="light"] #skill h2{font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:#d58b75;margin-bottom:3rem}
+body[data-theme="light"] #skill .row{grid-template-columns:.8fr 1.2fr;padding:1.8rem 0;border-color:rgba(255,255,255,.2)}
+body[data-theme="light"] #skill .row h3{font-size:clamp(1.7rem,3vw,2.6rem);font-weight:650;letter-spacing:-.06em}
+body[data-theme="light"] #skill .row p{color:rgba(244,242,236,.68);max-width:42ch}
+body[data-theme="light"] #website-projects{padding-block:clamp(5rem,10vw,9rem)}
+body[data-theme="light"] .section-kicker,.project-index{font-size:.65rem;letter-spacing:.18em;color:var(--accent);font-weight:800}
+body[data-theme="light"] .website-project-title-row h2{font-size:clamp(3rem,8vw,6.8rem);letter-spacing:-.09em}
+body[data-theme="light"] .website-project-card{gap:clamp(1.5rem,4vw,4rem)!important}
+body[data-theme="light"] .website-project-card .wp-info h3{font-size:clamp(2.4rem,5vw,4.8rem);letter-spacing:-.08em}
+body[data-theme="light"] .browser{border:1px solid rgba(23,23,21,.18);border-radius:3px;box-shadow:0 24px 60px rgba(23,23,21,.1);background:#fff}
+body[data-theme="light"] .bar{background:#e8e6df;border-color:rgba(23,23,21,.12)}
+body[data-theme="light"] .bar i{background:#b5b1a8}
+body[data-theme="light"] .bar span{background:rgba(255,255,255,.7);border:0;border-radius:2px}
+body[data-theme="light"] .project-cta{border-radius:0!important;border-color:#171715!important;padding:13px 18px}
+body[data-theme="light"] .project-cta:hover{background:#171715;color:#fff!important}
+body[data-theme="light"] #desain,body[data-theme="light"] #foto,body[data-theme="light"] #motivator{padding-block:clamp(4.5rem,9vw,8rem);border-top:1px solid var(--l)}
+body[data-theme="light"] #desain h2,body[data-theme="light"] #foto h2,body[data-theme="light"] #motivator h2{font-size:clamp(2.7rem,6.8vw,5.5rem);letter-spacing:-.085em}
+body[data-theme="light"] .gallery{--h:clamp(250px,34vw,430px);gap:clamp(12px,2vw,22px)}
+body[data-theme="light"] .g{min-width:min(30vw,360px);width:min(30vw,360px)}
+body[data-theme="light"] .shot{border-radius:0;background:#e5e2da}
+body[data-theme="light"] .shot img{filter:saturate(.86);transition:transform .9s cubic-bezier(.2,.7,.2,1),filter .5s}
+body[data-theme="light"] .g figcaption{font-size:.72rem;letter-spacing:.04em;text-transform:uppercase;color:#77736b}
+body[data-theme="light"] .arrow{border-radius:0;border-color:var(--l)}
+body[data-theme="light"] .filter-btn{border-radius:0;text-transform:uppercase;letter-spacing:.08em;font-size:.66rem}
+body[data-theme="light"] .filter-btn.is-active{background:#171715;border-color:#171715;color:#fff}
+body[data-theme="light"] .motivator{display:grid;grid-template-columns:minmax(0,.75fr) minmax(0,1fr);align-items:center;gap:clamp(2rem,7vw,7rem)}
+body[data-theme="light"] .motivator .head{align-self:start}
+body[data-theme="light"] .motivator-photo{max-width:none;width:100%;margin:0}
+body[data-theme="light"] .motivator-slideshow .motivator-slides{aspect-ratio:4/3;border-radius:0;background:#dedbd3}
+body[data-theme="light"] .motivator-photo figcaption{font-size:1.55rem;color:var(--accent)}
+body[data-theme="light"] #motivator h2:after{font-size:clamp(1.7rem,4vw,3rem);color:var(--accent)}
+body[data-theme="light"] #kontak{background:#1b1b19;color:#f4f2ec}
+body[data-theme="light"] #kontak .contact-kicker{color:#d58b75}
+body[data-theme="light"] #kontak .contact-note{color:rgba(244,242,236,.68)}
+body[data-theme="light"] #kontak .contact-script{color:#d58b75}
+body[data-theme="light"] #kontak .mail{border-color:#d58b75}
+body[data-theme="light"] #kontak .whatsapp{border-radius:0;border-color:#d58b75}
+body[data-theme="light"] #kontak .socials{color:rgba(244,242,236,.72)}
+body[data-theme="light"] .foot{background:#141412;color:#f4f2ec;border-color:rgba(255,255,255,.16)}
+body[data-theme="light"] .wordmark span{-webkit-text-stroke:1px rgba(244,242,236,.35)}
+body[data-theme="light"] .js .wordmark.in span{color:#d58b75}
+body[data-theme="light"] .road .lane{background:rgba(255,255,255,.18)}
+body[data-theme="light"] .road svg{stroke:#f4f2ec}
+body[data-theme="light"] .road svg path,body[data-theme="light"] .road svg circle{fill:#1b1b19}
+/* More intentional motion: staggered editorial entrances, not one repeated card effect. */
+.js body[data-theme="light"] .hero-title-wrap{animation:editorial-rise .9s cubic-bezier(.2,.75,.2,1) .18s both}
+.js body[data-theme="light"] .hero .intro{animation:editorial-rise .8s cubic-bezier(.2,.75,.2,1) .42s both}
+.js body[data-theme="light"] .hero .photo{animation:editorial-photo 1.15s cubic-bezier(.2,.75,.2,1) .28s both}
+.js body[data-theme="light"] #skill .row{transition:padding-left .5s ease,border-color .4s ease}
+.js body[data-theme="light"] #skill .row:hover{padding-left:14px;border-color:#d58b75}
+.js body[data-theme="light"] .gallery .g{transition:transform .65s cubic-bezier(.2,.7,.2,1),opacity .5s}
+.js body[data-theme="light"] .gallery .g:hover{transform:translateY(-8px)}
+.js body[data-theme="light"] .motivator-photo{transform:translateY(24px);opacity:0;transition:transform .9s cubic-bezier(.2,.7,.2,1),opacity .9s}
+.js body[data-theme="light"] .motivator-photo.in{transform:none;opacity:1}
+@keyframes editorial-rise{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:none}}
+@keyframes editorial-photo{from{opacity:0;clip-path:inset(12% 0 0 0);transform:translateY(24px)}to{opacity:1;clip-path:inset(0);transform:none}}
+@media(max-width:760px){
+ .nav-links{gap:12px;margin-right:10px}.nav-links a{font-size:.58rem;letter-spacing:.03em}
+ body[data-theme="light"] .nav-in{min-height:62px}.theme-toggle{padding:7px 8px!important}.theme-label{display:none}
+ body[data-theme="light"] .hero{padding-top:3.2rem;padding-bottom:3.2rem}
+ body[data-theme="light"] .hero-title-wrap h1{font-size:clamp(3.3rem,16vw,6.6rem);line-height:.86;letter-spacing:-.1em}
+ body[data-theme="light"] .hero-signature{font-size:clamp(2rem,9vw,3.5rem);margin:0 0 1.2rem 2px}
+ body[data-theme="light"] .hero-grid{grid-template-columns:minmax(0,1fr) minmax(0,.88fr);gap:13px;align-items:center;margin-top:.6rem}
+ body[data-theme="light"] .hero .statement{font-size:clamp(1.25rem,5.6vw,1.9rem);line-height:1.04}
+ body[data-theme="light"] .intro>.muted{font-size:.78rem;line-height:1.65}
+ body[data-theme="light"] .links{gap:12px;margin:1rem 0}.links a{font-size:.72rem}
+ body[data-theme="light"] .hero-eyebrow{font-size:.5rem;letter-spacing:.08em;line-height:1.6}
+ body[data-theme="light"] .chip{font-size:.55rem;padding:5px 7px}
+ body[data-theme="light"] .photo{width:100%;max-width:none;aspect-ratio:3/4;box-shadow:9px 9px 0 rgba(162,76,55,.12)}
+ body[data-theme="light"] .photo:before{inset:6px -6px -6px 6px}
+ body[data-theme="light"] .facts{grid-template-columns:1fr;gap:1rem;margin-top:2.5rem}
+ body[data-theme="light"] #skill .row{grid-template-columns:1fr;gap:.5rem;padding:1.3rem 0}
+ body[data-theme="light"] .website-project-title-row h2{font-size:clamp(2.8rem,12vw,4.5rem)}
+ body[data-theme="light"] .website-project-card .wp-info h3{font-size:2.8rem}
+ body[data-theme="light"] .g{min-width:76vw;width:76vw;max-width:76vw}
+ body[data-theme="light"] .gallery{--h:clamp(190px,56vw,260px)}
+ body[data-theme="light"] #desain .shot img,body[data-theme="light"] #foto .shot img{height:clamp(190px,56vw,260px);max-width:76vw}
+ body[data-theme="light"] .motivator{display:block}
+ body[data-theme="light"] .motivator-photo{margin-top:1.4rem}
+ body[data-theme="light"] .motivator-slideshow .motivator-slides{aspect-ratio:4/3}
+ body[data-theme="light"] #kontak .contact h2.big,body[data-theme="light"] .contact h2.big{font-size:clamp(2.8rem,12vw,4.6rem)}
+}
+@media(max-width:390px){.nav-links{gap:8px}.nav-links a{font-size:.53rem}.logo{font-size:1rem!important}body[data-theme="light"] .hero-grid{gap:10px}body[data-theme="light"] .intro>.muted{font-size:.73rem}}
+@media(prefers-reduced-motion:reduce){.js body[data-theme="light"] .hero-title-wrap,.js body[data-theme="light"] .hero .intro,.js body[data-theme="light"] .hero .photo{animation:none!important}.js body[data-theme="light"] .motivator-photo{opacity:1;transform:none}}

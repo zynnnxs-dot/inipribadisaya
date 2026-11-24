@@ -1,24 +1,21 @@
-NDREXAN WEB — V7 CONTACT + PORTFOLIO UPGRADE
+NDREXAN PORTFOLIO — EDITORIAL REBUILD
 
-Isi ZIP ini adalah folder ndrexan-web. Upload semua isi folder ndrexan-web ke root repository GitHub, menimpa file lama. Pastikan index.html, style.css, script.js, dan aset gambar/audio berada di root repository.
+Website statis HTML/CSS/JavaScript. Tidak membutuhkan build command.
 
-Yang dipertahankan/ditambahkan:
-- Tema hitam-merah dengan opsi light mode yang sudah ada.
-- Intro dan animasi logo berulang tetap dipertahankan.
-- Urutan section tetap: Hero, Tentang, project/Desain, Fotografi, The Motivator, Kontak.
-- Filter kategori Desain dan Fotografi.
-- Foto fullscreen dengan navigasi sebelumnya/berikutnya.
-- Animasi reveal saat scroll dan transisi halus.
-- Tombol WhatsApp diarahkan ke 6285715559734 dengan pesan awal.
-- Email kontak: andrearshavinkece73@gmail.com. Instagram yang sudah ada tetap dipertahankan (@whytakefoto).
+ARAH VISUAL
+- Dominan putih hangat dengan aksen hitam dan terracotta yang tipis.
+- Tipografi sans-serif untuk isi dan signature font hanya sebagai aksen.
+- Layout editorial, galeri rapi, dan animasi scroll yang lebih terarah.
+- Intro cinematic tetap dipertahankan.
 
-CATATAN FOTO HERO: file foto.jpg saat ini tetap memakai foto yang ada. Untuk menggantinya, kirim foto baru lalu ganti foto.jpg dengan foto pilihan; nama file harus tetap foto.jpg agar tidak perlu mengubah HTML.
+FITUR YANG DIPERTAHANKAN
+- Panel admin dan koneksi Supabase.
+- Edit teks, foto hero, foto desain, fotografi, The Motivator, serta galeri tambahan.
+- Project website, filter galeri, fullscreen foto, kontak WhatsApp, email, dan Instagram.
+- Toggle tema terang/gelap.
 
-Website statis HTML/CSS/JS, tidak membutuhkan build command.
+DEPLOY
+Upload semua file di dalam ZIP langsung ke ROOT repository GitHub yang terhubung ke Vercel. Pastikan index.html, style.css, script.js, cms.js, admin.html, dan aset gambar berada di root repository.
 
-
-V9 INTRO UPDATE
-- Intro layar penuh sinematik menggantikan animasi huruf NDREXAN lama.
-- Memakai foto profil sebagai visual latar, layout responsif desktop/Android.
-- Tombol Masuk ke portfolio bisa melewati intro; intro juga otomatis selesai setelah sekitar 5,2 detik.
-- Tetap mempertahankan bagian website, animasi logo berulang, tema, galeri, dan kontak.
+SETUP CMS
+Lihat README-CMS.txt untuk instruksi SQL Supabase dan login admin. Jangan gunakan service_role key di frontend.

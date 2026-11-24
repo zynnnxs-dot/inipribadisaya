@@ -151,7 +151,6 @@ if (!reduce) {
   rv(".g", 0, .1, .3);
   rv(".mail", .1);
   rv(".socials", .2);
-  rv(".motivator-photo", .12);
 
   const targets = document.querySelectorAll(".rv, h1, .wordmark, .about-t");
   const reveal = () => {
@@ -351,7 +350,7 @@ document.querySelectorAll(".screen").forEach(sc => {
     const meta = document.querySelector('meta[name="theme-color"]');
     if (meta) meta.content = light ? '#f7f6f2' : '#090909';
   };
-  setTheme(saved === 'dark' ? 'dark' : 'light');
+  setTheme(saved === 'light' ? 'light' : 'dark');
   toggle.addEventListener('click', () => {
     const next = body.dataset.theme === 'light' ? 'dark' : 'light';
     setTheme(next);
